@@ -21,9 +21,10 @@ I class
 
 	^aNaturalNumber next! !
 
-!I class methodsFor: 'as yet unclassified' stamp: 'MF 8/28/2021 19:20:53'!
+!I class methodsFor: 'as yet unclassified' stamp: 'MF 8/28/2021 20:15:46'!
 - aNaturalNumber
-	Error signal: self descripcionDeErrorDeNumerosNegativosNoSoportados! !
+
+	self error: self descripcionDeErrorDeNumerosNegativosNoSoportados! !
 
 !I class methodsFor: 'as yet unclassified' stamp: 'MF 8/28/2021 19:49:49'!
 / aNaturalNumber
@@ -46,10 +47,10 @@ next
 
 	^II! !
 
-!I class methodsFor: 'as yet unclassified' stamp: 'MF 8/28/2021 19:45:33'!
+!I class methodsFor: 'as yet unclassified' stamp: 'MF 8/28/2021 20:17:37'!
 previous
 	
-	Error signal: self descripcionDeErrorDeNoSePuedeDividirPorUnNumeroMayor.! !
+	self error: self descripcionDeErrorDeNoSePuedeDividirPorUnNumeroMayor.! !
 
 !I class methodsFor: 'as yet unclassified' stamp: 'MF 8/28/2021 18:24:03'!
 subtractTo: aNaturalNumber
@@ -97,7 +98,7 @@ descripcionDeErrorDeNoSePuedeDividirPorUnNumeroMayor
 
 	^'Hubo un error: No se puede dividir por un numero mayor'! !
 
-!II class methodsFor: 'as yet unclassified' stamp: 'MF 8/28/2021 20:00:06'!
+!II class methodsFor: 'as yet unclassified' stamp: 'MF 8/28/2021 20:19:17'!
 initializeCollaboratorsFromFile
 	"Auto generated method for loading purposes - Do not modify it"
 
@@ -140,7 +141,7 @@ II subclass: #III
 III class
 	instanceVariableNames: ''!
 
-!III class methodsFor: 'as yet unclassified' stamp: 'MF 8/28/2021 20:00:06'!
+!III class methodsFor: 'as yet unclassified' stamp: 'MF 8/28/2021 20:19:17'!
 initializeCollaboratorsFromFile
 	"Auto generated method for loading purposes - Do not modify it"
 
@@ -161,7 +162,7 @@ II subclass: #IIII
 IIII class
 	instanceVariableNames: ''!
 
-!IIII class methodsFor: 'as yet unclassified' stamp: 'MF 8/28/2021 20:00:06'!
+!IIII class methodsFor: 'as yet unclassified' stamp: 'MF 8/28/2021 20:19:17'!
 initializeCollaboratorsFromFile
 	"Auto generated method for loading purposes - Do not modify it"
 
@@ -182,7 +183,7 @@ II subclass: #IIIII
 IIIII class
 	instanceVariableNames: ''!
 
-!IIIII class methodsFor: 'as yet unclassified' stamp: 'MF 8/28/2021 20:00:06'!
+!IIIII class methodsFor: 'as yet unclassified' stamp: 'MF 8/28/2021 20:19:17'!
 initializeCollaboratorsFromFile
 	"Auto generated method for loading purposes - Do not modify it"
 
@@ -203,7 +204,7 @@ II subclass: #IIIIII
 IIIIII class
 	instanceVariableNames: ''!
 
-!IIIIII class methodsFor: 'as yet unclassified' stamp: 'MF 8/28/2021 20:00:06'!
+!IIIIII class methodsFor: 'as yet unclassified' stamp: 'MF 8/28/2021 20:19:18'!
 initializeCollaboratorsFromFile
 	"Auto generated method for loading purposes - Do not modify it"
 
@@ -224,7 +225,7 @@ II subclass: #IIIIIII
 IIIIIII class
 	instanceVariableNames: ''!
 
-!IIIIIII class methodsFor: 'as yet unclassified' stamp: 'MF 8/28/2021 20:00:06'!
+!IIIIIII class methodsFor: 'as yet unclassified' stamp: 'MF 8/28/2021 20:19:18'!
 initializeCollaboratorsFromFile
 	"Auto generated method for loading purposes - Do not modify it"
 
@@ -245,7 +246,7 @@ II subclass: #IIIIIIII
 IIIIIIII class
 	instanceVariableNames: ''!
 
-!IIIIIIII class methodsFor: 'as yet unclassified' stamp: 'MF 8/28/2021 20:00:06'!
+!IIIIIIII class methodsFor: 'as yet unclassified' stamp: 'MF 8/28/2021 20:19:18'!
 initializeCollaboratorsFromFile
 	"Auto generated method for loading purposes - Do not modify it"
 
@@ -266,7 +267,7 @@ II subclass: #IIIIIIIII
 IIIIIIIII class
 	instanceVariableNames: ''!
 
-!IIIIIIIII class methodsFor: 'as yet unclassified' stamp: 'MF 8/28/2021 20:00:06'!
+!IIIIIIIII class methodsFor: 'as yet unclassified' stamp: 'MF 8/28/2021 20:19:18'!
 initializeCollaboratorsFromFile
 	"Auto generated method for loading purposes - Do not modify it"
 
@@ -287,7 +288,7 @@ II subclass: #IIIIIIIIII
 IIIIIIIIII class
 	instanceVariableNames: ''!
 
-!IIIIIIIIII class methodsFor: 'as yet unclassified' stamp: 'MF 8/28/2021 20:00:06'!
+!IIIIIIIIII class methodsFor: 'as yet unclassified' stamp: 'MF 8/28/2021 20:19:18'!
 initializeCollaboratorsFromFile
 	"Auto generated method for loading purposes - Do not modify it"
 
@@ -308,7 +309,7 @@ II subclass: #IIIIIIIIIII
 IIIIIIIIIII class
 	instanceVariableNames: ''!
 
-!IIIIIIIIIII class methodsFor: 'as yet unclassified' stamp: 'MF 8/28/2021 20:00:06'!
+!IIIIIIIIIII class methodsFor: 'as yet unclassified' stamp: 'MF 8/28/2021 20:19:18'!
 initializeCollaboratorsFromFile
 	"Auto generated method for loading purposes - Do not modify it"
 
@@ -329,7 +330,7 @@ II subclass: #IIIIIIIIIIII
 IIIIIIIIIIII class
 	instanceVariableNames: ''!
 
-!IIIIIIIIIIII class methodsFor: 'as yet unclassified' stamp: 'MF 8/28/2021 20:00:06'!
+!IIIIIIIIIIII class methodsFor: 'as yet unclassified' stamp: 'MF 8/28/2021 20:19:18'!
 initializeCollaboratorsFromFile
 	"Auto generated method for loading purposes - Do not modify it"
 
@@ -350,7 +351,7 @@ II subclass: #IIIIIIIIIIIII
 IIIIIIIIIIIII class
 	instanceVariableNames: ''!
 
-!IIIIIIIIIIIII class methodsFor: 'as yet unclassified' stamp: 'MF 8/28/2021 20:00:06'!
+!IIIIIIIIIIIII class methodsFor: 'as yet unclassified' stamp: 'MF 8/28/2021 20:19:18'!
 initializeCollaboratorsFromFile
 	"Auto generated method for loading purposes - Do not modify it"
 
@@ -371,7 +372,7 @@ II subclass: #IIIIIIIIIIIIII
 IIIIIIIIIIIIII class
 	instanceVariableNames: ''!
 
-!IIIIIIIIIIIIII class methodsFor: 'as yet unclassified' stamp: 'MF 8/28/2021 20:00:06'!
+!IIIIIIIIIIIIII class methodsFor: 'as yet unclassified' stamp: 'MF 8/28/2021 20:19:18'!
 initializeCollaboratorsFromFile
 	"Auto generated method for loading purposes - Do not modify it"
 
@@ -392,7 +393,7 @@ II subclass: #IIIIIIIIIIIIIII
 IIIIIIIIIIIIIII class
 	instanceVariableNames: ''!
 
-!IIIIIIIIIIIIIII class methodsFor: 'as yet unclassified' stamp: 'MF 8/28/2021 20:00:06'!
+!IIIIIIIIIIIIIII class methodsFor: 'as yet unclassified' stamp: 'MF 8/28/2021 20:19:18'!
 initializeCollaboratorsFromFile
 	"Auto generated method for loading purposes - Do not modify it"
 
