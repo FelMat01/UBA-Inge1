@@ -47,7 +47,7 @@ test01AddingCustomerShouldNotTakeMoreThan50Milliseconds
 	self assertMillisecondsToRun: [customerBook addCustomerNamed: 'John Lennon'] isLessThan: 50 * millisecond.	
 ! !
 
-!CustomerBookTest methodsFor: 'testing' stamp: 'MF 9/7/2021 17:07:27'!
+!CustomerBookTest methodsFor: 'testing' stamp: 'MF 9/7/2021 23:00:53'!
 test02RemovingCustomerShouldNotTakeMoreThan100Milliseconds
 
 	| customerBook paulMcCartney |
@@ -56,7 +56,7 @@ test02RemovingCustomerShouldNotTakeMoreThan100Milliseconds
 	paulMcCartney := 'Paul McCartney'.
 	customerBook addCustomerNamed: paulMcCartney.
 
-	self assertMillisecondsToRun: [customerBook removeCustomerNamed: paulMcCartney] isLessThan: 	100 * millisecond.	
+	self assertMillisecondsToRun: [customerBook removeCustomerNamed: paulMcCartney] isLessThan: 100 * millisecond.	
 ! !
 
 !CustomerBookTest methodsFor: 'testing' stamp: 'MF 9/7/2021 19:23:44'!
