@@ -490,6 +490,12 @@ subtractToInteger: anIntegerMinuend
 	
 	^self class with: anIntegerMinuend integerValue - value.! !
 
+
+!Entero methodsFor: 'private - fraction making' stamp: 'MF 9/15/2021 18:32:35'!
+makeFractionOver: aDenominator
+
+	^Fraccion new initializeWith: self over: aDenominator.! !
+
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
 !classDefinition: 'Entero class' category: 'Numero-Exercise'!
@@ -519,6 +525,12 @@ Entero subclass: #EnteroNegativo
 fibonacci
 
 	self error: self class negativeFibonacciErrorDescription.! !
+
+
+!EnteroNegativo methodsFor: 'private - fraction making' stamp: 'MF 9/15/2021 18:31:15'!
+makeFractionDividing: aNumerator
+
+	^aNumerator negated makeFractionOver: self negated.! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
@@ -563,6 +575,17 @@ fibonacci
 
 	^Entero with: 1! !
 
+
+!Cero methodsFor: 'private - fraction making' stamp: 'MF 9/15/2021 18:26:25'!
+makeFractionDividing: aNumerator
+
+	^self error: self class canNotDivideByZeroErrorDescription.! !
+
+!Cero methodsFor: 'private - fraction making' stamp: 'MF 9/15/2021 18:32:07'!
+makeFractionOver: aDenominator
+
+	^self.! !
+
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
 !classDefinition: 'Cero class' category: 'Numero-Exercise'!
@@ -592,6 +615,12 @@ fibonacci
 	
 	^ (self - one) fibonacci + (self - two) fibonacci! !
 
+
+!EnteroPositivoNoUno methodsFor: 'private - fraction making' stamp: 'MF 9/15/2021 18:35:32'!
+makeFractionDividing: aNumerator
+
+	^aNumerator makeFractionOver: self.! !
+
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
 !classDefinition: 'EnteroPositivoNoUno class' category: 'Numero-Exercise'!
@@ -615,6 +644,12 @@ EnteroNoNegativo subclass: #Uno
 fibonacci
 
 	^Entero with: 1.! !
+
+
+!Uno methodsFor: 'private - fraction making' stamp: 'MF 9/15/2021 18:31:01'!
+makeFractionDividing: aNumerator
+
+	^aNumerator.! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
@@ -771,21 +806,14 @@ subtractToFraction: aFractionMinuend
 Fraccion class
 	instanceVariableNames: ''!
 
-!Fraccion class methodsFor: 'intance creation' stamp: 'NR 9/23/2018 23:45:19'!
+!Fraccion class methodsFor: 'intance creation' stamp: 'MF 9/15/2021 18:32:51'!
 with: aDividend over: aDivisor
 
 	| greatestCommonDivisor numerator denominator |
-	
-	aDivisor isZero ifTrue: [ self error: self canNotDivideByZeroErrorDescription ].
-	aDividend isZero ifTrue: [ ^aDividend ].
-	
-	aDivisor isNegative ifTrue:[ ^aDividend negated / aDivisor negated].
 	
 	greatestCommonDivisor := aDividend greatestCommonDivisorWith: aDivisor. 
 	numerator := aDividend // greatestCommonDivisor.
 	denominator := aDivisor // greatestCommonDivisor.
 	
-	denominator isOne ifTrue: [ ^numerator ].
-
-	^self new initializeWith: numerator over: denominator
+	^denominator makeFractionDividing: numerator.
 	! !
