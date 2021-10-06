@@ -5,8 +5,8 @@ TestCase subclass: #MarsRoverTest
 	poolDictionaries: ''
 	category: 'MarsRover'!
 
-!MarsRoverTest methodsFor: 'as yet unclassified' stamp: 'MF 10/5/2021 17:27:37'!
-test01
+!MarsRoverTest methodsFor: 'empty sequence tests' stamp: 'MF 10/5/2021 22:06:07'!
+test01EmptyCommandSequenceDoesNothing
 
 	| marsRover |
 	
@@ -16,8 +16,9 @@ test01
 	
 	self assert: (marsRover isHeadingNorthAt: 1@2).! !
 
-!MarsRoverTest methodsFor: 'as yet unclassified' stamp: 'MF 10/5/2021 17:32:14'!
-test02
+
+!MarsRoverTest methodsFor: 'simple moving tests' stamp: 'MF 10/5/2021 22:06:25'!
+test02MovingForwardsToTheNorthMovesNorth
 
 	| marsRover |
 	
@@ -27,8 +28,8 @@ test02
 	
 	self assert: (marsRover isHeadingNorthAt: 1@3).! !
 
-!MarsRoverTest methodsFor: 'as yet unclassified' stamp: 'MF 10/5/2021 17:32:40'!
-test03
+!MarsRoverTest methodsFor: 'simple moving tests' stamp: 'MF 10/5/2021 22:06:47'!
+test03MovingForwardsToTheEastMovesEast
 
 	| marsRover |
 	
@@ -38,8 +39,8 @@ test03
 	
 	self assert: (marsRover isHeadingEastAt: 2@2).! !
 
-!MarsRoverTest methodsFor: 'as yet unclassified' stamp: 'MF 10/5/2021 17:33:39'!
-test04
+!MarsRoverTest methodsFor: 'simple moving tests' stamp: 'MF 10/5/2021 22:07:01'!
+test04MovingForwardsToTheWestMovesWest
 
 	| marsRover |
 	
@@ -49,8 +50,8 @@ test04
 	
 	self assert: (marsRover isHeadingWestAt: 0@2).! !
 
-!MarsRoverTest methodsFor: 'as yet unclassified' stamp: 'MF 10/5/2021 17:33:55'!
-test05
+!MarsRoverTest methodsFor: 'simple moving tests' stamp: 'MF 10/5/2021 22:07:18'!
+test05MovingForwardsToTheSouthMovesSouth
 
 	| marsRover |
 	
@@ -60,8 +61,8 @@ test05
 	
 	self assert: (marsRover isHeadingSouthAt: 1@1).! !
 
-!MarsRoverTest methodsFor: 'as yet unclassified' stamp: 'MF 10/5/2021 17:34:23'!
-test06
+!MarsRoverTest methodsFor: 'simple moving tests' stamp: 'MF 10/5/2021 22:07:36'!
+test06MovingBackwardsFromTheNorthMovesSouth
 
 	| marsRover |
 	
@@ -71,8 +72,8 @@ test06
 	
 	self assert: (marsRover isHeadingNorthAt: 1@1).! !
 
-!MarsRoverTest methodsFor: 'as yet unclassified' stamp: 'MF 10/5/2021 17:34:37'!
-test07
+!MarsRoverTest methodsFor: 'simple moving tests' stamp: 'MF 10/5/2021 22:07:55'!
+test07MovingBackwardsFromTheEastMovesWest
 
 	| marsRover |
 	
@@ -82,8 +83,8 @@ test07
 	
 	self assert: (marsRover isHeadingEastAt: 0@2).! !
 
-!MarsRoverTest methodsFor: 'as yet unclassified' stamp: 'MF 10/5/2021 17:34:49'!
-test08
+!MarsRoverTest methodsFor: 'simple moving tests' stamp: 'MF 10/5/2021 22:08:09'!
+test08MovingBackwardsFromTheWestMovesEast
 
 	| marsRover |
 	
@@ -93,8 +94,8 @@ test08
 	
 	self assert: (marsRover isHeadingWestAt: 2@2).! !
 
-!MarsRoverTest methodsFor: 'as yet unclassified' stamp: 'MF 10/5/2021 17:35:02'!
-test09
+!MarsRoverTest methodsFor: 'simple moving tests' stamp: 'MF 10/5/2021 22:08:25'!
+test09MovingBackwardsFromTheSouthMovesNorth
 
 	| marsRover |
 	
@@ -104,8 +105,9 @@ test09
 	
 	self assert: (marsRover isHeadingSouthAt: 1@3).! !
 
-!MarsRoverTest methodsFor: 'as yet unclassified' stamp: 'MF 10/5/2021 17:39:08'!
-test10
+
+!MarsRoverTest methodsFor: 'simple rotation tests' stamp: 'MF 10/5/2021 22:09:35'!
+test10RotatingLeftWhenHeadingNorthTurnsWest
 
 	| marsRover |
 	
@@ -115,8 +117,8 @@ test10
 	
 	self assert: (marsRover isHeadingWestAt: 1@2).! !
 
-!MarsRoverTest methodsFor: 'as yet unclassified' stamp: 'MF 10/5/2021 17:40:43'!
-test11
+!MarsRoverTest methodsFor: 'simple rotation tests' stamp: 'MF 10/5/2021 22:10:53'!
+test11RotatingLeftWhenHeadingEastTurnsNorth
 
 	| marsRover |
 	
@@ -126,8 +128,8 @@ test11
 	
 	self assert: (marsRover isHeadingNorthAt: 1@2).! !
 
-!MarsRoverTest methodsFor: 'as yet unclassified' stamp: 'MF 10/5/2021 17:42:13'!
-test12
+!MarsRoverTest methodsFor: 'simple rotation tests' stamp: 'MF 10/5/2021 22:11:03'!
+test12RotatingLeftWhenHeadingSouthTurnsEast
 
 	| marsRover |
 	
@@ -137,8 +139,8 @@ test12
 	
 	self assert: (marsRover isHeadingEastAt: 1@2).! !
 
-!MarsRoverTest methodsFor: 'as yet unclassified' stamp: 'MF 10/5/2021 17:42:52'!
-test13
+!MarsRoverTest methodsFor: 'simple rotation tests' stamp: 'MF 10/5/2021 22:11:19'!
+test13RotatingLeftWhenHeadingWestTurnsSouth
 
 	| marsRover |
 	
@@ -148,8 +150,8 @@ test13
 	
 	self assert: (marsRover isHeadingSouthAt: 1@2).! !
 
-!MarsRoverTest methodsFor: 'as yet unclassified' stamp: 'MF 10/5/2021 17:49:38'!
-test14
+!MarsRoverTest methodsFor: 'simple rotation tests' stamp: 'MF 10/5/2021 22:11:47'!
+test14RotatingRightWhenHeadingNorthTurnsEast
 
 	| marsRover |
 	
@@ -159,8 +161,8 @@ test14
 	
 	self assert: (marsRover isHeadingEastAt: 1@2).! !
 
-!MarsRoverTest methodsFor: 'as yet unclassified' stamp: 'MF 10/5/2021 17:50:58'!
-test15
+!MarsRoverTest methodsFor: 'simple rotation tests' stamp: 'MF 10/5/2021 22:12:02'!
+test15RotatingRightWhenHeadingEastTurnsSouth
 
 	| marsRover |
 	
@@ -170,8 +172,8 @@ test15
 	
 	self assert: (marsRover isHeadingSouthAt: 1@2).! !
 
-!MarsRoverTest methodsFor: 'as yet unclassified' stamp: 'MF 10/5/2021 17:51:54'!
-test16
+!MarsRoverTest methodsFor: 'simple rotation tests' stamp: 'MF 10/5/2021 22:12:10'!
+test16RotatingRightWhenHeadingSouthTurnsWest
 
 	| marsRover |
 	
@@ -181,8 +183,8 @@ test16
 	
 	self assert: (marsRover isHeadingWestAt: 1@2).! !
 
-!MarsRoverTest methodsFor: 'as yet unclassified' stamp: 'MF 10/5/2021 17:52:47'!
-test17
+!MarsRoverTest methodsFor: 'simple rotation tests' stamp: 'MF 10/5/2021 22:12:43'!
+test17RotatingRightWhenHeadingWestTurnsNorth
 
 	| marsRover |
 	
@@ -192,25 +194,26 @@ test17
 	
 	self assert: (marsRover isHeadingNorthAt: 1@2).! !
 
-!MarsRoverTest methodsFor: 'as yet unclassified' stamp: 'MF 10/5/2021 18:07:19'!
-test18
+
+!MarsRoverTest methodsFor: 'multiple commands tests' stamp: 'MF 10/5/2021 22:14:42'!
+test18MultipleCommandsAreProcessedConsecutively
 
 	| marsRover |
 	
 	marsRover := MarsRover at: 1@2 heading: North new.
 	
-	marsRover process: 'rf'.
+	marsRover process: 'rffblr'.
 	
 	self assert: (marsRover isHeadingEastAt: 2@2).! !
 
-!MarsRoverTest methodsFor: 'as yet unclassified' stamp: 'MF 10/5/2021 18:19:12'!
+!MarsRoverTest methodsFor: 'multiple commands tests' stamp: 'MF 10/5/2021 22:15:02'!
 test19ProcessCommandsUntilInvalidCommand
 
 	| marsRover |
 	
 	marsRover := MarsRover at: 1@2 heading: North new.
 	
-	marsRover process: 'fXb'.
+	marsRover process: 'fXbr'.
 	
 	self assert: (marsRover isHeadingNorthAt: 1@3).! !
 
@@ -252,30 +255,30 @@ initializeAt: aStartingPoint heading: aCardinalPoint
 	direction := aCardinalPoint.! !
 
 
-!MarsRover methodsFor: 'testing' stamp: 'MF 10/5/2021 16:43:21'!
-isAt: aPoint heading: aCardinalPoint 
-	
-	^position = aPoint and: [ direction = aCardinalPoint ].! !
+!MarsRover methodsFor: 'testing' stamp: 'MF 10/5/2021 22:18:43'!
+isAt: aPoint
 
-!MarsRover methodsFor: 'testing' stamp: 'MF 10/5/2021 17:31:31'!
+	^position = aPoint.! !
+
+!MarsRover methodsFor: 'testing' stamp: 'MF 10/5/2021 22:18:36'!
 isHeadingEastAt: aPoint
 
-	^direction isEast and: [ position = aPoint ].! !
+	^direction isEast and: [ self isAt: aPoint ].! !
 
-!MarsRover methodsFor: 'testing' stamp: 'MF 10/5/2021 17:28:10'!
+!MarsRover methodsFor: 'testing' stamp: 'MF 10/5/2021 22:18:55'!
 isHeadingNorthAt: aPoint
 
-	^direction isNorth and: [ position = aPoint ].! !
+	^direction isNorth and: [ self isAt: aPoint ].! !
 
-!MarsRover methodsFor: 'testing' stamp: 'MF 10/5/2021 17:30:29'!
+!MarsRover methodsFor: 'testing' stamp: 'MF 10/5/2021 22:19:03'!
 isHeadingSouthAt: aPoint
 
-	^direction isSouth and: [ position = aPoint ].! !
+	^direction isSouth and: [ self isAt: aPoint ].! !
 
-!MarsRover methodsFor: 'testing' stamp: 'MF 10/5/2021 17:31:42'!
+!MarsRover methodsFor: 'testing' stamp: 'MF 10/5/2021 22:19:06'!
 isHeadingWestAt: aPoint
 
-	^direction isWest and: [ position = aPoint ].! !
+	^direction isWest and: [ self isAt: aPoint ].! !
 
 
 !MarsRover methodsFor: 'moving' stamp: 'MF 10/5/2021 17:03:55'!
