@@ -1,0 +1,399 @@
+
+
+----SNAPSHOT----(28 October 2021 14:33:32) CuisUniversity-45322.image priorSource: 17005085!
+
+!methodRemoval: MarsRoverTracker #trackHeadingOf: stamp: 'LNB 10/28/2021 14:33:37'!
+trackHeadingOf: aMarsRover
+	
+	aMarsRover trackHeadingChangesTo: self.
+!
+
+!methodRemoval: MarsRoverTracker #trackPositionOf: stamp: 'LNB 10/28/2021 14:33:38'!
+trackPositionOf: aMarsRover
+	
+	aMarsRover trackPositionChangesTo: self.!
+
+!methodRemoval: MarsRoverLogTracker #trackUpdatedHeading: stamp: 'LNB 10/28/2021 14:33:53'!
+trackUpdatedHeading: aHeading
+
+	logger nextPutAll: aHeading printString; newLine.	!
+
+!methodRemoval: MarsRover #addTracker:for: stamp: 'LNB 10/28/2021 14:34:17'!
+addTracker: aTracker for: anInternalCollaborator
+
+	(trackers at: anInternalCollaborator) add: aTracker.!
+
+!methodRemoval: MarsRover #trackHeadingChangesTo: stamp: 'LNB 10/28/2021 14:34:26'!
+trackHeadingChangesTo: aTracker
+	
+	self addTracker: aTracker for: #heading.!
+
+!methodRemoval: MarsRover #trackPositionChangesTo: stamp: 'LNB 10/28/2021 14:34:27'!
+trackPositionChangesTo: aTracker
+
+	self addTracker: aTracker for: #position.!
+
+!methodRemoval: MarsRover #notifyHeadingObservers stamp: 'LNB 10/28/2021 14:34:36'!
+notifyHeadingObservers
+
+	^ (trackers at: #heading) do: [ :aPositionTracker | aPositionTracker trackUpdatedHeading: head ]!
+
+!methodRemoval: MarsRover #notifyPositionObservers stamp: 'LNB 10/28/2021 14:34:37'!
+notifyPositionObservers
+
+	^ (trackers at: #position) do: [ :aPositionTracker | aPositionTracker trackUpdatedPosition: position ]!
+
+!methodRemoval: MarsRoverLogTracker #trackUpdatedPosition: stamp: 'LNB 10/28/2021 14:34:51'!
+trackUpdatedPosition: aPosition
+	
+	logger nextPutAll: aPosition printString; newLine!
+
+!methodRemoval: MarsRoverStatusView #trackUpdatedHeading: stamp: 'LNB 10/28/2021 14:35:01'!
+trackUpdatedHeading: aHeading
+	
+	headingTextFieldModel _ aHeading.!
+
+!methodRemoval: MarsRoverStatusView #trackUpdatedPosition: stamp: 'LNB 10/28/2021 14:35:02'!
+trackUpdatedPosition: aPosition
+
+	positionTextFieldModel _ aPosition.
+	!
+
+!methodRemoval: MarsRoverTracker #trackUpdatedHeading: stamp: 'LNB 10/28/2021 14:35:08'!
+trackUpdatedHeading: aHeading
+	
+	self subclassResponsibility.!
+
+!methodRemoval: MarsRoverTracker #trackUpdatedPosition: stamp: 'LNB 10/28/2021 14:35:09'!
+trackUpdatedPosition: aPosition
+	
+	self subclassResponsibility.!
+
+!testRun: #TrackerTest #test01LogTrackerTracksMovementToTheNorth stamp: 'LNB 10/28/2021 14:36:10'!
+PASSED!
+
+!testRun: #TrackerTest #test02LogTrackerTracksManyMovements stamp: 'LNB 10/28/2021 14:36:10'!
+PASSED!
+
+!testRun: #TrackerTest #test03LogTrackerTracksMovementToTheSouth stamp: 'LNB 10/28/2021 14:36:10'!
+PASSED!
+
+!testRun: #TrackerTest #test04LogTrackerTracksMovementToTheEast stamp: 'LNB 10/28/2021 14:36:10'!
+FAILURE!
+
+!testRun: #TrackerTest #test05LogTrackerTracksMovementToTheWest stamp: 'LNB 10/28/2021 14:36:11'!
+FAILURE!
+
+!testRun: #TrackerTest #test06NoMovementsLogsNothing stamp: 'LNB 10/28/2021 14:36:11'!
+PASSED!
+
+!testRun: #TrackerTest #test07LogTrackerTracksHeadingToTheEast stamp: 'LNB 10/28/2021 14:36:11'!
+PASSED!
+
+!testRun: #TrackerTest #test08LogTrackerTracksHeadingToTheSouth stamp: 'LNB 10/28/2021 14:36:11'!
+PASSED!
+
+!testRun: #TrackerTest #test09LogTrackerTracksHeadingToTheWest stamp: 'LNB 10/28/2021 14:36:11'!
+PASSED!
+
+!testRun: #TrackerTest #test10LogTrackerTracksHeadingToTheNorth stamp: 'LNB 10/28/2021 14:36:11'!
+PASSED!
+
+!testRun: #TrackerTest #test11LogTrackerCanTrackBothPositionAndHeading stamp: 'LNB 10/28/2021 14:36:11'!
+FAILURE!
+
+!testRun: #TrackerTest #test13StatusTrackersTracksMovements stamp: 'LNB 10/28/2021 14:36:11'!
+PASSED!
+
+!testRun: #TrackerTest #test15StatusTrackerTracksRotations stamp: 'LNB 10/28/2021 14:36:11'!
+PASSED!
+
+!testRun: #TrackerTest #test16StatusTrackerCanTrackBothPositionAndHeading stamp: 'LNB 10/28/2021 14:36:11'!
+PASSED!
+
+!testRun: #TrackerTest #test17MarsRoverCanHaveMoreThanOneLogger stamp: 'LNB 10/28/2021 14:36:11'!
+FAILURE!
+
+!testRun: #TrackerTest #test18MarsRoverCanHaveMoreThanOneStatusTracker stamp: 'LNB 10/28/2021 14:36:11'!
+PASSED!
+
+!testRun: #TrackerTest #test04LogTrackerTracksMovementToTheEast stamp: 'LNB 10/28/2021 14:36:14'!
+FAILURE!
+!MarsRover methodsFor: 'heading' stamp: 'LNB 10/28/2021 14:40:35' prior: 50864515!
+changeHeadTo: aNewHeading
+	
+	head := aNewHeading.
+	self notifyHeadingObservers.! !
+!MarsRover methodsFor: 'moving' stamp: 'LNB 10/28/2021 14:40:49' prior: 50864521!
+movePositionWithAnOffset: anOffset
+	
+	position := position + anOffset.
+	self notifyPositionalObservers.! !
+!MarsRover methodsFor: 'tracking' stamp: 'LNB 10/28/2021 14:41:24'!
+notifyHeadingObservers
+
+	^ (trackers) do: [ :aTracker | aTracker trackUpdatedHeading]! !
+!MarsRover methodsFor: 'tracking' stamp: 'LNB 10/28/2021 14:41:42'!
+notifyPositionalObservers
+
+	^ (trackers) do: [ :aTracker | aTracker trackUpdatedPosition]! !
+
+!methodRemoval: MarsRover #notifyObservers stamp: 'LNB 10/28/2021 14:41:47'!
+notifyObservers
+
+	^ (trackers) do: [ :aTracker | aTracker update]!
+!MarsRoverTracker methodsFor: 'as yet unclassified' stamp: 'LNB 10/28/2021 14:42:26'!
+trackUpdatedHeading
+	
+	marsRoverHeadingTracker update.! !
+!MarsRoverTracker methodsFor: 'as yet unclassified' stamp: 'LNB 10/28/2021 14:42:42'!
+trackUpdatedPosition
+	
+	marsRoverPositionalTracker update.! !
+
+!classDefinition: #MarsRoverTracker category: 'MarsRover-WithHeading' stamp: 'LNB 10/28/2021 14:42:54'!
+Object subclass: #MarsRoverTracker
+	instanceVariableNames: 'marsRoverPositionalTrackerState marsRoverHeadingTracker marsRover'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'MarsRover-WithHeading'!
+!MarsRoverTracker methodsFor: 'as yet unclassified' stamp: 'LNB 10/28/2021 14:42:54' prior: 50864901!
+update
+	
+	marsRoverPositionalTrackerState update.
+	marsRoverHeadingTracker update.! !
+!MarsRoverTracker methodsFor: 'as yet unclassified' stamp: 'LNB 10/28/2021 14:42:54' prior: 50864920 overrides: 16896425!
+initialize
+	
+	marsRoverPositionalTrackerState _ MarsRoverNullTrackerState with: self.
+	marsRoverHeadingTracker _ MarsRoverNullTrackerState with: self.! !
+!MarsRoverTracker methodsFor: 'as yet unclassified' stamp: 'LNB 10/28/2021 14:42:55' prior: 50864824!
+trackPosition
+
+	marsRoverPositionalTrackerState _ MarsRoverPositionalTrackerState with: self.
+! !
+!MarsRoverTracker methodsFor: 'as yet unclassified' stamp: 'LNB 10/28/2021 14:42:55' prior: 50865589!
+trackUpdatedPosition
+	
+	marsRoverPositionalTrackerState update.! !
+
+!classDefinition: #MarsRoverTracker category: 'MarsRover-WithHeading' stamp: 'LNB 10/28/2021 14:42:59'!
+Object subclass: #MarsRoverTracker
+	instanceVariableNames: 'marsRoverPositionalTrackerState marsRoverHeadingTrackerState marsRover'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'MarsRover-WithHeading'!
+!MarsRoverTracker methodsFor: 'as yet unclassified' stamp: 'LNB 10/28/2021 14:42:59' prior: 50865584!
+trackUpdatedHeading
+	
+	marsRoverHeadingTrackerState update.! !
+!MarsRoverTracker methodsFor: 'as yet unclassified' stamp: 'LNB 10/28/2021 14:42:59' prior: 50865604!
+update
+	
+	marsRoverPositionalTrackerState update.
+	marsRoverHeadingTrackerState update.! !
+!MarsRoverTracker methodsFor: 'as yet unclassified' stamp: 'LNB 10/28/2021 14:42:59' prior: 50865611 overrides: 16896425!
+initialize
+	
+	marsRoverPositionalTrackerState _ MarsRoverNullTrackerState with: self.
+	marsRoverHeadingTrackerState _ MarsRoverNullTrackerState with: self.! !
+!MarsRoverTracker methodsFor: 'as yet unclassified' stamp: 'LNB 10/28/2021 14:42:59' prior: 50864818!
+trackHeading
+
+	marsRoverHeadingTrackerState _ MarsRoverHeadingTrackerState with: self.
+! !
+
+!testRun: #TrackerTest #test01LogTrackerTracksMovementToTheNorth stamp: 'LNB 10/28/2021 14:43:04'!
+PASSED!
+
+!testRun: #TrackerTest #test02LogTrackerTracksManyMovements stamp: 'LNB 10/28/2021 14:43:04'!
+PASSED!
+
+!testRun: #TrackerTest #test03LogTrackerTracksMovementToTheSouth stamp: 'LNB 10/28/2021 14:43:05'!
+PASSED!
+
+!testRun: #TrackerTest #test04LogTrackerTracksMovementToTheEast stamp: 'LNB 10/28/2021 14:43:05'!
+PASSED!
+
+!testRun: #TrackerTest #test05LogTrackerTracksMovementToTheWest stamp: 'LNB 10/28/2021 14:43:05'!
+PASSED!
+
+!testRun: #TrackerTest #test06NoMovementsLogsNothing stamp: 'LNB 10/28/2021 14:43:05'!
+PASSED!
+
+!testRun: #TrackerTest #test07LogTrackerTracksHeadingToTheEast stamp: 'LNB 10/28/2021 14:43:05'!
+PASSED!
+
+!testRun: #TrackerTest #test08LogTrackerTracksHeadingToTheSouth stamp: 'LNB 10/28/2021 14:43:05'!
+PASSED!
+
+!testRun: #TrackerTest #test09LogTrackerTracksHeadingToTheWest stamp: 'LNB 10/28/2021 14:43:05'!
+PASSED!
+
+!testRun: #TrackerTest #test10LogTrackerTracksHeadingToTheNorth stamp: 'LNB 10/28/2021 14:43:06'!
+PASSED!
+
+!testRun: #TrackerTest #test11LogTrackerCanTrackBothPositionAndHeading stamp: 'LNB 10/28/2021 14:43:06'!
+PASSED!
+
+!testRun: #TrackerTest #test13StatusTrackersTracksMovements stamp: 'LNB 10/28/2021 14:43:06'!
+PASSED!
+
+!testRun: #TrackerTest #test15StatusTrackerTracksRotations stamp: 'LNB 10/28/2021 14:43:06'!
+PASSED!
+
+!testRun: #TrackerTest #test16StatusTrackerCanTrackBothPositionAndHeading stamp: 'LNB 10/28/2021 14:43:06'!
+PASSED!
+
+!testRun: #TrackerTest #test17MarsRoverCanHaveMoreThanOneLogger stamp: 'LNB 10/28/2021 14:43:06'!
+PASSED!
+
+!testRun: #TrackerTest #test18MarsRoverCanHaveMoreThanOneStatusTracker stamp: 'LNB 10/28/2021 14:43:06'!
+PASSED!
+
+!testRun: #TrackerTest #test01LogTrackerTracksMovementToTheNorth stamp: 'LNB 10/28/2021 14:59:42'!
+PASSED!
+
+!testRun: #TrackerTest #test02LogTrackerTracksManyMovements stamp: 'LNB 10/28/2021 14:59:42'!
+PASSED!
+
+!testRun: #TrackerTest #test03LogTrackerTracksMovementToTheSouth stamp: 'LNB 10/28/2021 14:59:43'!
+PASSED!
+
+!testRun: #TrackerTest #test04LogTrackerTracksMovementToTheEast stamp: 'LNB 10/28/2021 14:59:43'!
+PASSED!
+
+!testRun: #TrackerTest #test05LogTrackerTracksMovementToTheWest stamp: 'LNB 10/28/2021 14:59:43'!
+PASSED!
+
+!testRun: #TrackerTest #test06NoMovementsLogsNothing stamp: 'LNB 10/28/2021 14:59:43'!
+PASSED!
+
+!testRun: #TrackerTest #test07LogTrackerTracksHeadingToTheEast stamp: 'LNB 10/28/2021 14:59:43'!
+PASSED!
+
+!testRun: #TrackerTest #test08LogTrackerTracksHeadingToTheSouth stamp: 'LNB 10/28/2021 14:59:43'!
+PASSED!
+
+!testRun: #TrackerTest #test09LogTrackerTracksHeadingToTheWest stamp: 'LNB 10/28/2021 14:59:43'!
+PASSED!
+
+!testRun: #TrackerTest #test10LogTrackerTracksHeadingToTheNorth stamp: 'LNB 10/28/2021 14:59:43'!
+PASSED!
+
+!testRun: #TrackerTest #test11LogTrackerCanTrackBothPositionAndHeading stamp: 'LNB 10/28/2021 14:59:43'!
+PASSED!
+
+!testRun: #TrackerTest #test13StatusTrackersTracksMovements stamp: 'LNB 10/28/2021 14:59:43'!
+PASSED!
+
+!testRun: #TrackerTest #test15StatusTrackerTracksRotations stamp: 'LNB 10/28/2021 14:59:43'!
+PASSED!
+
+!testRun: #TrackerTest #test16StatusTrackerCanTrackBothPositionAndHeading stamp: 'LNB 10/28/2021 14:59:43'!
+PASSED!
+
+!testRun: #TrackerTest #test17MarsRoverCanHaveMoreThanOneLogger stamp: 'LNB 10/28/2021 14:59:43'!
+PASSED!
+
+!testRun: #TrackerTest #test18MarsRoverCanHaveMoreThanOneStatusTracker stamp: 'LNB 10/28/2021 14:59:43'!
+PASSED!
+
+!methodRemoval: MarsRoverTracker #update stamp: 'LNB 10/28/2021 15:02:13'!
+update
+	
+	marsRoverPositionalTrackerState update.
+	marsRoverHeadingTrackerState update.!
+
+!testRun: #TrackerTest #test01LogTrackerTracksMovementToTheNorth stamp: 'LNB 10/28/2021 15:02:16'!
+PASSED!
+
+!testRun: #TrackerTest #test02LogTrackerTracksManyMovements stamp: 'LNB 10/28/2021 15:02:16'!
+PASSED!
+
+!testRun: #TrackerTest #test03LogTrackerTracksMovementToTheSouth stamp: 'LNB 10/28/2021 15:02:16'!
+PASSED!
+
+!testRun: #TrackerTest #test04LogTrackerTracksMovementToTheEast stamp: 'LNB 10/28/2021 15:02:16'!
+PASSED!
+
+!testRun: #TrackerTest #test05LogTrackerTracksMovementToTheWest stamp: 'LNB 10/28/2021 15:02:16'!
+PASSED!
+
+!testRun: #TrackerTest #test06NoMovementsLogsNothing stamp: 'LNB 10/28/2021 15:02:16'!
+PASSED!
+
+!testRun: #TrackerTest #test07LogTrackerTracksHeadingToTheEast stamp: 'LNB 10/28/2021 15:02:16'!
+PASSED!
+
+!testRun: #TrackerTest #test08LogTrackerTracksHeadingToTheSouth stamp: 'LNB 10/28/2021 15:02:16'!
+PASSED!
+
+!testRun: #TrackerTest #test09LogTrackerTracksHeadingToTheWest stamp: 'LNB 10/28/2021 15:02:16'!
+PASSED!
+
+!testRun: #TrackerTest #test10LogTrackerTracksHeadingToTheNorth stamp: 'LNB 10/28/2021 15:02:16'!
+PASSED!
+
+!testRun: #TrackerTest #test11LogTrackerCanTrackBothPositionAndHeading stamp: 'LNB 10/28/2021 15:02:16'!
+PASSED!
+
+!testRun: #TrackerTest #test13StatusTrackersTracksMovements stamp: 'LNB 10/28/2021 15:02:17'!
+PASSED!
+
+!testRun: #TrackerTest #test15StatusTrackerTracksRotations stamp: 'LNB 10/28/2021 15:02:17'!
+PASSED!
+
+!testRun: #TrackerTest #test16StatusTrackerCanTrackBothPositionAndHeading stamp: 'LNB 10/28/2021 15:02:17'!
+PASSED!
+
+!testRun: #TrackerTest #test17MarsRoverCanHaveMoreThanOneLogger stamp: 'LNB 10/28/2021 15:02:17'!
+PASSED!
+
+!testRun: #TrackerTest #test18MarsRoverCanHaveMoreThanOneStatusTracker stamp: 'LNB 10/28/2021 15:02:17'!
+PASSED!
+
+!testRun: #MarsRoverTest #test01DoesNotMoveWhenNoCommand stamp: 'LNB 10/28/2021 15:02:20'!
+PASSED!
+
+!testRun: #MarsRoverTest #test02IsAtFailsForDifferentPosition stamp: 'LNB 10/28/2021 15:02:20'!
+PASSED!
+
+!testRun: #MarsRoverTest #test03IsAtFailsForDifferentHeading stamp: 'LNB 10/28/2021 15:02:20'!
+PASSED!
+
+!testRun: #MarsRoverTest #test04IncrementsYAfterMovingForwardWhenHeadingNorth stamp: 'LNB 10/28/2021 15:02:20'!
+PASSED!
+
+!testRun: #MarsRoverTest #test06DecrementsYAfterMovingBackwardsWhenHeadingNorth stamp: 'LNB 10/28/2021 15:02:20'!
+PASSED!
+
+!testRun: #MarsRoverTest #test07PointToEashAfterRotatingRightWhenHeadingNorth stamp: 'LNB 10/28/2021 15:02:21'!
+PASSED!
+
+!testRun: #MarsRoverTest #test08PointsToWestAfterRotatingLeftWhenPointingNorth stamp: 'LNB 10/28/2021 15:02:21'!
+PASSED!
+
+!testRun: #MarsRoverTest #test09DoesNotProcessInvalidCommand stamp: 'LNB 10/28/2021 15:02:21'!
+PASSED!
+
+!testRun: #MarsRoverTest #test10CanProcessMoreThanOneCommand stamp: 'LNB 10/28/2021 15:02:21'!
+PASSED!
+
+!testRun: #MarsRoverTest #test11IncrementsXAfterMovingForwareWhenHeadingEast stamp: 'LNB 10/28/2021 15:02:21'!
+PASSED!
+
+!testRun: #MarsRoverTest #test12DecrementsXAfterMovingBackwardWhenHeadingEast stamp: 'LNB 10/28/2021 15:02:21'!
+PASSED!
+
+!testRun: #MarsRoverTest #test13PointsToSouthAfterRotatingRightWhenHeadingEast stamp: 'LNB 10/28/2021 15:02:21'!
+PASSED!
+
+!testRun: #MarsRoverTest #test14PointsToNorthAfterRotatingLeftWhenPointingEast stamp: 'LNB 10/28/2021 15:02:21'!
+PASSED!
+
+!testRun: #MarsRoverTest #test15ForwardBackwardsAndRotateRightWorkAsExpectedWhenPointingSouth stamp: 'LNB 10/28/2021 15:02:21'!
+PASSED!
+
+!testRun: #MarsRoverTest #test16ForwardBackwardsAndRotateRightWorkAsExpectedWhenPointingWest stamp: 'LNB 10/28/2021 15:02:21'!
+PASSED!
