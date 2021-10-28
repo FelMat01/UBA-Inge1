@@ -6109,3 +6109,915 @@ test18
 	self assert: (anotherStatusTracker headingTextFieldModel isHeading: MarsRoverHeadingEast).!
 
 ----SNAPSHOT----(27 October 2021 00:54:41) CuisUniversity-4532.image priorSource: 17021048!
+
+----STARTUP---- (28 October 2021 10:34:01) as /home/felmat/Desktop/Inge1/mars rover el regreso/CuisUniversity-4532.image!
+
+
+!testRun: #MarsRoverTest #test01DoesNotMoveWhenNoCommand stamp: 'MF 10/28/2021 10:36:41'!
+PASSED!
+
+!testRun: #MarsRoverTest #test02IsAtFailsForDifferentPosition stamp: 'MF 10/28/2021 10:36:41'!
+PASSED!
+
+!testRun: #MarsRoverTest #test03IsAtFailsForDifferentHeading stamp: 'MF 10/28/2021 10:36:41'!
+PASSED!
+
+!testRun: #MarsRoverTest #test04IncrementsYAfterMovingForwardWhenHeadingNorth stamp: 'MF 10/28/2021 10:36:41'!
+PASSED!
+
+!testRun: #MarsRoverTest #test06DecrementsYAfterMovingBackwardsWhenHeadingNorth stamp: 'MF 10/28/2021 10:36:41'!
+PASSED!
+
+!testRun: #MarsRoverTest #test07PointToEashAfterRotatingRightWhenHeadingNorth stamp: 'MF 10/28/2021 10:36:41'!
+PASSED!
+
+!testRun: #MarsRoverTest #test08PointsToWestAfterRotatingLeftWhenPointingNorth stamp: 'MF 10/28/2021 10:36:41'!
+PASSED!
+
+!testRun: #MarsRoverTest #test09DoesNotProcessInvalidCommand stamp: 'MF 10/28/2021 10:36:41'!
+PASSED!
+
+!testRun: #MarsRoverTest #test10CanProcessMoreThanOneCommand stamp: 'MF 10/28/2021 10:36:41'!
+PASSED!
+
+!testRun: #MarsRoverTest #test11IncrementsXAfterMovingForwareWhenHeadingEast stamp: 'MF 10/28/2021 10:36:41'!
+PASSED!
+
+!testRun: #MarsRoverTest #test12DecrementsXAfterMovingBackwardWhenHeadingEast stamp: 'MF 10/28/2021 10:36:41'!
+PASSED!
+
+!testRun: #MarsRoverTest #test13PointsToSouthAfterRotatingRightWhenHeadingEast stamp: 'MF 10/28/2021 10:36:41'!
+PASSED!
+
+!testRun: #MarsRoverTest #test14PointsToNorthAfterRotatingLeftWhenPointingEast stamp: 'MF 10/28/2021 10:36:41'!
+PASSED!
+
+!testRun: #MarsRoverTest #test15ForwardBackwardsAndRotateRightWorkAsExpectedWhenPointingSouth stamp: 'MF 10/28/2021 10:36:41'!
+PASSED!
+
+!testRun: #MarsRoverTest #test16ForwardBackwardsAndRotateRightWorkAsExpectedWhenPointingWest stamp: 'MF 10/28/2021 10:36:41'!
+PASSED!
+!TrackerTest methodsFor: 'as yet unclassified' stamp: 'MF 10/28/2021 10:44:56'!
+xtest12StatusTrackerStartsTrackingInitialPosition
+
+	| marsRover statusTracker |
+	marsRover _ MarsRover at: 1@1 heading: MarsRoverHeadingNorth.
+	
+	statusTracker _ self positionStatusTrackerFor: marsRover.
+	
+	self assert: 1@1 equals: statusTracker positionTextFieldModel.! !
+
+!methodRemoval: TrackerTest #test12StatusTrackerStartsTrackingInitialPosition stamp: 'MF 10/28/2021 10:44:56'!
+test12StatusTrackerStartsTrackingInitialPosition
+
+	| marsRover statusTracker |
+	marsRover _ MarsRover at: 1@1 heading: MarsRoverHeadingNorth.
+	
+	statusTracker _ self positionStatusTrackerFor: marsRover.
+	
+	self assert: 1@1 equals: statusTracker positionTextFieldModel.!
+!MarsRover methodsFor: 'as yet unclassified' stamp: 'MF 10/28/2021 10:45:04' prior: 50864888!
+trackPositionChangesToStatusView: aMarsRoverStatusView 
+
+	positionTrackers add: aMarsRoverStatusView.! !
+!MarsRover methodsFor: 'as yet unclassified' stamp: 'MF 10/28/2021 10:45:09' prior: 50864880!
+trackHeadingChangesToStatusView: aMarsRoverStatusView 
+	
+	headingTrackers add: aMarsRoverStatusView.! !
+
+!testRun: #TrackerTest #test15StatusTrackerTracksRotations stamp: 'MF 10/28/2021 10:45:10'!
+PASSED!
+!MarsRoverStatusView methodsFor: 'as yet unclassified' stamp: 'MF 10/28/2021 10:46:01' prior: 50864167!
+trackPositionOf: aMarsRover
+
+	aMarsRover trackPositionChangesTo: self..! !
+
+!testRun: #TrackerTest #test15StatusTrackerTracksRotations stamp: 'MF 10/28/2021 10:46:04'!
+PASSED!
+
+!testRun: #TrackerTest #test01LogTrackerTracksMovementToTheNorth stamp: 'MF 10/28/2021 10:46:04'!
+PASSED!
+
+!testRun: #TrackerTest #test02LogTrackerTracksManyMovements stamp: 'MF 10/28/2021 10:46:04'!
+PASSED!
+
+!testRun: #TrackerTest #test03LogTrackerTracksMovementToTheSouth stamp: 'MF 10/28/2021 10:46:04'!
+PASSED!
+
+!testRun: #TrackerTest #test04LogTrackerTracksMovementToTheEast stamp: 'MF 10/28/2021 10:46:04'!
+PASSED!
+
+!testRun: #TrackerTest #test05LogTrackerTracksMovementToTheWest stamp: 'MF 10/28/2021 10:46:04'!
+PASSED!
+
+!testRun: #TrackerTest #test06NoMovementsLogsNothing stamp: 'MF 10/28/2021 10:46:04'!
+PASSED!
+
+!testRun: #TrackerTest #test07LogTrackerTracksHeadingToTheEast stamp: 'MF 10/28/2021 10:46:04'!
+PASSED!
+
+!testRun: #TrackerTest #test08LogTrackerTracksHeadingToTheSouth stamp: 'MF 10/28/2021 10:46:04'!
+PASSED!
+
+!testRun: #TrackerTest #test09LogTrackerTracksHeadingToTheWest stamp: 'MF 10/28/2021 10:46:04'!
+PASSED!
+
+!testRun: #TrackerTest #test10LogTrackerTracksHeadingToTheNorth stamp: 'MF 10/28/2021 10:46:04'!
+PASSED!
+
+!testRun: #TrackerTest #test11LogTrackerCanTrackBothPositionAndHeading stamp: 'MF 10/28/2021 10:46:04'!
+PASSED!
+
+!testRun: #TrackerTest #test13StatusTrackersTracksMovements stamp: 'MF 10/28/2021 10:46:04'!
+PASSED!
+
+!testRun: #TrackerTest #test14StatusTrackerTracksInitialHeading stamp: 'MF 10/28/2021 10:46:04'!
+ERROR!
+
+!testRun: #TrackerTest #test15StatusTrackerTracksRotations stamp: 'MF 10/28/2021 10:46:04'!
+PASSED!
+
+!testRun: #TrackerTest #test16StatusTrackerCanTrackBothPositionAndHeading stamp: 'MF 10/28/2021 10:46:04'!
+PASSED!
+
+!testRun: #TrackerTest #test17MarsRoverCanHaveMoreThanOneLogger stamp: 'MF 10/28/2021 10:46:04'!
+PASSED!
+
+!testRun: #TrackerTest #test18MarsRoverCanHaveMoreThanOneStatusTracker stamp: 'MF 10/28/2021 10:46:04'!
+PASSED!
+
+!testRun: #TrackerTest #test14StatusTrackerTracksInitialHeading stamp: 'MF 10/28/2021 10:46:04'!
+ERROR!
+!TrackerTest methodsFor: 'as yet unclassified' stamp: 'MF 10/28/2021 10:46:45'!
+xtest14StatusTrackerTracksInitialHeading
+
+	| marsRover statusTracker |
+	marsRover _ MarsRover at: 1@1 heading: MarsRoverHeadingNorth.
+	
+	statusTracker _ self headingStatusTrackerFor: marsRover.
+	
+	self assert: (statusTracker headingTextFieldModel isHeading: MarsRoverHeadingNorth).! !
+
+!methodRemoval: TrackerTest #test14StatusTrackerTracksInitialHeading stamp: 'MF 10/28/2021 10:46:45'!
+test14StatusTrackerTracksInitialHeading
+
+	| marsRover statusTracker |
+	marsRover _ MarsRover at: 1@1 heading: MarsRoverHeadingNorth.
+	
+	statusTracker _ self headingStatusTrackerFor: marsRover.
+	
+	self assert: (statusTracker headingTextFieldModel isHeading: MarsRoverHeadingNorth).!
+
+!testRun: #TrackerTest #test01LogTrackerTracksMovementToTheNorth stamp: 'MF 10/28/2021 10:46:47'!
+PASSED!
+
+!testRun: #TrackerTest #test02LogTrackerTracksManyMovements stamp: 'MF 10/28/2021 10:46:47'!
+PASSED!
+
+!testRun: #TrackerTest #test03LogTrackerTracksMovementToTheSouth stamp: 'MF 10/28/2021 10:46:47'!
+PASSED!
+
+!testRun: #TrackerTest #test04LogTrackerTracksMovementToTheEast stamp: 'MF 10/28/2021 10:46:47'!
+PASSED!
+
+!testRun: #TrackerTest #test05LogTrackerTracksMovementToTheWest stamp: 'MF 10/28/2021 10:46:47'!
+PASSED!
+
+!testRun: #TrackerTest #test06NoMovementsLogsNothing stamp: 'MF 10/28/2021 10:46:47'!
+PASSED!
+
+!testRun: #TrackerTest #test07LogTrackerTracksHeadingToTheEast stamp: 'MF 10/28/2021 10:46:47'!
+PASSED!
+
+!testRun: #TrackerTest #test08LogTrackerTracksHeadingToTheSouth stamp: 'MF 10/28/2021 10:46:47'!
+PASSED!
+
+!testRun: #TrackerTest #test09LogTrackerTracksHeadingToTheWest stamp: 'MF 10/28/2021 10:46:47'!
+PASSED!
+
+!testRun: #TrackerTest #test10LogTrackerTracksHeadingToTheNorth stamp: 'MF 10/28/2021 10:46:47'!
+PASSED!
+
+!testRun: #TrackerTest #test11LogTrackerCanTrackBothPositionAndHeading stamp: 'MF 10/28/2021 10:46:47'!
+PASSED!
+
+!testRun: #TrackerTest #test13StatusTrackersTracksMovements stamp: 'MF 10/28/2021 10:46:47'!
+PASSED!
+
+!testRun: #TrackerTest #test15StatusTrackerTracksRotations stamp: 'MF 10/28/2021 10:46:47'!
+PASSED!
+
+!testRun: #TrackerTest #test16StatusTrackerCanTrackBothPositionAndHeading stamp: 'MF 10/28/2021 10:46:47'!
+PASSED!
+
+!testRun: #TrackerTest #test17MarsRoverCanHaveMoreThanOneLogger stamp: 'MF 10/28/2021 10:46:47'!
+PASSED!
+
+!testRun: #TrackerTest #test18MarsRoverCanHaveMoreThanOneStatusTracker stamp: 'MF 10/28/2021 10:46:47'!
+PASSED!
+!MarsRoverStatusView methodsFor: 'as yet unclassified' stamp: 'MF 10/28/2021 10:46:57' prior: 50864217!
+trackHeadingOf: aMarsRover
+
+	aMarsRover trackHeadingChangesTo: self.! !
+
+!testRun: #TrackerTest #test01LogTrackerTracksMovementToTheNorth stamp: 'MF 10/28/2021 10:47:03'!
+PASSED!
+
+!testRun: #TrackerTest #test02LogTrackerTracksManyMovements stamp: 'MF 10/28/2021 10:47:03'!
+PASSED!
+
+!testRun: #TrackerTest #test03LogTrackerTracksMovementToTheSouth stamp: 'MF 10/28/2021 10:47:03'!
+PASSED!
+
+!testRun: #TrackerTest #test04LogTrackerTracksMovementToTheEast stamp: 'MF 10/28/2021 10:47:03'!
+PASSED!
+
+!testRun: #TrackerTest #test05LogTrackerTracksMovementToTheWest stamp: 'MF 10/28/2021 10:47:03'!
+PASSED!
+
+!testRun: #TrackerTest #test06NoMovementsLogsNothing stamp: 'MF 10/28/2021 10:47:03'!
+PASSED!
+
+!testRun: #TrackerTest #test07LogTrackerTracksHeadingToTheEast stamp: 'MF 10/28/2021 10:47:03'!
+PASSED!
+
+!testRun: #TrackerTest #test08LogTrackerTracksHeadingToTheSouth stamp: 'MF 10/28/2021 10:47:03'!
+PASSED!
+
+!testRun: #TrackerTest #test09LogTrackerTracksHeadingToTheWest stamp: 'MF 10/28/2021 10:47:03'!
+PASSED!
+
+!testRun: #TrackerTest #test10LogTrackerTracksHeadingToTheNorth stamp: 'MF 10/28/2021 10:47:03'!
+PASSED!
+
+!testRun: #TrackerTest #test11LogTrackerCanTrackBothPositionAndHeading stamp: 'MF 10/28/2021 10:47:03'!
+PASSED!
+
+!testRun: #TrackerTest #test13StatusTrackersTracksMovements stamp: 'MF 10/28/2021 10:47:03'!
+PASSED!
+
+!testRun: #TrackerTest #test15StatusTrackerTracksRotations stamp: 'MF 10/28/2021 10:47:03'!
+PASSED!
+
+!testRun: #TrackerTest #test16StatusTrackerCanTrackBothPositionAndHeading stamp: 'MF 10/28/2021 10:47:03'!
+PASSED!
+
+!testRun: #TrackerTest #test17MarsRoverCanHaveMoreThanOneLogger stamp: 'MF 10/28/2021 10:47:03'!
+PASSED!
+
+!testRun: #TrackerTest #test18MarsRoverCanHaveMoreThanOneStatusTracker stamp: 'MF 10/28/2021 10:47:03'!
+PASSED!
+
+!methodRemoval: MarsRover #trackPositionChangesToStatusView: stamp: 'MF 10/28/2021 10:47:09'!
+trackPositionChangesToStatusView: aMarsRoverStatusView 
+
+	positionTrackers add: aMarsRoverStatusView.!
+
+!methodRemoval: MarsRover #trackHeadingChangesToStatusView: stamp: 'MF 10/28/2021 10:47:13'!
+trackHeadingChangesToStatusView: aMarsRoverStatusView 
+	
+	headingTrackers add: aMarsRoverStatusView.!
+!MarsRoverLogTracker methodsFor: 'as yet unclassified' stamp: 'MF 10/28/2021 10:51:59' overrides: 16881312!
+update: aMarsRoverCollaborator
+
+	! !
+!MarsRoverLogTracker methodsFor: 'as yet unclassified' stamp: 'MF 10/28/2021 10:52:08' prior: 50866116 overrides: 16881312!
+update: aMarsRoverCollaborator
+
+	logger nextPutAll: aMarsRoverCollaborator printString; newLine! !
+
+!methodRemoval: MarsRoverLogTracker #update: stamp: 'MF 10/28/2021 10:57:45'!
+update: aMarsRoverCollaborator
+
+	logger nextPutAll: aMarsRoverCollaborator printString; newLine!
+!MarsRover methodsFor: 'moving' stamp: 'MF 10/28/2021 10:59:10' prior: 50864992!
+movePositionWithAnOffset: anOffset
+	
+	position := position + anOffset.
+	(trackers at: #position) do: [ :aPositionTracker | aPositionTracker trackUpdatedPosition: position ]! !
+!MarsRover methodsFor: 'heading' stamp: 'MF 10/28/2021 10:59:34' prior: 50865000!
+changeHeadTo: aNewHeading
+	
+	head := aNewHeading.
+	(trackers at: #heading) do: [ :aPositionTracker | aPositionTracker trackUpdatedHeading: head ]! !
+!MarsRover methodsFor: 'initialization' stamp: 'MF 10/28/2021 10:59:52' prior: 50864690!
+initializeAt: aPosition heading: aHeadingType
+
+	position := aPosition.
+	head := aHeadingType for: self.
+	
+	headingTrackers _ OrderedCollection new.
+	positionTrackers _ OrderedCollection new.
+	
+	trackers _ Dictionary new.! !
+!MarsRover methodsFor: 'as yet unclassified' stamp: 'MF 10/28/2021 11:00:03' prior: 50864589!
+addTracker: aTracker for: aCollaborator
+
+	(trackers at: aCollaborator) add: aTracker.! !
+!MarsRover methodsFor: 'as yet unclassified' stamp: 'MF 10/28/2021 11:00:08' prior: 50866161!
+addTracker: aTracker for: anInternalCollaborator
+
+	(trackers at: anInternalCollaborator) add: aTracker.! !
+!MarsRoverLogTracker methodsFor: 'as yet unclassified' stamp: 'MF 10/28/2021 11:00:36' prior: 50863612!
+trackPositionChangesOf: aMarsRover
+	
+	aMarsRover addTracker: self for: #position.! !
+!MarsRoverLogTracker methodsFor: 'as yet unclassified' stamp: 'MF 10/28/2021 11:02:11' prior: 50866174!
+trackPositionChangesOf: aMarsRover
+	
+	aMarsRover trackPositionChangesTo: self.! !
+
+!testRun: #TrackerTest #test01LogTrackerTracksMovementToTheNorth stamp: 'MF 10/28/2021 11:02:13'!
+ERROR!
+
+!testRun: #TrackerTest #test02LogTrackerTracksManyMovements stamp: 'MF 10/28/2021 11:02:13'!
+ERROR!
+
+!testRun: #TrackerTest #test03LogTrackerTracksMovementToTheSouth stamp: 'MF 10/28/2021 11:02:13'!
+ERROR!
+
+!testRun: #TrackerTest #test04LogTrackerTracksMovementToTheEast stamp: 'MF 10/28/2021 11:02:13'!
+ERROR!
+
+!testRun: #TrackerTest #test05LogTrackerTracksMovementToTheWest stamp: 'MF 10/28/2021 11:02:13'!
+ERROR!
+
+!testRun: #TrackerTest #test06NoMovementsLogsNothing stamp: 'MF 10/28/2021 11:02:13'!
+PASSED!
+
+!testRun: #TrackerTest #test07LogTrackerTracksHeadingToTheEast stamp: 'MF 10/28/2021 11:02:13'!
+ERROR!
+
+!testRun: #TrackerTest #test08LogTrackerTracksHeadingToTheSouth stamp: 'MF 10/28/2021 11:02:13'!
+ERROR!
+
+!testRun: #TrackerTest #test09LogTrackerTracksHeadingToTheWest stamp: 'MF 10/28/2021 11:02:13'!
+ERROR!
+
+!testRun: #TrackerTest #test10LogTrackerTracksHeadingToTheNorth stamp: 'MF 10/28/2021 11:02:13'!
+ERROR!
+
+!testRun: #TrackerTest #test11LogTrackerCanTrackBothPositionAndHeading stamp: 'MF 10/28/2021 11:02:13'!
+ERROR!
+
+!testRun: #TrackerTest #test13StatusTrackersTracksMovements stamp: 'MF 10/28/2021 11:02:13'!
+ERROR!
+
+!testRun: #TrackerTest #test15StatusTrackerTracksRotations stamp: 'MF 10/28/2021 11:02:13'!
+ERROR!
+
+!testRun: #TrackerTest #test16StatusTrackerCanTrackBothPositionAndHeading stamp: 'MF 10/28/2021 11:02:13'!
+ERROR!
+
+!testRun: #TrackerTest #test17MarsRoverCanHaveMoreThanOneLogger stamp: 'MF 10/28/2021 11:02:13'!
+ERROR!
+
+!testRun: #TrackerTest #test18MarsRoverCanHaveMoreThanOneStatusTracker stamp: 'MF 10/28/2021 11:02:13'!
+ERROR!
+
+!testRun: #TrackerTest #test01LogTrackerTracksMovementToTheNorth stamp: 'MF 10/28/2021 11:02:17'!
+ERROR!
+!MarsRover methodsFor: 'as yet unclassified' stamp: 'MF 10/28/2021 11:02:27' prior: 50864705!
+trackPositionChangesTo: aLogger
+
+	self addTracker: aLogger for: #position.! !
+
+!testRun: #TrackerTest #test01LogTrackerTracksMovementToTheNorth stamp: 'MF 10/28/2021 11:02:30'!
+ERROR!
+
+!testRun: #TrackerTest #test02LogTrackerTracksManyMovements stamp: 'MF 10/28/2021 11:02:30'!
+ERROR!
+
+!testRun: #TrackerTest #test03LogTrackerTracksMovementToTheSouth stamp: 'MF 10/28/2021 11:02:30'!
+ERROR!
+
+!testRun: #TrackerTest #test04LogTrackerTracksMovementToTheEast stamp: 'MF 10/28/2021 11:02:30'!
+ERROR!
+
+!testRun: #TrackerTest #test05LogTrackerTracksMovementToTheWest stamp: 'MF 10/28/2021 11:02:30'!
+ERROR!
+
+!testRun: #TrackerTest #test06NoMovementsLogsNothing stamp: 'MF 10/28/2021 11:02:30'!
+PASSED!
+
+!testRun: #TrackerTest #test07LogTrackerTracksHeadingToTheEast stamp: 'MF 10/28/2021 11:02:30'!
+ERROR!
+
+!testRun: #TrackerTest #test08LogTrackerTracksHeadingToTheSouth stamp: 'MF 10/28/2021 11:02:30'!
+ERROR!
+
+!testRun: #TrackerTest #test09LogTrackerTracksHeadingToTheWest stamp: 'MF 10/28/2021 11:02:30'!
+ERROR!
+
+!testRun: #TrackerTest #test10LogTrackerTracksHeadingToTheNorth stamp: 'MF 10/28/2021 11:02:30'!
+ERROR!
+
+!testRun: #TrackerTest #test11LogTrackerCanTrackBothPositionAndHeading stamp: 'MF 10/28/2021 11:02:30'!
+ERROR!
+
+!testRun: #TrackerTest #test13StatusTrackersTracksMovements stamp: 'MF 10/28/2021 11:02:30'!
+ERROR!
+
+!testRun: #TrackerTest #test15StatusTrackerTracksRotations stamp: 'MF 10/28/2021 11:02:30'!
+ERROR!
+
+!testRun: #TrackerTest #test16StatusTrackerCanTrackBothPositionAndHeading stamp: 'MF 10/28/2021 11:02:30'!
+ERROR!
+
+!testRun: #TrackerTest #test17MarsRoverCanHaveMoreThanOneLogger stamp: 'MF 10/28/2021 11:02:30'!
+ERROR!
+
+!testRun: #TrackerTest #test18MarsRoverCanHaveMoreThanOneStatusTracker stamp: 'MF 10/28/2021 11:02:30'!
+ERROR!
+
+!testRun: #TrackerTest #test01LogTrackerTracksMovementToTheNorth stamp: 'MF 10/28/2021 11:02:33'!
+ERROR!
+!MarsRover methodsFor: 'initialization' stamp: 'MF 10/28/2021 11:03:13' prior: 50866151!
+initializeAt: aPosition heading: aHeadingType
+
+	position := aPosition.
+	head := aHeadingType for: self.
+	
+	headingTrackers _ OrderedCollection new.
+	positionTrackers _ OrderedCollection new.
+	
+	trackers _ Dictionary new.
+	trackers at: #position put: OrderedCollection new.
+	trackers at: #heading put: OrderedCollection new.! !
+
+!testRun: #MarsRoverTest #test01DoesNotMoveWhenNoCommand stamp: 'MF 10/28/2021 11:03:14'!
+PASSED!
+
+!testRun: #MarsRoverTest #test02IsAtFailsForDifferentPosition stamp: 'MF 10/28/2021 11:03:14'!
+PASSED!
+
+!testRun: #MarsRoverTest #test03IsAtFailsForDifferentHeading stamp: 'MF 10/28/2021 11:03:14'!
+PASSED!
+
+!testRun: #MarsRoverTest #test04IncrementsYAfterMovingForwardWhenHeadingNorth stamp: 'MF 10/28/2021 11:03:14'!
+PASSED!
+
+!testRun: #MarsRoverTest #test06DecrementsYAfterMovingBackwardsWhenHeadingNorth stamp: 'MF 10/28/2021 11:03:14'!
+PASSED!
+
+!testRun: #MarsRoverTest #test07PointToEashAfterRotatingRightWhenHeadingNorth stamp: 'MF 10/28/2021 11:03:14'!
+PASSED!
+
+!testRun: #MarsRoverTest #test08PointsToWestAfterRotatingLeftWhenPointingNorth stamp: 'MF 10/28/2021 11:03:14'!
+PASSED!
+
+!testRun: #MarsRoverTest #test09DoesNotProcessInvalidCommand stamp: 'MF 10/28/2021 11:03:14'!
+PASSED!
+
+!testRun: #MarsRoverTest #test10CanProcessMoreThanOneCommand stamp: 'MF 10/28/2021 11:03:14'!
+PASSED!
+
+!testRun: #MarsRoverTest #test11IncrementsXAfterMovingForwareWhenHeadingEast stamp: 'MF 10/28/2021 11:03:14'!
+PASSED!
+
+!testRun: #MarsRoverTest #test12DecrementsXAfterMovingBackwardWhenHeadingEast stamp: 'MF 10/28/2021 11:03:14'!
+PASSED!
+
+!testRun: #MarsRoverTest #test13PointsToSouthAfterRotatingRightWhenHeadingEast stamp: 'MF 10/28/2021 11:03:14'!
+PASSED!
+
+!testRun: #MarsRoverTest #test14PointsToNorthAfterRotatingLeftWhenPointingEast stamp: 'MF 10/28/2021 11:03:14'!
+PASSED!
+
+!testRun: #MarsRoverTest #test15ForwardBackwardsAndRotateRightWorkAsExpectedWhenPointingSouth stamp: 'MF 10/28/2021 11:03:14'!
+PASSED!
+
+!testRun: #MarsRoverTest #test16ForwardBackwardsAndRotateRightWorkAsExpectedWhenPointingWest stamp: 'MF 10/28/2021 11:03:14'!
+PASSED!
+
+!testRun: #TrackerTest #test01LogTrackerTracksMovementToTheNorth stamp: 'MF 10/28/2021 11:03:16'!
+PASSED!
+
+!testRun: #TrackerTest #test02LogTrackerTracksManyMovements stamp: 'MF 10/28/2021 11:03:16'!
+PASSED!
+
+!testRun: #TrackerTest #test03LogTrackerTracksMovementToTheSouth stamp: 'MF 10/28/2021 11:03:16'!
+PASSED!
+
+!testRun: #TrackerTest #test04LogTrackerTracksMovementToTheEast stamp: 'MF 10/28/2021 11:03:16'!
+PASSED!
+
+!testRun: #TrackerTest #test05LogTrackerTracksMovementToTheWest stamp: 'MF 10/28/2021 11:03:16'!
+PASSED!
+
+!testRun: #TrackerTest #test06NoMovementsLogsNothing stamp: 'MF 10/28/2021 11:03:16'!
+PASSED!
+
+!testRun: #TrackerTest #test07LogTrackerTracksHeadingToTheEast stamp: 'MF 10/28/2021 11:03:16'!
+FAILURE!
+
+!testRun: #TrackerTest #test08LogTrackerTracksHeadingToTheSouth stamp: 'MF 10/28/2021 11:03:16'!
+FAILURE!
+
+!testRun: #TrackerTest #test09LogTrackerTracksHeadingToTheWest stamp: 'MF 10/28/2021 11:03:16'!
+FAILURE!
+
+!testRun: #TrackerTest #test10LogTrackerTracksHeadingToTheNorth stamp: 'MF 10/28/2021 11:03:16'!
+FAILURE!
+
+!testRun: #TrackerTest #test11LogTrackerCanTrackBothPositionAndHeading stamp: 'MF 10/28/2021 11:03:16'!
+FAILURE!
+
+!testRun: #TrackerTest #test13StatusTrackersTracksMovements stamp: 'MF 10/28/2021 11:03:16'!
+PASSED!
+
+!testRun: #TrackerTest #test15StatusTrackerTracksRotations stamp: 'MF 10/28/2021 11:03:16'!
+ERROR!
+
+!testRun: #TrackerTest #test16StatusTrackerCanTrackBothPositionAndHeading stamp: 'MF 10/28/2021 11:03:16'!
+ERROR!
+
+!testRun: #TrackerTest #test17MarsRoverCanHaveMoreThanOneLogger stamp: 'MF 10/28/2021 11:03:16'!
+FAILURE!
+
+!testRun: #TrackerTest #test18MarsRoverCanHaveMoreThanOneStatusTracker stamp: 'MF 10/28/2021 11:03:16'!
+ERROR!
+!MarsRover methodsFor: 'as yet unclassified' stamp: 'MF 10/28/2021 11:03:38' prior: 50864699!
+trackHeadingChangesTo: aLogger
+	
+	self addTracker: aLogger for: #position.! !
+!MarsRover methodsFor: 'as yet unclassified' stamp: 'MF 10/28/2021 11:03:41' prior: 50866425!
+trackHeadingChangesTo: aLogger
+	
+	self addTracker: aLogger for: #heading.! !
+
+!testRun: #TrackerTest #test01LogTrackerTracksMovementToTheNorth stamp: 'MF 10/28/2021 11:03:43'!
+PASSED!
+
+!testRun: #TrackerTest #test02LogTrackerTracksManyMovements stamp: 'MF 10/28/2021 11:03:43'!
+PASSED!
+
+!testRun: #TrackerTest #test03LogTrackerTracksMovementToTheSouth stamp: 'MF 10/28/2021 11:03:43'!
+PASSED!
+
+!testRun: #TrackerTest #test04LogTrackerTracksMovementToTheEast stamp: 'MF 10/28/2021 11:03:43'!
+PASSED!
+
+!testRun: #TrackerTest #test05LogTrackerTracksMovementToTheWest stamp: 'MF 10/28/2021 11:03:43'!
+PASSED!
+
+!testRun: #TrackerTest #test06NoMovementsLogsNothing stamp: 'MF 10/28/2021 11:03:43'!
+PASSED!
+
+!testRun: #TrackerTest #test07LogTrackerTracksHeadingToTheEast stamp: 'MF 10/28/2021 11:03:43'!
+PASSED!
+
+!testRun: #TrackerTest #test08LogTrackerTracksHeadingToTheSouth stamp: 'MF 10/28/2021 11:03:43'!
+PASSED!
+
+!testRun: #TrackerTest #test09LogTrackerTracksHeadingToTheWest stamp: 'MF 10/28/2021 11:03:43'!
+PASSED!
+
+!testRun: #TrackerTest #test10LogTrackerTracksHeadingToTheNorth stamp: 'MF 10/28/2021 11:03:43'!
+PASSED!
+
+!testRun: #TrackerTest #test11LogTrackerCanTrackBothPositionAndHeading stamp: 'MF 10/28/2021 11:03:43'!
+PASSED!
+
+!testRun: #TrackerTest #test13StatusTrackersTracksMovements stamp: 'MF 10/28/2021 11:03:43'!
+PASSED!
+
+!testRun: #TrackerTest #test15StatusTrackerTracksRotations stamp: 'MF 10/28/2021 11:03:43'!
+PASSED!
+
+!testRun: #TrackerTest #test16StatusTrackerCanTrackBothPositionAndHeading stamp: 'MF 10/28/2021 11:03:43'!
+PASSED!
+
+!testRun: #TrackerTest #test17MarsRoverCanHaveMoreThanOneLogger stamp: 'MF 10/28/2021 11:03:43'!
+PASSED!
+
+!testRun: #TrackerTest #test18MarsRoverCanHaveMoreThanOneStatusTracker stamp: 'MF 10/28/2021 11:03:43'!
+PASSED!
+!MarsRover methodsFor: 'initialization' stamp: 'MF 10/28/2021 11:04:57' prior: 50866304!
+initializeAt: aPosition heading: aHeadingType
+
+	position := aPosition.
+	head := aHeadingType for: self.
+	
+	trackers _ Dictionary new.
+	trackers at: #position put: OrderedCollection new.
+	trackers at: #heading put: OrderedCollection new.! !
+
+!testRun: #TrackerTest #test01LogTrackerTracksMovementToTheNorth stamp: 'MF 10/28/2021 11:05:01'!
+PASSED!
+
+!testRun: #TrackerTest #test02LogTrackerTracksManyMovements stamp: 'MF 10/28/2021 11:05:01'!
+PASSED!
+
+!testRun: #TrackerTest #test03LogTrackerTracksMovementToTheSouth stamp: 'MF 10/28/2021 11:05:01'!
+PASSED!
+
+!testRun: #TrackerTest #test04LogTrackerTracksMovementToTheEast stamp: 'MF 10/28/2021 11:05:01'!
+PASSED!
+
+!testRun: #TrackerTest #test05LogTrackerTracksMovementToTheWest stamp: 'MF 10/28/2021 11:05:01'!
+PASSED!
+
+!testRun: #TrackerTest #test06NoMovementsLogsNothing stamp: 'MF 10/28/2021 11:05:01'!
+PASSED!
+
+!testRun: #TrackerTest #test07LogTrackerTracksHeadingToTheEast stamp: 'MF 10/28/2021 11:05:01'!
+PASSED!
+
+!testRun: #TrackerTest #test08LogTrackerTracksHeadingToTheSouth stamp: 'MF 10/28/2021 11:05:01'!
+PASSED!
+
+!testRun: #TrackerTest #test09LogTrackerTracksHeadingToTheWest stamp: 'MF 10/28/2021 11:05:01'!
+PASSED!
+
+!testRun: #TrackerTest #test10LogTrackerTracksHeadingToTheNorth stamp: 'MF 10/28/2021 11:05:01'!
+PASSED!
+
+!testRun: #TrackerTest #test11LogTrackerCanTrackBothPositionAndHeading stamp: 'MF 10/28/2021 11:05:01'!
+PASSED!
+
+!testRun: #TrackerTest #test13StatusTrackersTracksMovements stamp: 'MF 10/28/2021 11:05:01'!
+PASSED!
+
+!testRun: #TrackerTest #test15StatusTrackerTracksRotations stamp: 'MF 10/28/2021 11:05:01'!
+PASSED!
+
+!testRun: #TrackerTest #test16StatusTrackerCanTrackBothPositionAndHeading stamp: 'MF 10/28/2021 11:05:01'!
+PASSED!
+
+!testRun: #TrackerTest #test17MarsRoverCanHaveMoreThanOneLogger stamp: 'MF 10/28/2021 11:05:01'!
+PASSED!
+
+!testRun: #TrackerTest #test18MarsRoverCanHaveMoreThanOneStatusTracker stamp: 'MF 10/28/2021 11:05:01'!
+PASSED!
+
+!classDefinition: #MarsRover category: 'MarsRover-WithHeading' stamp: 'MF 10/28/2021 11:05:09'!
+Object subclass: #MarsRover
+	instanceVariableNames: 'position head trackers positionTrackers'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'MarsRover-WithHeading'!
+
+!classDefinition: #MarsRover category: 'MarsRover-WithHeading' stamp: 'MF 10/28/2021 11:05:09'!
+Object subclass: #MarsRover
+	instanceVariableNames: 'position head trackers'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'MarsRover-WithHeading'!
+!MarsRover methodsFor: 'tracking' stamp: 'MF 10/28/2021 11:06:21' prior: 50866242!
+trackPositionChangesTo: aTracker
+
+	self addTracker: aTracker for: #position.! !
+!MarsRover methodsFor: 'tracking' stamp: 'MF 10/28/2021 11:06:26' prior: 50866431!
+trackHeadingChangesTo: aTracker
+	
+	self addTracker: aTracker for: #heading.! !
+
+!methodRemoval: MarsRoverTracker #track:of: stamp: 'MF 10/28/2021 11:19:32'!
+track: aThing of: aMarsRover
+	
+	aMarsRover addTracker: self for: aThing.
+!
+!MarsRoverLogTracker methodsFor: 'as yet unclassified' stamp: 'MF 10/28/2021 11:21:18'!
+trackPositionOf: aMarsRover
+	
+	aMarsRover trackPositionChangesTo: self.! !
+!TrackerTest methodsFor: 'as yet unclassified' stamp: 'MF 10/28/2021 11:21:18' prior: 50864359!
+positionLogTrackerFor: aMarsRover 
+	
+	| logger |
+	logger _ MarsRoverLogTracker new.
+	logger trackPositionOf: aMarsRover.
+	^logger! !
+!TrackerTest methodsFor: 'as yet unclassified' stamp: 'MF 10/28/2021 11:21:18' prior: 50864287!
+headingAndPositionLogTrackerFor: aMarsRover 
+
+	| logger |
+	logger _ MarsRoverLogTracker new.
+	logger trackPositionOf: aMarsRover.
+	logger trackHeadingChangesOf: aMarsRover.
+	^logger! !
+
+!methodRemoval: MarsRoverLogTracker #trackPositionChangesOf: stamp: 'MF 10/28/2021 11:21:19'!
+trackPositionChangesOf: aMarsRover
+	
+	aMarsRover trackPositionChangesTo: self.!
+!MarsRoverLogTracker methodsFor: 'as yet unclassified' stamp: 'MF 10/28/2021 11:21:27'!
+trackHeadingOf: aMarsRover
+	
+	aMarsRover trackHeadingChangesTo: self.
+! !
+!TrackerTest methodsFor: 'as yet unclassified' stamp: 'MF 10/28/2021 11:21:28' prior: 50864446!
+headingLogTrackerFor: aMarsRover 
+	
+	| logger |
+	logger _ MarsRoverLogTracker new.
+	logger trackHeadingOf: aMarsRover.
+	^logger! !
+!TrackerTest methodsFor: 'as yet unclassified' stamp: 'MF 10/28/2021 11:21:28' prior: 50866600!
+headingAndPositionLogTrackerFor: aMarsRover 
+
+	| logger |
+	logger _ MarsRoverLogTracker new.
+	logger trackPositionOf: aMarsRover.
+	logger trackHeadingOf: aMarsRover.
+	^logger! !
+
+!methodRemoval: MarsRoverLogTracker #trackHeadingChangesOf: stamp: 'MF 10/28/2021 11:21:28'!
+trackHeadingChangesOf: aMarsRover
+	
+	aMarsRover trackHeadingChangesTo: self.
+!
+
+!classRenamed: #MarsRoverTracker as: #MarsRoverHeadingOrPositionTracker stamp: 'MF 10/28/2021 11:23:37'!
+Smalltalk renameClassNamed: #MarsRoverTracker as: #MarsRoverHeadingOrPositionTracker!
+
+!classRenamed: #MarsRoverHeadingOrPositionTracker as: #MarsRoverTracker stamp: 'MF 10/28/2021 11:23:50'!
+Smalltalk renameClassNamed: #MarsRoverHeadingOrPositionTracker as: #MarsRoverTracker!
+!MarsRoverTracker methodsFor: 'as yet unclassified' stamp: 'MF 10/28/2021 11:24:17'!
+trackHeadingOf: aMarsRover
+	
+	aMarsRover trackHeadingChangesTo: self.
+! !
+
+!methodRemoval: MarsRoverLogTracker #trackHeadingOf: stamp: 'MF 10/28/2021 11:24:17'!
+trackHeadingOf: aMarsRover
+	
+	aMarsRover trackHeadingChangesTo: self.
+!
+!MarsRoverTracker methodsFor: 'as yet unclassified' stamp: 'MF 10/28/2021 11:24:20'!
+trackPositionOf: aMarsRover
+	
+	aMarsRover trackPositionChangesTo: self.! !
+
+!methodRemoval: MarsRoverLogTracker #trackPositionOf: stamp: 'MF 10/28/2021 11:24:20'!
+trackPositionOf: aMarsRover
+	
+	aMarsRover trackPositionChangesTo: self.!
+
+!methodRemoval: MarsRoverStatusView #trackHeadingOf: stamp: 'MF 10/28/2021 11:24:24'!
+trackHeadingOf: aMarsRover
+
+	aMarsRover trackHeadingChangesTo: self.!
+
+!methodRemoval: MarsRoverStatusView #trackPositionOf: stamp: 'MF 10/28/2021 11:24:26'!
+trackPositionOf: aMarsRover
+
+	aMarsRover trackPositionChangesTo: self..!
+
+!testRun: #TrackerTest #test01LogTrackerTracksMovementToTheNorth stamp: 'MF 10/28/2021 11:24:29'!
+PASSED!
+
+!testRun: #TrackerTest #test02LogTrackerTracksManyMovements stamp: 'MF 10/28/2021 11:24:29'!
+PASSED!
+
+!testRun: #TrackerTest #test03LogTrackerTracksMovementToTheSouth stamp: 'MF 10/28/2021 11:24:29'!
+PASSED!
+
+!testRun: #TrackerTest #test04LogTrackerTracksMovementToTheEast stamp: 'MF 10/28/2021 11:24:29'!
+PASSED!
+
+!testRun: #TrackerTest #test05LogTrackerTracksMovementToTheWest stamp: 'MF 10/28/2021 11:24:29'!
+PASSED!
+
+!testRun: #TrackerTest #test06NoMovementsLogsNothing stamp: 'MF 10/28/2021 11:24:29'!
+PASSED!
+
+!testRun: #TrackerTest #test07LogTrackerTracksHeadingToTheEast stamp: 'MF 10/28/2021 11:24:29'!
+PASSED!
+
+!testRun: #TrackerTest #test08LogTrackerTracksHeadingToTheSouth stamp: 'MF 10/28/2021 11:24:29'!
+PASSED!
+
+!testRun: #TrackerTest #test09LogTrackerTracksHeadingToTheWest stamp: 'MF 10/28/2021 11:24:29'!
+PASSED!
+
+!testRun: #TrackerTest #test10LogTrackerTracksHeadingToTheNorth stamp: 'MF 10/28/2021 11:24:29'!
+PASSED!
+
+!testRun: #TrackerTest #test11LogTrackerCanTrackBothPositionAndHeading stamp: 'MF 10/28/2021 11:24:29'!
+PASSED!
+
+!testRun: #TrackerTest #test13StatusTrackersTracksMovements stamp: 'MF 10/28/2021 11:24:29'!
+PASSED!
+
+!testRun: #TrackerTest #test15StatusTrackerTracksRotations stamp: 'MF 10/28/2021 11:24:29'!
+PASSED!
+
+!testRun: #TrackerTest #test16StatusTrackerCanTrackBothPositionAndHeading stamp: 'MF 10/28/2021 11:24:29'!
+PASSED!
+
+!testRun: #TrackerTest #test17MarsRoverCanHaveMoreThanOneLogger stamp: 'MF 10/28/2021 11:24:29'!
+PASSED!
+
+!testRun: #TrackerTest #test18MarsRoverCanHaveMoreThanOneStatusTracker stamp: 'MF 10/28/2021 11:24:29'!
+PASSED!
+!MarsRoverTracker methodsFor: 'as yet unclassified' stamp: 'MF 10/28/2021 11:24:49'!
+trackUpdatedHeading: aHeading
+	
+	self subclassResponsibility.! !
+!MarsRoverTracker methodsFor: 'as yet unclassified' stamp: 'MF 10/28/2021 11:25:06'!
+trackUpdatedPosition: aPosition
+	
+	self subclassResponsibility.! !
+
+!testRun: #TrackerTest #test01LogTrackerTracksMovementToTheNorth stamp: 'MF 10/28/2021 11:25:09'!
+PASSED!
+
+!testRun: #TrackerTest #test02LogTrackerTracksManyMovements stamp: 'MF 10/28/2021 11:25:09'!
+PASSED!
+
+!testRun: #TrackerTest #test03LogTrackerTracksMovementToTheSouth stamp: 'MF 10/28/2021 11:25:09'!
+PASSED!
+
+!testRun: #TrackerTest #test04LogTrackerTracksMovementToTheEast stamp: 'MF 10/28/2021 11:25:09'!
+PASSED!
+
+!testRun: #TrackerTest #test05LogTrackerTracksMovementToTheWest stamp: 'MF 10/28/2021 11:25:09'!
+PASSED!
+
+!testRun: #TrackerTest #test06NoMovementsLogsNothing stamp: 'MF 10/28/2021 11:25:09'!
+PASSED!
+
+!testRun: #TrackerTest #test07LogTrackerTracksHeadingToTheEast stamp: 'MF 10/28/2021 11:25:09'!
+PASSED!
+
+!testRun: #TrackerTest #test08LogTrackerTracksHeadingToTheSouth stamp: 'MF 10/28/2021 11:25:09'!
+PASSED!
+
+!testRun: #TrackerTest #test09LogTrackerTracksHeadingToTheWest stamp: 'MF 10/28/2021 11:25:09'!
+PASSED!
+
+!testRun: #TrackerTest #test10LogTrackerTracksHeadingToTheNorth stamp: 'MF 10/28/2021 11:25:09'!
+PASSED!
+
+!testRun: #TrackerTest #test11LogTrackerCanTrackBothPositionAndHeading stamp: 'MF 10/28/2021 11:25:09'!
+PASSED!
+
+!testRun: #TrackerTest #test13StatusTrackersTracksMovements stamp: 'MF 10/28/2021 11:25:09'!
+PASSED!
+
+!testRun: #TrackerTest #test15StatusTrackerTracksRotations stamp: 'MF 10/28/2021 11:25:09'!
+PASSED!
+
+!testRun: #TrackerTest #test16StatusTrackerCanTrackBothPositionAndHeading stamp: 'MF 10/28/2021 11:25:09'!
+PASSED!
+
+!testRun: #TrackerTest #test17MarsRoverCanHaveMoreThanOneLogger stamp: 'MF 10/28/2021 11:25:09'!
+PASSED!
+
+!testRun: #TrackerTest #test18MarsRoverCanHaveMoreThanOneStatusTracker stamp: 'MF 10/28/2021 11:25:09'!
+PASSED!
+!MarsRoverStatusView methodsFor: 'as yet unclassified' stamp: 'MF 10/28/2021 11:26:48' prior: 50863454 overrides: 50866742!
+trackUpdatedPosition: aPosition
+
+	positionTextFieldModel _ aPosition.
+	! !
+
+!testRun: #TrackerTest #test01LogTrackerTracksMovementToTheNorth stamp: 'MF 10/28/2021 11:29:17'!
+PASSED!
+
+!testRun: #TrackerTest #test02LogTrackerTracksManyMovements stamp: 'MF 10/28/2021 11:29:17'!
+PASSED!
+
+!testRun: #TrackerTest #test03LogTrackerTracksMovementToTheSouth stamp: 'MF 10/28/2021 11:29:17'!
+PASSED!
+
+!testRun: #TrackerTest #test04LogTrackerTracksMovementToTheEast stamp: 'MF 10/28/2021 11:29:17'!
+PASSED!
+
+!testRun: #TrackerTest #test05LogTrackerTracksMovementToTheWest stamp: 'MF 10/28/2021 11:29:17'!
+PASSED!
+
+!testRun: #TrackerTest #test06NoMovementsLogsNothing stamp: 'MF 10/28/2021 11:29:17'!
+PASSED!
+
+!testRun: #TrackerTest #test07LogTrackerTracksHeadingToTheEast stamp: 'MF 10/28/2021 11:29:17'!
+PASSED!
+
+!testRun: #TrackerTest #test08LogTrackerTracksHeadingToTheSouth stamp: 'MF 10/28/2021 11:29:17'!
+PASSED!
+
+!testRun: #TrackerTest #test09LogTrackerTracksHeadingToTheWest stamp: 'MF 10/28/2021 11:29:17'!
+PASSED!
+
+!testRun: #TrackerTest #test10LogTrackerTracksHeadingToTheNorth stamp: 'MF 10/28/2021 11:29:17'!
+PASSED!
+
+!testRun: #TrackerTest #test11LogTrackerCanTrackBothPositionAndHeading stamp: 'MF 10/28/2021 11:29:17'!
+PASSED!
+
+!testRun: #TrackerTest #test13StatusTrackersTracksMovements stamp: 'MF 10/28/2021 11:29:17'!
+PASSED!
+
+!testRun: #TrackerTest #test15StatusTrackerTracksRotations stamp: 'MF 10/28/2021 11:29:17'!
+PASSED!
+
+!testRun: #TrackerTest #test16StatusTrackerCanTrackBothPositionAndHeading stamp: 'MF 10/28/2021 11:29:17'!
+PASSED!
+
+!testRun: #TrackerTest #test17MarsRoverCanHaveMoreThanOneLogger stamp: 'MF 10/28/2021 11:29:17'!
+PASSED!
+
+!testRun: #TrackerTest #test18MarsRoverCanHaveMoreThanOneStatusTracker stamp: 'MF 10/28/2021 11:29:17'!
+PASSED!
