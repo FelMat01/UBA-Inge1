@@ -1,0 +1,2152 @@
+
+
+----QUIT----(13 October 2021 15:20:10) CuisUniversity-4913.image priorSource: 14638157!
+
+----STARTUP---- (13 October 2021 15:20:10) as /Users/hernan/Documents/Cuis/5.0-64Bits/Cuis-University-Installer/CuisUniversity-4913.image!
+
+
+----QUIT----(13 October 2021 15:20:10) CuisUniversity-4913.image priorSource: 18661767!
+
+----STARTUP---- (13 October 2021 15:21:02) as /Users/hernan/Documents/Cuis/5.0-64Bits/Cuis-University-Installer/CuisUniversity-4913.image!
+
+
+----QUIT----(13 October 2021 15:21:02) CuisUniversity-4913.image priorSource: 18661997!
+
+----QUIT----(13 October 2021 15:26:07) CuisUniversity-4913.image priorSource: 14638157!
+
+----STARTUP---- (13 October 2021 15:26:08) as /Users/hernan/Documents/Cuis/5.0-64Bits/Cuis-University-Installer/CuisUniversity-4913.image!
+
+
+----QUIT----(13 October 2021 15:26:08) CuisUniversity-4913.image priorSource: 18661767!
+
+----STARTUP---- (28 October 2021 20:55:05) as E:\Cursada Actual IS1\!!Ejercicio actual\20-TusLibros\CuisUniversity-4913.image!
+
+
+TestCase subclass: #TestX
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #TestX category: 'TusLibros' stamp: 'LNB 10/28/2021 21:00:25'!
+TestCase subclass: #TestX
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #TestX category: 'TusLibros' stamp: 'LNB 10/28/2021 21:05:36'!
+TestCase subclass: #TestX
+	instanceVariableNames: 'cart'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+TestCase subclass: #TestX
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #TestX category: 'TusLibros' stamp: 'LNB 10/28/2021 21:05:52'!
+TestCase subclass: #TestX
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #Cart category: 'TusLibros' stamp: 'LNB 10/28/2021 21:06:21'!
+Object subclass: #Cart
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!TestX methodsFor: 'nil' stamp: 'LNB 10/28/2021 21:06:14'!
+test01
+
+	| cart |
+	cart _ Cart new.
+	
+	self assert: cart isEmpty.! !
+!TestX methodsFor: 'as yet unclassified' stamp: 'LNB 10/28/2021 21:06:25' prior: 50914878!
+test01
+
+	| cart |
+	
+	cart _ Cart new.
+	
+	self assert: cart isEmpty.! !
+!TestX methodsFor: 'as yet unclassified' stamp: 'LNB 10/28/2021 21:07:37' prior: 50914883!
+test01
+
+	| cart |
+	
+	cart _ Cart new.
+	
+	self assert: cart isEmpty.! !
+!Cart methodsFor: 'nil' stamp: 'LNB 10/28/2021 21:08:06'!
+isEmpty
+
+	^true.! !
+
+!testRun: #TestX #test01 stamp: 'LNB 10/28/2021 21:08:10'!
+PASSED!
+!Cart methodsFor: 'as yet unclassified' stamp: 'LNB 10/28/2021 21:08:16' prior: 50914894!
+isEmpty
+
+	"^true."! !
+
+!testRun: #TestX #test01 stamp: 'LNB 10/28/2021 21:08:17'!
+ERROR!
+
+!testRun: #TestX #test01 stamp: 'LNB 10/28/2021 21:08:17'!
+ERROR!
+
+!methodRemoval: Cart #isEmpty stamp: 'LNB 10/28/2021 21:08:33'!
+isEmpty
+
+	"^true."!
+
+!testRun: #TestX #test01 stamp: 'LNB 10/28/2021 21:08:36'!
+ERROR!
+
+!testRun: #TestX #test01 stamp: 'LNB 10/28/2021 21:08:36'!
+ERROR!
+
+!testRun: #TestX #test01 stamp: 'LNB 10/28/2021 21:08:41'!
+ERROR!
+
+!testRun: #TestX #test01 stamp: 'LNB 10/28/2021 21:08:48'!
+ERROR!
+
+!testRun: #TestX #test01 stamp: 'LNB 10/28/2021 21:08:48'!
+ERROR!
+!Cart methodsFor: 'category-name' stamp: 'LNB 10/28/2021 21:08:57'!
+isEmpty
+	self shouldBeImplemented.! !
+!Cart methodsFor: 'category-name' stamp: 'LNB 10/28/2021 21:09:03' prior: 50914921!
+isEmpty
+	^true.! !
+
+!testRun: #TestX #test01 stamp: 'LNB 10/28/2021 21:09:05'!
+PASSED!
+!TestX methodsFor: 'as yet unclassified' stamp: 'LNB 10/28/2021 21:11:47'!
+test02
+
+	| cart book |
+	
+	cart _ Cart new.
+	
+	cart add: book.
+	
+	self deny: cart isEmpty.! !
+!TestX methodsFor: 'as yet unclassified' stamp: 'LNB 10/28/2021 21:12:33' prior: 50914931!
+test02
+
+	| cart book |
+	
+	cart _ Cart new.
+	book _ 'book'.
+	
+	cart add: book.
+	
+	self deny: cart isEmpty.! !
+!TestX methodsFor: 'as yet unclassified' stamp: 'LNB 10/28/2021 21:14:09' prior: 50914937!
+test02
+
+	| cart book |
+	
+	cart _ Cart new.
+	book _ 'bookISBN'.
+	
+	cart add: book.
+	
+	self deny: cart isEmpty.! !
+
+!testRun: #TestX #test02 stamp: 'LNB 10/28/2021 21:14:11'!
+ERROR!
+!Cart methodsFor: 'as yet unclassified' stamp: 'LNB 10/28/2021 21:14:24'!
+add: aString 
+	self shouldBeImplemented.! !
+
+!classDefinition: #Cart category: 'TusLibros' stamp: 'LNB 10/28/2021 21:14:50'!
+Object subclass: #Cart
+	instanceVariableNames: 'book'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!Cart methodsFor: 'as yet unclassified' stamp: 'LNB 10/28/2021 21:14:49' prior: 50914952!
+add: aBook 
+	book _ aBook! !
+
+!testRun: #TestX #test02 stamp: 'LNB 10/28/2021 21:14:51'!
+FAILURE!
+
+!testRun: #TestX #test02 stamp: 'LNB 10/28/2021 21:15:08'!
+FAILURE!
+!Cart methodsFor: 'category-name' stamp: 'LNB 10/28/2021 21:15:59' prior: 50914925!
+isEmpty
+	^book isNil.! !
+
+!testRun: #TestX #test01 stamp: 'LNB 10/28/2021 21:16:03'!
+PASSED!
+
+!testRun: #TestX #test02 stamp: 'LNB 10/28/2021 21:16:03'!
+PASSED!
+!TestX methodsFor: 'as yet unclassified' stamp: 'LNB 10/28/2021 21:16:56'!
+test03
+
+	| cart book |
+	
+	cart _ Cart new.
+	book _ 'bookISBN'.
+	
+	cart add: book.
+	
+	self deny: cart isEmpty.! !
+!Cart methodsFor: 'as yet unclassified' stamp: 'LNB 10/28/2021 21:17:33'!
+add: aQuantity add: aBook 
+	book _ aBook! !
+!TestX methodsFor: 'as yet unclassified' stamp: 'LNB 10/28/2021 21:17:33' prior: 50914979!
+test03
+
+	| cart book |
+	
+	cart _ Cart new.
+	book _ 'bookISBN'.
+	
+	cart add: 1 add: book.
+	
+	self deny: cart isEmpty.! !
+!TestX methodsFor: 'as yet unclassified' stamp: 'LNB 10/28/2021 21:17:33' prior: 50914944!
+test02
+
+	| cart book |
+	
+	cart _ Cart new.
+	book _ 'bookISBN'.
+	
+	cart add: 1 add: book.
+	
+	self deny: cart isEmpty.! !
+
+!methodRemoval: Cart #add: stamp: 'LNB 10/28/2021 21:17:33'!
+add: aBook 
+	book _ aBook!
+!Cart methodsFor: 'as yet unclassified' stamp: 'LNB 10/28/2021 21:17:43'!
+add: aQuantity of: aBook 
+	book _ aBook! !
+!TestX methodsFor: 'as yet unclassified' stamp: 'LNB 10/28/2021 21:17:43' prior: 50914990!
+test03
+
+	| cart book |
+	
+	cart _ Cart new.
+	book _ 'bookISBN'.
+	
+	cart add: 1 of: book.
+	
+	self deny: cart isEmpty.! !
+!TestX methodsFor: 'as yet unclassified' stamp: 'LNB 10/28/2021 21:17:43' prior: 50914997!
+test02
+
+	| cart book |
+	
+	cart _ Cart new.
+	book _ 'bookISBN'.
+	
+	cart add: 1 of: book.
+	
+	self deny: cart isEmpty.! !
+
+!methodRemoval: Cart #add:add: stamp: 'LNB 10/28/2021 21:17:43'!
+add: aQuantity add: aBook 
+	book _ aBook!
+
+!methodRemoval: TestX #test03 stamp: 'LNB 10/28/2021 21:19:42'!
+test03
+
+	| cart book |
+	
+	cart _ Cart new.
+	book _ 'bookISBN'.
+	
+	cart add: 1 of: book.
+	
+	self deny: cart isEmpty.!
+!Cart methodsFor: 'as yet unclassified' stamp: 'LNB 10/28/2021 21:20:05'!
+of: aBook 
+	book _ aBook! !
+!TestX methodsFor: 'as yet unclassified' stamp: 'LNB 10/28/2021 21:20:05' prior: 50915018!
+test02
+
+	| cart book |
+	
+	cart _ Cart new.
+	book _ 'bookISBN'.
+	
+	cart of: book.
+	
+	self deny: cart isEmpty.! !
+
+!methodRemoval: Cart #add:of: stamp: 'LNB 10/28/2021 21:20:05'!
+add: aQuantity of: aBook 
+	book _ aBook!
+!Cart methodsFor: 'as yet unclassified' stamp: 'LNB 10/28/2021 21:20:18'!
+add: aBook 
+	book _ aBook! !
+!TestX methodsFor: 'as yet unclassified' stamp: 'LNB 10/28/2021 21:20:18' prior: 50915038!
+test02
+
+	| cart book |
+	
+	cart _ Cart new.
+	book _ 'bookISBN'.
+	
+	cart add: book.
+	
+	self deny: cart isEmpty.! !
+
+!methodRemoval: Cart #of: stamp: 'LNB 10/28/2021 21:20:18'!
+of: aBook 
+	book _ aBook!
+
+!classRenamed: #TestX as: #CartTest stamp: 'LNB 10/28/2021 21:20:43'!
+Smalltalk renameClassNamed: #TestX as: #CartTest!
+
+TestCase subclass: #CatalogueTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #CatalogueTest category: 'TusLibros' stamp: 'LNB 10/28/2021 21:20:56'!
+TestCase subclass: #CatalogueTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!CartTest methodsFor: 'as yet unclassified' stamp: 'LNB 10/28/2021 21:21:37' prior: 50915052!
+test02
+
+	| cart book anotherBook |
+	
+	cart _ Cart new.
+	book _ 'book ISBN'.
+	anotherBook _ 'another book ISBN'
+	
+	cart add: book.
+	
+	self deny: cart isEmpty.! !
+!CartTest methodsFor: 'as yet unclassified' stamp: 'LNB 10/28/2021 21:22:03'!
+test03
+
+	| cart book anotherBook |
+	
+	cart _ Cart new.
+	book _ 'book ISBN'.
+	anotherBook _ 'another book ISBN'.
+	
+	cart add: book.
+	cart add: anotherBook.
+	
+	self deny: cart isEmpty.! !
+!CartTest methodsFor: 'as yet unclassified' stamp: 'LNB 10/28/2021 21:20:18' prior: 50915076!
+test02
+
+	| cart book |
+	
+	cart _ Cart new.
+	book _ 'bookISBN'.
+	
+	cart add: book.
+	
+	self deny: cart isEmpty.! !
+!CartTest methodsFor: 'as yet unclassified' stamp: 'LNB 10/28/2021 21:20:18' prior: 50915093!
+test02
+
+	| cart book |
+	
+	cart _ Cart new.
+	book _ 'bookISBN'.
+	
+	cart add: book.
+	
+	self deny: cart isEmpty.! !
+!CartTest methodsFor: 'as yet unclassified' stamp: 'LNB 10/28/2021 21:23:11' prior: 50915084!
+test03
+
+	| cart book anotherBook |
+	
+	cart _ Cart new.
+	book _ 'book ISBN'.
+	anotherBook _ 'another book ISBN'.
+	
+	cart add: book.
+	cart add: anotherBook.
+	
+	self assert: cart includes: book.
+	self assert: cart includes: anotherBook.! !
+
+!testRun: #CartTest #test03 stamp: 'LNB 10/28/2021 21:23:15'!
+ERROR!
+!Cart methodsFor: 'as yet unclassified' stamp: 'LNB 10/28/2021 21:23:21'!
+includes: aString 
+	self shouldBeImplemented.! !
+!Cart methodsFor: 'as yet unclassified' stamp: 'LNB 10/28/2021 21:23:52' prior: 50915119!
+includes: aBookISBN 
+	book include: aBookISBN.! !
+!Cart methodsFor: 'as yet unclassified' stamp: 'LNB 10/28/2021 21:23:58' prior: 50915124!
+includes: aBookISBN 
+	^book include: aBookISBN.! !
+
+!classDefinition: #Cart category: 'TusLibros' stamp: 'LNB 10/28/2021 21:24:10'!
+Object subclass: #Cart
+	instanceVariableNames: 'contents'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!Cart methodsFor: 'as yet unclassified' stamp: 'LNB 10/28/2021 21:24:11' prior: 50915048!
+add: aBook 
+	contents _ aBook! !
+!Cart methodsFor: 'as yet unclassified' stamp: 'LNB 10/28/2021 21:24:11' prior: 50914971!
+isEmpty
+	^contents isNil.! !
+!Cart methodsFor: 'as yet unclassified' stamp: 'LNB 10/28/2021 21:24:11' prior: 50915129!
+includes: aBookISBN 
+	^contents include: aBookISBN.! !
+
+!testRun: #CartTest #test03 stamp: 'LNB 10/28/2021 21:24:14'!
+ERROR!
+!Cart methodsFor: 'as yet unclassified' stamp: 'LNB 10/28/2021 21:24:26' prior: 50915148!
+includes: aBookISBN 
+	^contents includes: aBookISBN.! !
+
+!testRun: #CartTest #test01 stamp: 'LNB 10/28/2021 21:24:31'!
+PASSED!
+
+!testRun: #CartTest #test02 stamp: 'LNB 10/28/2021 21:24:31'!
+PASSED!
+
+!testRun: #CartTest #test03 stamp: 'LNB 10/28/2021 21:24:31'!
+FAILURE!
+
+!testRun: #CartTest #test03 stamp: 'LNB 10/28/2021 21:24:31'!
+FAILURE!
+!Cart methodsFor: 'as yet unclassified' stamp: 'LNB 10/28/2021 21:24:59' overrides: 16896425!
+initialize 
+	
+	contents _ OrderedCollection new.! !
+
+!testRun: #CartTest #test01 stamp: 'LNB 10/28/2021 21:25:01'!
+FAILURE!
+
+!testRun: #CartTest #test02 stamp: 'LNB 10/28/2021 21:25:01'!
+PASSED!
+
+!testRun: #CartTest #test03 stamp: 'LNB 10/28/2021 21:25:01'!
+FAILURE!
+!Cart methodsFor: 'as yet unclassified' stamp: 'LNB 10/28/2021 21:25:09' prior: 50915140!
+add: aBook 
+	contents add: aBook! !
+
+!testRun: #CartTest #test01 stamp: 'LNB 10/28/2021 21:25:10'!
+FAILURE!
+
+!testRun: #CartTest #test02 stamp: 'LNB 10/28/2021 21:25:10'!
+PASSED!
+
+!testRun: #CartTest #test03 stamp: 'LNB 10/28/2021 21:25:10'!
+PASSED!
+
+!testRun: #CartTest #test01 stamp: 'LNB 10/28/2021 21:25:10'!
+FAILURE!
+!Cart methodsFor: 'as yet unclassified' stamp: 'LNB 10/28/2021 21:25:36' prior: 50915144!
+isEmpty
+	^contents isEmpty.! !
+
+!testRun: #CartTest #test01 stamp: 'LNB 10/28/2021 21:25:38'!
+PASSED!
+
+!testRun: #CartTest #test02 stamp: 'LNB 10/28/2021 21:25:38'!
+PASSED!
+
+!testRun: #CartTest #test03 stamp: 'LNB 10/28/2021 21:25:38'!
+PASSED!
+
+!classRemoval: #CatalogueTest stamp: 'LNB 10/28/2021 21:26:31'!
+TestCase subclass: #CatalogueTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #Catalogue category: 'TusLibros' stamp: 'LNB 10/28/2021 21:31:11'!
+Object subclass: #Catalogue
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!CartTest methodsFor: 'as yet unclassified' stamp: 'LNB 10/28/2021 21:31:45'!
+test04
+
+	| book anotherBook anotherBookISBN catalogue |
+	
+	book _ 'book ISBN'.
+	anotherBook _ 'anotherBook ISBN'.
+	
+	catalogue _ Catalogue with: book with: anotherBookISBN.
+	
+	self assert: catalogue includes: book.! !
+
+----SNAPSHOT----(28 October 2021 22:23:17) CuisUniversity-4913.image priorSource: 18661997!
+
+----SNAPSHOT----(28 October 2021 22:23:28) CuisUniversity-4913.image priorSource: 18674425!
+
+----QUIT----(28 October 2021 22:23:31) CuisUniversity-4913.image priorSource: 18674518!
+
+----STARTUP---- (28 October 2021 22:23:56) as E:\Cursada Actual IS1\!!Ejercicio actual\20-TusLibros\CuisUniversity-4913.image!
+
+
+----QUIT----(28 October 2021 23:01:11) CuisUniversity-4913.image priorSource: 18674611!
+
+----STARTUP---- (31 October 2021 15:57:14) as E:\Cursada Actual IS1\!!Ejercicio actual\20-TusLibros\CuisUniversity-4913.image!
+
+!CartTest methodsFor: 'as yet unclassified' stamp: 'LNB 10/31/2021 15:59:58' prior: 50915217!
+test04
+
+	| book anotherBook anotherBookISBN catalogue cart |
+	
+	book _ 'book ISBN'.
+	anotherBook _ 'anotherBook ISBN'.
+	
+	catalogue _ Catalogue with: book with: anotherBookISBN.
+	
+	cart _ Cart new.
+	
+	self assert: catalogue includes: book.! !
+!CartTest methodsFor: 'as yet unclassified' stamp: 'LNB 10/31/2021 16:01:12' prior: 50915247!
+test04
+
+	| book anotherBook anotherBookISBN catalogue cart |
+	
+	book _ 'book ISBN'.
+	anotherBook _ 'anotherBook ISBN'.
+	
+	cart _ Cart with: OrderedCollection new.
+	
+	self assert: catalogue includes: book.! !
+!CartTest methodsFor: 'as yet unclassified' stamp: 'LNB 10/31/2021 16:01:23' prior: 50915258!
+test04
+
+	| book anotherBook anotherBookISBN catalogue cart |
+	
+	book _ 'book ISBN'.
+	anotherBook _ 'anotherBook ISBN'.
+	
+	cart _ Cart with: OrderedCollection new.
+	! !
+!CartTest methodsFor: 'as yet unclassified' stamp: 'LNB 10/31/2021 16:02:31' prior: 50915100!
+test02
+
+	| cart book |
+	
+	book _ 'bookISBN'.
+	cart _ Cart withCatalogue: (OrderedCollection with: book).
+	
+	cart add: book.
+	
+	self deny: cart isEmpty.! !
+!CartTest methodsFor: 'as yet unclassified' stamp: 'LNB 10/31/2021 16:03:27' prior: 50915107!
+test03
+
+	| cart book anotherBook |
+	
+	book _ 'book ISBN'.
+	anotherBook _ 'another book ISBN'.
+	
+	cart _ Cart withCatalogue: (OrderedCollection with: book with: anotherBook).
+	
+	cart add: book.
+	cart add: anotherBook.
+	
+	self assert: cart includes: book.
+	self assert: cart includes: anotherBook.! !
+
+!methodRemoval: CartTest #test04 stamp: 'LNB 10/31/2021 16:03:39'!
+test04
+
+	| book anotherBook anotherBookISBN catalogue cart |
+	
+	book _ 'book ISBN'.
+	anotherBook _ 'anotherBook ISBN'.
+	
+	cart _ Cart with: OrderedCollection new.
+	!
+
+!testRun: #CartTest #test01 stamp: 'LNB 10/31/2021 16:03:46'!
+PASSED!
+
+!testRun: #CartTest #test02 stamp: 'LNB 10/31/2021 16:03:47'!
+ERROR!
+
+!testRun: #CartTest #test02 stamp: 'LNB 10/31/2021 16:03:47'!
+ERROR!
+!CartTest methodsFor: 'as yet unclassified' stamp: 'LNB 10/31/2021 16:05:57'!
+catalogue
+	
+	^OrderedCollection new.! !
+!CartTest methodsFor: 'as yet unclassified' stamp: 'LNB 10/31/2021 16:06:12'!
+catalogueWith: aBook
+
+    ^OrderedCollection with: aBook! !
+!CartTest methodsFor: 'as yet unclassified' stamp: 'LNB 10/31/2021 16:06:25'!
+catalogueWith: aBook with: anotherBook
+
+    ^OrderedCollection with: aBook with: anotherBook! !
+!CartTest methodsFor: 'as yet unclassified' stamp: 'LNB 10/31/2021 16:06:46' prior: 50915277!
+test02
+
+	| cart book |
+	
+	book _ 'bookISBN'.
+	cart _ Cart withCatalogue: (self catalogueWith: book).
+	
+	cart add: book.
+	
+	self deny: cart isEmpty.! !
+!CartTest methodsFor: 'as yet unclassified' stamp: 'LNB 10/31/2021 16:07:07' prior: 50915285!
+test03
+
+	| cart book anotherBook |
+	
+	book _ 'book ISBN'.
+	anotherBook _ 'another book ISBN'.
+	
+	cart _ Cart withCatalogue: (self catalogueWith: book with: anotherBook).
+	
+	cart add: book.
+	cart add: anotherBook.
+	
+	self assert: cart includes: book.
+	self assert: cart includes: anotherBook.! !
+
+!testRun: #CartTest #test02 stamp: 'LNB 10/31/2021 16:07:11'!
+ERROR!
+
+!testRun: #CartTest #test02 stamp: 'LNB 10/31/2021 16:07:11'!
+ERROR!
+
+!testRun: #CartTest #test02 stamp: 'LNB 10/31/2021 16:07:19'!
+ERROR!
+!Cart class methodsFor: 'as yet unclassified' stamp: 'LNB 10/31/2021 16:07:49'!
+withCatalogue: anOrderedCollection 
+	self shouldBeImplemented.! !
+!Cart class methodsFor: 'as yet unclassified' stamp: 'LNB 10/31/2021 16:08:15' prior: 50915353!
+withCatalogue: anOrderedCollection 
+	^self new initializeWith: anOrderedCollection ! !
+!Cart class methodsFor: 'as yet unclassified' stamp: 'LNB 10/31/2021 16:08:19' prior: 50915359!
+withCatalogue: aCatalogue 
+	^self new initializeWith: aCatalogue ! !
+
+!testRun: #CartTest #test02 stamp: 'LNB 10/31/2021 16:08:21'!
+ERROR!
+
+!classDefinition: #Cart category: 'TusLibros' stamp: 'LNB 10/31/2021 16:08:37'!
+Object subclass: #Cart
+	instanceVariableNames: 'contents catalogue'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!Cart methodsFor: 'initialization' stamp: 'LNB 10/31/2021 16:08:37'!
+initializeWith: aCatalogue 
+	self shouldBeImplemented.
+	catalogue := aCatalogue.! !
+!Cart methodsFor: 'initialization' stamp: 'LNB 10/31/2021 16:08:42' prior: 50915379!
+initializeWith: aCatalogue 
+
+	catalogue := aCatalogue.! !
+
+!testRun: #CartTest #test02 stamp: 'LNB 10/31/2021 16:08:46'!
+PASSED!
+
+!testRun: #CartTest #test01 stamp: 'LNB 10/31/2021 16:08:46'!
+PASSED!
+
+!testRun: #CartTest #test02 stamp: 'LNB 10/31/2021 16:08:46'!
+PASSED!
+
+!testRun: #CartTest #test03 stamp: 'LNB 10/31/2021 16:08:46'!
+PASSED!
+!CartTest methodsFor: 'as yet unclassified' stamp: 'LNB 10/31/2021 16:11:30'!
+test04
+
+	| cart book anotherBook |
+	
+	book _ 'book ISBN'.
+	anotherBook _ 'another book ISBN'.
+	
+	cart _ Cart withCatalogue: self catalogue.
+	
+	
+	
+	self 
+		should: [cart add: book.] 
+		raise: Error - MessageNotUnderstood 
+		withExceptionDo: [self assert: (cart isEmpty).] 
+		description: 'Cannot add a book that is not included in the catalogue.'! !
+!CartTest methodsFor: 'as yet unclassified' stamp: 'LNB 10/31/2021 16:11:40' prior: 50915399!
+test04
+
+	| cart book |
+	
+	book _ 'book ISBN'.
+	
+	cart _ Cart withCatalogue: self catalogue.
+	
+	
+	
+	self 
+		should: [cart add: book.] 
+		raise: Error - MessageNotUnderstood 
+		withExceptionDo: [self assert: (cart isEmpty).] 
+		description: 'Cannot add a book that is not included in the catalogue.'! !
+
+!testRun: #CartTest #test04 stamp: 'LNB 10/31/2021 16:11:45'!
+FAILURE!
+
+!testRun: #CartTest #test04 stamp: 'LNB 10/31/2021 16:12:42'!
+FAILURE!
+!CartTest methodsFor: 'as yet unclassified' stamp: 'LNB 10/31/2021 16:12:56' prior: 50915413!
+test04
+
+	| cart book |
+	
+	book _ 'book ISBN'.
+	
+	cart _ Cart withCatalogue: self catalogue.
+	
+	
+	
+	self 
+		should: [cart add: book.] 
+		raise: Error - MessageNotUnderstood 
+		withExceptionDo: [self assert: (cart isEmpty).].! !
+!CartTest methodsFor: 'as yet unclassified' stamp: 'LNB 10/31/2021 16:14:28' prior: 50915430!
+test04
+
+	| cart book |
+	
+	book _ 'book ISBN'.
+	
+	cart _ Cart withCatalogue: self catalogue.
+	
+	
+	
+	self 
+		should: [cart add: book.] 
+		raise: Error - MessageNotUnderstood 
+		withExceptionDo: [ :anError |
+			self assert: anError messageText equals: Cart cannotAddItemNotIncludedInCatalogueErrorDescription.
+			self assert: (cart isEmpty).
+			].! !
+
+!testRun: #CartTest #test04 stamp: 'LNB 10/31/2021 16:14:37'!
+FAILURE!
+!Cart methodsFor: 'as yet unclassified' stamp: 'LNB 10/31/2021 16:16:10' prior: 50915181!
+add: aBook 
+
+	(catalogue includes: aBook) ifFalse: [ self error: self class cannotAddItemNotIncludedInCatalogueErrorDescription].
+	contents add: aBook.! !
+
+!testRun: #CartTest #test01 stamp: 'LNB 10/31/2021 16:16:13'!
+PASSED!
+
+!testRun: #CartTest #test02 stamp: 'LNB 10/31/2021 16:16:13'!
+PASSED!
+
+!testRun: #CartTest #test03 stamp: 'LNB 10/31/2021 16:16:13'!
+PASSED!
+
+!testRun: #CartTest #test04 stamp: 'LNB 10/31/2021 16:16:13'!
+ERROR!
+
+!testRun: #CartTest #test04 stamp: 'LNB 10/31/2021 16:16:13'!
+ERROR!
+!Cart class methodsFor: 'error description' stamp: 'LNB 10/31/2021 16:16:29'!
+cannotAddItemNotIncludedInCatalogueErrorDescription
+	self shouldBeImplemented.! !
+!Cart class methodsFor: 'error description' stamp: 'LNB 10/31/2021 16:16:41' prior: 50915476!
+cannotAddItemNotIncludedInCatalogueErrorDescription
+	^'Cannot add a Book not included in catalogue.'! !
+
+!testRun: #CartTest #test04 stamp: 'LNB 10/31/2021 16:16:42'!
+PASSED!
+
+!testRun: #CartTest #test04 stamp: 'LNB 10/31/2021 16:16:44'!
+PASSED!
+
+!testRun: #CartTest #test01 stamp: 'LNB 10/31/2021 16:16:44'!
+PASSED!
+
+!testRun: #CartTest #test02 stamp: 'LNB 10/31/2021 16:16:44'!
+PASSED!
+
+!testRun: #CartTest #test03 stamp: 'LNB 10/31/2021 16:16:44'!
+PASSED!
+
+!testRun: #CartTest #test04 stamp: 'LNB 10/31/2021 16:16:44'!
+PASSED!
+
+!testRun: #CartTest #test01 stamp: 'LNB 10/31/2021 16:16:49'!
+PASSED!
+
+!testRun: #CartTest #test02 stamp: 'LNB 10/31/2021 16:16:49'!
+PASSED!
+
+!testRun: #CartTest #test03 stamp: 'LNB 10/31/2021 16:16:49'!
+PASSED!
+
+!testRun: #CartTest #test04 stamp: 'LNB 10/31/2021 16:16:49'!
+PASSED!
+!Cart methodsFor: 'as yet unclassified' stamp: 'LNB 10/31/2021 16:23:48'!
+add: aBook times: aQuantity  
+
+	(catalogue includes: aBook) ifFalse: [ self error: self class cannotAddItemNotIncludedInCatalogueErrorDescription].
+	contents add: aBook.! !
+!CartTest methodsFor: 'as yet unclassified' stamp: 'LNB 10/31/2021 16:23:48' prior: 50915441!
+test04
+
+	| cart book |
+	
+	book _ 'book ISBN'.
+	
+	cart _ Cart withCatalogue: self catalogue.
+	
+	
+	
+	self 
+		should: [cart add: book times: 1.] 
+		raise: Error - MessageNotUnderstood 
+		withExceptionDo: [ :anError |
+			self assert: anError messageText equals: Cart cannotAddItemNotIncludedInCatalogueErrorDescription.
+			self assert: (cart isEmpty).
+			].! !
+!CartTest methodsFor: 'as yet unclassified' stamp: 'LNB 10/31/2021 16:23:48' prior: 50915334!
+test03
+
+	| cart book anotherBook |
+	
+	book _ 'book ISBN'.
+	anotherBook _ 'another book ISBN'.
+	
+	cart _ Cart withCatalogue: (self catalogueWith: book with: anotherBook).
+	
+	cart add: book times: 1.
+	cart add: anotherBook times: 1.
+	
+	self assert: cart includes: book.
+	self assert: cart includes: anotherBook.! !
+!CartTest methodsFor: 'as yet unclassified' stamp: 'LNB 10/31/2021 16:23:48' prior: 50915326!
+test02
+
+	| cart book |
+	
+	book _ 'bookISBN'.
+	cart _ Cart withCatalogue: (self catalogueWith: book).
+	
+	cart add: book times: 1.
+	
+	self deny: cart isEmpty.! !
+!Cart methodsFor: 'as yet unclassified' stamp: 'LNB 10/31/2021 16:23:48' prior: 50915457!
+add: aBook 
+
+	(catalogue includes: aBook) ifFalse: [ self error: self class cannotAddItemNotIncludedInCatalogueErrorDescription].
+	contents add: aBook times: 1.! !
+!Cart methodsFor: 'as yet unclassified' stamp: 'LNB 10/31/2021 16:23:48' prior: 50915510!
+add: aBook times: aQuantity  
+
+	(catalogue includes: aBook) ifFalse: [ self error: self class cannotAddItemNotIncludedInCatalogueErrorDescription].
+	contents add: aBook times: 1.! !
+
+!methodRemoval: Cart #add: stamp: 'LNB 10/31/2021 16:23:48'!
+add: aBook 
+
+	(catalogue includes: aBook) ifFalse: [ self error: self class cannotAddItemNotIncludedInCatalogueErrorDescription].
+	contents add: aBook times: 1.!
+
+bag _ Bag new add: 'hola' withOccurrences: 2!
+
+bag size!
+
+Bag new add: 'hola' withOccurrences: 2!
+
+bag _ (Bag new add: 'hola' withOccurrences: 2) size.!
+
+(Bag new add: OrderedCollection new withOccurrences: 2) size. !
+
+(Bag new add: OrderedCollection new withOccurrences: 2) size.!
+
+(Bag new add: OrderedCollection new withOccurrences: 2) size!
+
+(Bag new add: 'hola' withOccurrences: 2) size.!
+
+bag _ (Bag new add: 'hola' withOccurrences: 2)!
+
+bag!
+
+(Bag new add: 'hola' withOccurrences: 2) !
+
+(Bag new) !
+
+bag _ (Bag new).
+bag add: 'hola' withOccurrences: 2.
+bag size!
+
+bag _ (Bag new).
+bag add: 'hola' withOccurrences: 5.
+bag size !
+!CartTest methodsFor: 'as yet unclassified' stamp: 'LNB 10/31/2021 16:47:10'!
+test05
+
+	| cart book |
+	
+	book _ 'bookISBN'.
+	cart _ Cart withCatalogue: (self catalogueWith: book).
+	
+	cart add: book times: 2.
+	
+	self assert: (cart listContents occurrencesOf: book) equals: 2.
+	self assert: cart listContents size equals: 2.! !
+
+!testRun: #CartTest #test05 stamp: 'LNB 10/31/2021 16:47:28'!
+ERROR!
+
+!testRun: #CartTest #test05 stamp: 'LNB 10/31/2021 16:47:58'!
+ERROR!
+!Cart methodsFor: 'as yet unclassified' stamp: 'LNB 10/31/2021 16:48:32' prior: 50915169 overrides: 16896425!
+initialize 
+	
+	contents _ Bag new.! !
+
+!testRun: #CartTest #test01 stamp: 'LNB 10/31/2021 16:48:34'!
+PASSED!
+
+!testRun: #CartTest #test02 stamp: 'LNB 10/31/2021 16:48:34'!
+ERROR!
+
+!testRun: #CartTest #test03 stamp: 'LNB 10/31/2021 16:48:34'!
+ERROR!
+
+!testRun: #CartTest #test04 stamp: 'LNB 10/31/2021 16:48:34'!
+PASSED!
+
+!testRun: #CartTest #test05 stamp: 'LNB 10/31/2021 16:48:34'!
+ERROR!
+
+!testRun: #CartTest #test02 stamp: 'LNB 10/31/2021 16:48:42'!
+ERROR!
+!Cart methodsFor: 'as yet unclassified' stamp: 'LNB 10/31/2021 16:49:18' prior: 50915563!
+add: aBook times: aQuantity  
+
+	(catalogue includes: aBook) ifFalse: [ self error: self class cannotAddItemNotIncludedInCatalogueErrorDescription].
+	contents add: aBook withOccurrences: aQuantity.! !
+!Cart methodsFor: 'as yet unclassified' stamp: 'LNB 10/31/2021 16:49:43' prior: 50915632!
+add: aBook times: anAmount  
+
+	(catalogue includes: aBook) ifFalse: [ self error: self class cannotAddItemNotIncludedInCatalogueErrorDescription].
+	contents add: aBook withOccurrences: anAmount.! !
+
+!testRun: #CartTest #test01 stamp: 'LNB 10/31/2021 16:49:48'!
+PASSED!
+
+!testRun: #CartTest #test02 stamp: 'LNB 10/31/2021 16:49:48'!
+PASSED!
+
+!testRun: #CartTest #test03 stamp: 'LNB 10/31/2021 16:49:48'!
+PASSED!
+
+!testRun: #CartTest #test04 stamp: 'LNB 10/31/2021 16:49:48'!
+PASSED!
+
+!testRun: #CartTest #test05 stamp: 'LNB 10/31/2021 16:49:48'!
+ERROR!
+
+!testRun: #CartTest #test05 stamp: 'LNB 10/31/2021 16:49:48'!
+ERROR!
+!Cart methodsFor: 'category-name' stamp: 'LNB 10/31/2021 16:49:57'!
+listContents
+	self shouldBeImplemented.! !
+!Cart methodsFor: 'category-name' stamp: 'LNB 10/31/2021 16:50:17' prior: 50915664!
+listContents
+	^contents.! !
+
+!testRun: #CartTest #test05 stamp: 'LNB 10/31/2021 16:50:19'!
+PASSED!
+
+!testRun: #CartTest #test01 stamp: 'LNB 10/31/2021 16:50:23'!
+PASSED!
+
+!testRun: #CartTest #test02 stamp: 'LNB 10/31/2021 16:50:23'!
+PASSED!
+
+!testRun: #CartTest #test03 stamp: 'LNB 10/31/2021 16:50:23'!
+PASSED!
+
+!testRun: #CartTest #test04 stamp: 'LNB 10/31/2021 16:50:23'!
+PASSED!
+
+!testRun: #CartTest #test05 stamp: 'LNB 10/31/2021 16:50:23'!
+PASSED!
+!CartTest methodsFor: 'as yet unclassified' stamp: 'LNB 10/31/2021 16:53:59'!
+test06
+
+	| cart book |
+	
+	book _ 'book ISBN'.
+	
+	cart _ Cart withCatalogue: self catalogue.
+	
+	
+	
+	self 
+		should: [cart add: book times: 0.] 
+		raise: Error - MessageNotUnderstood 
+		withExceptionDo: [ :anError |
+			self assert: anError messageText equals: Cart cannotAddLessThanOneItem.
+			self assert: (cart isEmpty).
+			].! !
+
+!testRun: #CartTest #test06 stamp: 'LNB 10/31/2021 16:54:07'!
+ERROR!
+!Cart class methodsFor: 'error description' stamp: 'LNB 10/31/2021 16:54:43'!
+cannotAddLessThanOneItem
+	self shouldBeImplemented.! !
+!Cart class methodsFor: 'error description' stamp: 'LNB 10/31/2021 16:55:09' prior: 50915700!
+cannotAddLessThanOneItem
+	^'Cannot add less than one item.'! !
+!Cart class methodsFor: 'error description' stamp: 'LNB 10/31/2021 16:55:14' prior: 50915705!
+cannotAddLessThanOneItem
+	^'Cannot add less than one item.'! !
+!Cart class methodsFor: 'error description' stamp: 'LNB 10/31/2021 16:55:27'!
+cannotAddLessThanOneItemErrorDescription
+	^'Cannot add less than one item.'! !
+!CartTest methodsFor: 'as yet unclassified' stamp: 'LNB 10/31/2021 16:55:27' prior: 50915685!
+test06
+
+	| cart book |
+	
+	book _ 'book ISBN'.
+	
+	cart _ Cart withCatalogue: self catalogue.
+	
+	
+	
+	self 
+		should: [cart add: book times: 0.] 
+		raise: Error - MessageNotUnderstood 
+		withExceptionDo: [ :anError |
+			self assert: anError messageText equals: Cart cannotAddLessThanOneItemErrorDescription.
+			self assert: (cart isEmpty).
+			].! !
+
+!methodRemoval: Cart class #cannotAddLessThanOneItem stamp: 'LNB 10/31/2021 16:55:27'!
+cannotAddLessThanOneItem
+	^'Cannot add less than one item.'!
+
+!testRun: #CartTest #test06 stamp: 'LNB 10/31/2021 16:55:54'!
+FAILURE!
+
+!testRun: #CartTest #test06 stamp: 'LNB 10/31/2021 16:55:54'!
+FAILURE!
+!CartTest methodsFor: 'as yet unclassified' stamp: 'LNB 10/31/2021 16:56:57' prior: 50915721!
+test06
+
+	| cart book |
+	
+	book _ 'book ISBN'.
+	
+	cart _ Cart withCatalogue: (self catalogueWith: book).
+	
+	
+	
+	self 
+		should: [cart add: book times: 0.] 
+		raise: Error - MessageNotUnderstood 
+		withExceptionDo: [ :anError |
+			self assert: anError messageText equals: Cart cannotAddLessThanOneItemErrorDescription.
+			self assert: (cart isEmpty).
+			].! !
+
+!testRun: #CartTest #test06 stamp: 'LNB 10/31/2021 16:56:58'!
+FAILURE!
+!Cart methodsFor: 'as yet unclassified' stamp: 'LNB 10/31/2021 16:58:13' prior: 50915642!
+add: aBook times: anAmount  
+
+	(catalogue includes: aBook) ifFalse: [ self error: self class cannotAddItemNotIncludedInCatalogueErrorDescription].
+	(anAmount < 1) ifFalse: [self error: self class cannotAddLessThanOneItemErrorDescription ].
+	contents add: aBook withOccurrences: anAmount.! !
+!Cart methodsFor: 'as yet unclassified' stamp: 'LNB 10/31/2021 16:58:16' prior: 50915761!
+add: aBook times: anAmount  
+
+	(catalogue includes: aBook) ifFalse: [ self error: self class cannotAddItemNotIncludedInCatalogueErrorDescription].
+	(anAmount < 1) ifFalse: [self error: self class cannotAddLessThanOneItemErrorDescription].
+	contents add: aBook withOccurrences: anAmount.! !
+
+!testRun: #CartTest #test01 stamp: 'LNB 10/31/2021 16:58:22'!
+PASSED!
+
+!testRun: #CartTest #test02 stamp: 'LNB 10/31/2021 16:58:22'!
+ERROR!
+
+!testRun: #CartTest #test03 stamp: 'LNB 10/31/2021 16:58:22'!
+ERROR!
+
+!testRun: #CartTest #test04 stamp: 'LNB 10/31/2021 16:58:22'!
+PASSED!
+
+!testRun: #CartTest #test05 stamp: 'LNB 10/31/2021 16:58:22'!
+ERROR!
+
+!testRun: #CartTest #test06 stamp: 'LNB 10/31/2021 16:58:22'!
+FAILURE!
+!Cart methodsFor: 'as yet unclassified' stamp: 'LNB 10/31/2021 16:58:32' prior: 50915773!
+add: aBook times: anAmount  
+
+	(catalogue includes: aBook) ifFalse: [ self error: self class cannotAddItemNotIncludedInCatalogueErrorDescription].
+	(anAmount > 1) ifFalse: [self error: self class cannotAddLessThanOneItemErrorDescription].
+	contents add: aBook withOccurrences: anAmount.! !
+!Cart methodsFor: 'as yet unclassified' stamp: 'LNB 10/31/2021 16:58:35' prior: 50915799!
+add: aBook times: anAmount  
+
+	(catalogue includes: aBook) ifFalse: [ self error: self class cannotAddItemNotIncludedInCatalogueErrorDescription].
+	(anAmount >= 1) ifFalse: [self error: self class cannotAddLessThanOneItemErrorDescription].
+	contents add: aBook withOccurrences: anAmount.! !
+!Cart methodsFor: 'as yet unclassified' stamp: 'LNB 10/31/2021 16:58:40' prior: 50915811!
+add: aBook times: anAmount  
+
+	(catalogue includes: aBook) ifFalse: [ self error: self class cannotAddItemNotIncludedInCatalogueErrorDescription].
+	(anAmount > 0) ifFalse: [self error: self class cannotAddLessThanOneItemErrorDescription].
+	contents add: aBook withOccurrences: anAmount.! !
+
+!testRun: #CartTest #test01 stamp: 'LNB 10/31/2021 16:58:40'!
+PASSED!
+
+!testRun: #CartTest #test02 stamp: 'LNB 10/31/2021 16:58:41'!
+PASSED!
+
+!testRun: #CartTest #test03 stamp: 'LNB 10/31/2021 16:58:41'!
+PASSED!
+
+!testRun: #CartTest #test04 stamp: 'LNB 10/31/2021 16:58:41'!
+PASSED!
+
+!testRun: #CartTest #test05 stamp: 'LNB 10/31/2021 16:58:41'!
+PASSED!
+
+!testRun: #CartTest #test06 stamp: 'LNB 10/31/2021 16:58:41'!
+PASSED!
+
+!classRemoval: #Catalogue stamp: 'LNB 10/31/2021 16:59:28'!
+Object subclass: #Catalogue
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!testRun: #CartTest #test01 stamp: 'LNB 10/31/2021 16:59:30'!
+PASSED!
+
+!testRun: #CartTest #test02 stamp: 'LNB 10/31/2021 16:59:30'!
+PASSED!
+
+!testRun: #CartTest #test03 stamp: 'LNB 10/31/2021 16:59:30'!
+PASSED!
+
+!testRun: #CartTest #test04 stamp: 'LNB 10/31/2021 16:59:30'!
+PASSED!
+
+!testRun: #CartTest #test05 stamp: 'LNB 10/31/2021 16:59:30'!
+PASSED!
+
+!testRun: #CartTest #test06 stamp: 'LNB 10/31/2021 16:59:30'!
+PASSED!
+!CartTest methodsFor: 'as yet unclassified' stamp: 'LNB 10/31/2021 17:25:45' prior: 50915598!
+test05
+
+	| cart book |
+	
+	book _ 'bookISBN'.
+	cart _ Cart withCatalogue: (self catalogueWith: book).
+	
+	cart add: book times: 2.
+	
+	self assert: (cart occurrencesOf: book) equals: 2.
+	self assert: cart size equals: 2.! !
+!Behavior method!
+initialize
+	(contents _ [
+	(Bag
+		cover: (27 to: 29)
+		declaredAt: (27 to: 29)) new ] valueCoveringAll:
+		{31 to: 33})
+		cover: (16 to: 23)
+		declaredAt: (16 to: 23).! !
+!Behavior method!
+isEmpty
+	^ [
+	(contents
+		cover: (11 to: 18)
+		declaredAt: (11 to: 18)) isEmpty ] valueCoveringAll:
+		{20 to: 26}.! !
+
+!testRun: #CartTest #test01 stamp: 'LNB 10/31/2021 17:33:07'!
+PASSED!
+!Behavior method!
+withCatalogue: aCatalogue
+	^ [
+	([
+	(self coverAll:
+		{30 to: 33}) new ] valueCoveringAll:
+		{35 to: 37}) initializeWith:
+		(aCatalogue
+			cover: (55 to: 64)
+			declaredAt: (16 to: 25)) ] valueCoveringAll:
+		{39 to: 53}.! !
+!Behavior method!
+initializeWith: aCatalogue
+	(catalogue _ aCatalogue
+		cover: (44 to: 53)
+		declaredAt: (17 to: 26))
+		cover: (31 to: 39)
+		declaredAt: (31 to: 39).! !
+!Behavior method!
+add: aBook times: anAmount
+	[
+	([
+	(catalogue
+		cover: (33 to: 41)
+		declaredAt: (33 to: 41)) includes:
+		(aBook
+			cover: (53 to: 57)
+			declaredAt: (6 to: 10)) ] valueCoveringAll:
+		{43 to: 51}) ifFalse: [
+		[
+		(self coverAll:
+			{71 to: 74}) error:
+			([
+			([
+			(self coverAll:
+				{83 to: 86}) class ] valueCoveringAll:
+				{88 to: 92}) cannotAddItemNotIncludedInCatalogueErrorDescription ] valueCoveringAll:
+				{94 to: 144}) ] valueCoveringAll:
+			{76 to: 81} ]] valueCoveringAll:
+		{60 to: 67}.
+	[
+	([
+	(anAmount
+		cover: (150 to: 157)
+		declaredAt: (19 to: 26)) >
+		(0 coverAll:
+			{161 to: 161}) ] valueCoveringAll:
+		{159 to: 159}) ifFalse: [
+		[
+		(self coverAll:
+			{174 to: 177}) error:
+			([
+			([
+			(self coverAll:
+				{186 to: 189}) class ] valueCoveringAll:
+				{191 to: 195}) cannotAddLessThanOneItemErrorDescription ] valueCoveringAll:
+				{197 to: 236}) ] valueCoveringAll:
+			{179 to: 184} ]] valueCoveringAll:
+		{164 to: 171}.
+	[
+	(contents
+		cover: (241 to: 248)
+		declaredAt: (241 to: 248))
+		add:
+			(aBook
+				cover: (255 to: 259)
+				declaredAt: (6 to: 10))
+		withOccurrences:
+			(anAmount
+				cover: (278 to: 285)
+				declaredAt: (19 to: 26)) ] valueCoveringAll:
+		{250 to: 253. 261 to: 276}.! !
+
+!testRun: #CartTest #test02 stamp: 'LNB 10/31/2021 17:33:07'!
+PASSED!
+!Behavior method!
+includes: aBookISBN
+	^ [
+	(contents
+		cover: (24 to: 31)
+		declaredAt: (24 to: 31)) includes:
+		(aBookISBN
+			cover: (43 to: 51)
+			declaredAt: (11 to: 19)) ] valueCoveringAll:
+		{33 to: 41}.! !
+
+!testRun: #CartTest #test03 stamp: 'LNB 10/31/2021 17:33:07'!
+PASSED!
+!Behavior method!
+cannotAddItemNotIncludedInCatalogueErrorDescription
+	^ 'Cannot add a Book not included in catalogue.' coverAll:
+		{55 to: 100}.! !
+
+!testRun: #CartTest #test04 stamp: 'LNB 10/31/2021 17:33:07'!
+PASSED!
+
+!testRun: #CartTest #test05 stamp: 'LNB 10/31/2021 17:33:07'!
+ERROR!
+!Behavior method!
+cannotAddLessThanOneItemErrorDescription
+	^ 'Cannot add less than one item.' coverAll:
+		{44 to: 75}.! !
+
+!testRun: #CartTest #test06 stamp: 'LNB 10/31/2021 17:33:07'!
+PASSED!
+
+!testRun: #CartTest #test05 stamp: 'LNB 10/31/2021 17:33:07'!
+ERROR!
+
+!methodRemoval: Cart #listContents stamp: 'LNB 10/31/2021 17:33:22'!
+listContents
+	^contents.!
+!Cart methodsFor: 'as yet unclassified' stamp: 'LNB 10/31/2021 17:33:39'!
+occurrencesOf: aBook
+	^contents occurrencesOf: aBook.! !
+!Cart methodsFor: 'as yet unclassified' stamp: 'LNB 10/31/2021 17:33:50' overrides: 16880927!
+size
+	^contents size.! !
+
+!testRun: #CartTest #test01 stamp: 'LNB 10/31/2021 17:33:54'!
+PASSED!
+
+!testRun: #CartTest #test02 stamp: 'LNB 10/31/2021 17:33:54'!
+PASSED!
+
+!testRun: #CartTest #test03 stamp: 'LNB 10/31/2021 17:33:54'!
+PASSED!
+
+!testRun: #CartTest #test04 stamp: 'LNB 10/31/2021 17:33:54'!
+PASSED!
+
+!testRun: #CartTest #test05 stamp: 'LNB 10/31/2021 17:33:54'!
+PASSED!
+
+!testRun: #CartTest #test06 stamp: 'LNB 10/31/2021 17:33:54'!
+PASSED!
+!Behavior method!
+initialize
+	(contents _ [
+	(Bag
+		cover: (27 to: 29)
+		declaredAt: (27 to: 29)) new ] valueCoveringAll:
+		{31 to: 33})
+		cover: (16 to: 23)
+		declaredAt: (16 to: 23).! !
+!Behavior method!
+isEmpty
+	^ [
+	(contents
+		cover: (11 to: 18)
+		declaredAt: (11 to: 18)) isEmpty ] valueCoveringAll:
+		{20 to: 26}.! !
+
+!testRun: #CartTest #test01 stamp: 'LNB 10/31/2021 17:34:44'!
+PASSED!
+!Behavior method!
+withCatalogue: aCatalogue
+	^ [
+	([
+	(self coverAll:
+		{30 to: 33}) new ] valueCoveringAll:
+		{35 to: 37}) initializeWith:
+		(aCatalogue
+			cover: (55 to: 64)
+			declaredAt: (16 to: 25)) ] valueCoveringAll:
+		{39 to: 53}.! !
+!Behavior method!
+initializeWith: aCatalogue
+	(catalogue _ aCatalogue
+		cover: (44 to: 53)
+		declaredAt: (17 to: 26))
+		cover: (31 to: 39)
+		declaredAt: (31 to: 39).! !
+!Behavior method!
+add: aBook times: anAmount
+	[
+	([
+	(catalogue
+		cover: (33 to: 41)
+		declaredAt: (33 to: 41)) includes:
+		(aBook
+			cover: (53 to: 57)
+			declaredAt: (6 to: 10)) ] valueCoveringAll:
+		{43 to: 51}) ifFalse: [
+		[
+		(self coverAll:
+			{71 to: 74}) error:
+			([
+			([
+			(self coverAll:
+				{83 to: 86}) class ] valueCoveringAll:
+				{88 to: 92}) cannotAddItemNotIncludedInCatalogueErrorDescription ] valueCoveringAll:
+				{94 to: 144}) ] valueCoveringAll:
+			{76 to: 81} ]] valueCoveringAll:
+		{60 to: 67}.
+	[
+	([
+	(anAmount
+		cover: (150 to: 157)
+		declaredAt: (19 to: 26)) >
+		(0 coverAll:
+			{161 to: 161}) ] valueCoveringAll:
+		{159 to: 159}) ifFalse: [
+		[
+		(self coverAll:
+			{174 to: 177}) error:
+			([
+			([
+			(self coverAll:
+				{186 to: 189}) class ] valueCoveringAll:
+				{191 to: 195}) cannotAddLessThanOneItemErrorDescription ] valueCoveringAll:
+				{197 to: 236}) ] valueCoveringAll:
+			{179 to: 184} ]] valueCoveringAll:
+		{164 to: 171}.
+	[
+	(contents
+		cover: (241 to: 248)
+		declaredAt: (241 to: 248))
+		add:
+			(aBook
+				cover: (255 to: 259)
+				declaredAt: (6 to: 10))
+		withOccurrences:
+			(anAmount
+				cover: (278 to: 285)
+				declaredAt: (19 to: 26)) ] valueCoveringAll:
+		{250 to: 253. 261 to: 276}.! !
+
+!testRun: #CartTest #test02 stamp: 'LNB 10/31/2021 17:34:45'!
+PASSED!
+!Behavior method!
+includes: aBookISBN
+	^ [
+	(contents
+		cover: (24 to: 31)
+		declaredAt: (24 to: 31)) includes:
+		(aBookISBN
+			cover: (43 to: 51)
+			declaredAt: (11 to: 19)) ] valueCoveringAll:
+		{33 to: 41}.! !
+
+!testRun: #CartTest #test03 stamp: 'LNB 10/31/2021 17:34:45'!
+PASSED!
+!Behavior method!
+cannotAddItemNotIncludedInCatalogueErrorDescription
+	^ 'Cannot add a Book not included in catalogue.' coverAll:
+		{55 to: 100}.! !
+
+!testRun: #CartTest #test04 stamp: 'LNB 10/31/2021 17:34:45'!
+PASSED!
+!Behavior method!
+occurrencesOf: aBook
+	^ [
+	(contents
+		cover: (24 to: 31)
+		declaredAt: (24 to: 31)) occurrencesOf:
+		(aBook
+			cover: (48 to: 52)
+			declaredAt: (16 to: 20)) ] valueCoveringAll:
+		{33 to: 46}.! !
+!Behavior method!
+size
+	^ [
+	(contents
+		cover: (8 to: 15)
+		declaredAt: (8 to: 15)) size ] valueCoveringAll:
+		{17 to: 20}.! !
+
+!testRun: #CartTest #test05 stamp: 'LNB 10/31/2021 17:34:45'!
+PASSED!
+!Behavior method!
+cannotAddLessThanOneItemErrorDescription
+	^ 'Cannot add less than one item.' coverAll:
+		{44 to: 75}.! !
+
+!testRun: #CartTest #test06 stamp: 'LNB 10/31/2021 17:34:45'!
+PASSED!
+!CartTest methodsFor: 'as yet unclassified' stamp: 'LNB 10/31/2021 17:35:43'!
+test07
+
+	| cart book |
+	
+	book _ 'book ISBN'.
+	
+	cart _ Cart withCatalogue: (self catalogueWith: book).
+	
+	self deny: (cart includes: book).! !
+
+!testRun: #CartTest #test07 stamp: 'LNB 10/31/2021 17:35:44'!
+PASSED!
+
+!testRun: #CartTest #test01 stamp: 'LNB 10/31/2021 17:35:44'!
+PASSED!
+
+!testRun: #CartTest #test02 stamp: 'LNB 10/31/2021 17:35:44'!
+PASSED!
+
+!testRun: #CartTest #test03 stamp: 'LNB 10/31/2021 17:35:44'!
+PASSED!
+
+!testRun: #CartTest #test04 stamp: 'LNB 10/31/2021 17:35:44'!
+PASSED!
+
+!testRun: #CartTest #test05 stamp: 'LNB 10/31/2021 17:35:44'!
+PASSED!
+
+!testRun: #CartTest #test06 stamp: 'LNB 10/31/2021 17:35:44'!
+PASSED!
+
+!testRun: #CartTest #test07 stamp: 'LNB 10/31/2021 17:35:44'!
+PASSED!
+!Behavior method!
+initialize
+	(contents _ [
+	(Bag
+		cover: (27 to: 29)
+		declaredAt: (27 to: 29)) new ] valueCoveringAll:
+		{31 to: 33})
+		cover: (16 to: 23)
+		declaredAt: (16 to: 23).! !
+!Behavior method!
+isEmpty
+	^ [
+	(contents
+		cover: (11 to: 18)
+		declaredAt: (11 to: 18)) isEmpty ] valueCoveringAll:
+		{20 to: 26}.! !
+
+!testRun: #CartTest #test01 stamp: 'LNB 10/31/2021 17:35:49'!
+PASSED!
+!Behavior method!
+withCatalogue: aCatalogue
+	^ [
+	([
+	(self coverAll:
+		{30 to: 33}) new ] valueCoveringAll:
+		{35 to: 37}) initializeWith:
+		(aCatalogue
+			cover: (55 to: 64)
+			declaredAt: (16 to: 25)) ] valueCoveringAll:
+		{39 to: 53}.! !
+!Behavior method!
+initializeWith: aCatalogue
+	(catalogue _ aCatalogue
+		cover: (44 to: 53)
+		declaredAt: (17 to: 26))
+		cover: (31 to: 39)
+		declaredAt: (31 to: 39).! !
+!Behavior method!
+add: aBook times: anAmount
+	[
+	([
+	(catalogue
+		cover: (33 to: 41)
+		declaredAt: (33 to: 41)) includes:
+		(aBook
+			cover: (53 to: 57)
+			declaredAt: (6 to: 10)) ] valueCoveringAll:
+		{43 to: 51}) ifFalse: [
+		[
+		(self coverAll:
+			{71 to: 74}) error:
+			([
+			([
+			(self coverAll:
+				{83 to: 86}) class ] valueCoveringAll:
+				{88 to: 92}) cannotAddItemNotIncludedInCatalogueErrorDescription ] valueCoveringAll:
+				{94 to: 144}) ] valueCoveringAll:
+			{76 to: 81} ]] valueCoveringAll:
+		{60 to: 67}.
+	[
+	([
+	(anAmount
+		cover: (150 to: 157)
+		declaredAt: (19 to: 26)) >
+		(0 coverAll:
+			{161 to: 161}) ] valueCoveringAll:
+		{159 to: 159}) ifFalse: [
+		[
+		(self coverAll:
+			{174 to: 177}) error:
+			([
+			([
+			(self coverAll:
+				{186 to: 189}) class ] valueCoveringAll:
+				{191 to: 195}) cannotAddLessThanOneItemErrorDescription ] valueCoveringAll:
+				{197 to: 236}) ] valueCoveringAll:
+			{179 to: 184} ]] valueCoveringAll:
+		{164 to: 171}.
+	[
+	(contents
+		cover: (241 to: 248)
+		declaredAt: (241 to: 248))
+		add:
+			(aBook
+				cover: (255 to: 259)
+				declaredAt: (6 to: 10))
+		withOccurrences:
+			(anAmount
+				cover: (278 to: 285)
+				declaredAt: (19 to: 26)) ] valueCoveringAll:
+		{250 to: 253. 261 to: 276}.! !
+
+!testRun: #CartTest #test02 stamp: 'LNB 10/31/2021 17:35:49'!
+PASSED!
+!Behavior method!
+includes: aBookISBN
+	^ [
+	(contents
+		cover: (24 to: 31)
+		declaredAt: (24 to: 31)) includes:
+		(aBookISBN
+			cover: (43 to: 51)
+			declaredAt: (11 to: 19)) ] valueCoveringAll:
+		{33 to: 41}.! !
+
+!testRun: #CartTest #test03 stamp: 'LNB 10/31/2021 17:35:49'!
+PASSED!
+!Behavior method!
+cannotAddItemNotIncludedInCatalogueErrorDescription
+	^ 'Cannot add a Book not included in catalogue.' coverAll:
+		{55 to: 100}.! !
+
+!testRun: #CartTest #test04 stamp: 'LNB 10/31/2021 17:35:50'!
+PASSED!
+!Behavior method!
+occurrencesOf: aBook
+	^ [
+	(contents
+		cover: (24 to: 31)
+		declaredAt: (24 to: 31)) occurrencesOf:
+		(aBook
+			cover: (48 to: 52)
+			declaredAt: (16 to: 20)) ] valueCoveringAll:
+		{33 to: 46}.! !
+!Behavior method!
+size
+	^ [
+	(contents
+		cover: (8 to: 15)
+		declaredAt: (8 to: 15)) size ] valueCoveringAll:
+		{17 to: 20}.! !
+
+!testRun: #CartTest #test05 stamp: 'LNB 10/31/2021 17:35:50'!
+PASSED!
+!Behavior method!
+cannotAddLessThanOneItemErrorDescription
+	^ 'Cannot add less than one item.' coverAll:
+		{44 to: 75}.! !
+
+!testRun: #CartTest #test06 stamp: 'LNB 10/31/2021 17:35:50'!
+PASSED!
+
+!testRun: #CartTest #test07 stamp: 'LNB 10/31/2021 17:35:50'!
+PASSED!
+
+!testRun: #CartTest #test01 stamp: 'LNB 10/31/2021 17:36:20'!
+PASSED!
+
+!testRun: #CartTest #test02 stamp: 'LNB 10/31/2021 17:36:20'!
+PASSED!
+
+!testRun: #CartTest #test03 stamp: 'LNB 10/31/2021 17:36:20'!
+PASSED!
+
+!testRun: #CartTest #test04 stamp: 'LNB 10/31/2021 17:36:20'!
+PASSED!
+
+!testRun: #CartTest #test05 stamp: 'LNB 10/31/2021 17:36:21'!
+PASSED!
+
+!testRun: #CartTest #test06 stamp: 'LNB 10/31/2021 17:36:21'!
+PASSED!
+
+!testRun: #CartTest #test07 stamp: 'LNB 10/31/2021 17:36:21'!
+PASSED!
+!CartTest methodsFor: 'as yet unclassified' stamp: 'LNB 10/31/2021 17:36:48'!
+test01NewCartIsEmpty
+
+	| cart |
+	
+	cart _ Cart new.
+	
+	self assert: cart isEmpty.! !
+
+!methodRemoval: CartTest #test01 stamp: 'LNB 10/31/2021 17:36:48'!
+test01
+
+	| cart |
+	
+	cart _ Cart new.
+	
+	self assert: cart isEmpty.!
+!CartTest methodsFor: 'as yet unclassified' stamp: 'LNB 10/31/2021 17:37:48'!
+test01newCartIsEmpty
+
+	| cart |
+	
+	cart _ Cart new.
+	
+	self assert: cart isEmpty.! !
+
+!methodRemoval: CartTest #test01NewCartIsEmpty stamp: 'LNB 10/31/2021 17:37:48'!
+test01NewCartIsEmpty
+
+	| cart |
+	
+	cart _ Cart new.
+	
+	self assert: cart isEmpty.!
+!CartTest methodsFor: 'as yet unclassified' stamp: 'LNB 10/31/2021 17:39:02'!
+test01NewCartIsEmpty
+
+	| cart |
+	
+	cart _ Cart new.
+	
+	self assert: cart isEmpty.! !
+
+!methodRemoval: CartTest #test01newCartIsEmpty stamp: 'LNB 10/31/2021 17:39:02'!
+test01newCartIsEmpty
+
+	| cart |
+	
+	cart _ Cart new.
+	
+	self assert: cart isEmpty.!
+!CartTest methodsFor: 'as yet unclassified' stamp: 'LNB 10/31/2021 17:39:17'!
+test02CartWithOneItemIsNotEmpty
+
+	| cart book |
+	
+	book _ 'bookISBN'.
+	cart _ Cart withCatalogue: (self catalogueWith: book).
+	
+	cart add: book times: 1.
+	
+	self deny: cart isEmpty.! !
+
+!methodRemoval: CartTest #test02 stamp: 'LNB 10/31/2021 17:39:17'!
+test02
+
+	| cart book |
+	
+	book _ 'bookISBN'.
+	cart _ Cart withCatalogue: (self catalogueWith: book).
+	
+	cart add: book times: 1.
+	
+	self deny: cart isEmpty.!
+!CartTest methodsFor: 'as yet unclassified' stamp: 'LNB 10/31/2021 17:39:39'!
+test03CartWithTwoDifferentItemsIncludesBoth
+
+	| cart book anotherBook |
+	
+	book _ 'book ISBN'.
+	anotherBook _ 'another book ISBN'.
+	
+	cart _ Cart withCatalogue: (self catalogueWith: book with: anotherBook).
+	
+	cart add: book times: 1.
+	cart add: anotherBook times: 1.
+	
+	self assert: cart includes: book.
+	self assert: cart includes: anotherBook.! !
+
+!methodRemoval: CartTest #test03 stamp: 'LNB 10/31/2021 17:39:39'!
+test03
+
+	| cart book anotherBook |
+	
+	book _ 'book ISBN'.
+	anotherBook _ 'another book ISBN'.
+	
+	cart _ Cart withCatalogue: (self catalogueWith: book with: anotherBook).
+	
+	cart add: book times: 1.
+	cart add: anotherBook times: 1.
+	
+	self assert: cart includes: book.
+	self assert: cart includes: anotherBook.!
+!CartTest methodsFor: 'as yet unclassified' stamp: 'LNB 10/31/2021 17:41:44'!
+test04CannotAddItemNotIncludedInCatalogue
+
+	| cart book |
+	
+	book _ 'book ISBN'.
+	
+	cart _ Cart withCatalogue: self catalogue.
+	
+	
+	
+	self 
+		should: [cart add: book times: 1.] 
+		raise: Error - MessageNotUnderstood 
+		withExceptionDo: [ :anError |
+			self assert: anError messageText equals: Cart cannotAddItemNotIncludedInCatalogueErrorDescription.
+			self assert: (cart isEmpty).
+			].! !
+
+!methodRemoval: CartTest #test04 stamp: 'LNB 10/31/2021 17:41:45'!
+test04
+
+	| cart book |
+	
+	book _ 'book ISBN'.
+	
+	cart _ Cart withCatalogue: self catalogue.
+	
+	
+	
+	self 
+		should: [cart add: book times: 1.] 
+		raise: Error - MessageNotUnderstood 
+		withExceptionDo: [ :anError |
+			self assert: anError messageText equals: Cart cannotAddItemNotIncludedInCatalogueErrorDescription.
+			self assert: (cart isEmpty).
+			].!
+!CartTest methodsFor: 'as yet unclassified' stamp: 'LNB 10/31/2021 17:44:28'!
+test05CanAddMoreThanOneCopyOfTheSameBook
+
+	| cart book |
+	
+	book _ 'bookISBN'.
+	cart _ Cart withCatalogue: (self catalogueWith: book).
+	
+	cart add: book times: 2.
+	
+	self assert: (cart occurrencesOf: book) equals: 2.
+	self assert: cart size equals: 2.! !
+
+!methodRemoval: CartTest #test05 stamp: 'LNB 10/31/2021 17:44:29'!
+test05
+
+	| cart book |
+	
+	book _ 'bookISBN'.
+	cart _ Cart withCatalogue: (self catalogueWith: book).
+	
+	cart add: book times: 2.
+	
+	self assert: (cart occurrencesOf: book) equals: 2.
+	self assert: cart size equals: 2.!
+!CartTest methodsFor: 'as yet unclassified' stamp: 'LNB 10/31/2021 17:44:45'!
+test06CannotAddLessThanOneCopyOfABook
+
+	| cart book |
+	
+	book _ 'book ISBN'.
+	
+	cart _ Cart withCatalogue: (self catalogueWith: book).
+	
+	
+	
+	self 
+		should: [cart add: book times: 0.] 
+		raise: Error - MessageNotUnderstood 
+		withExceptionDo: [ :anError |
+			self assert: anError messageText equals: Cart cannotAddLessThanOneItemErrorDescription.
+			self assert: (cart isEmpty).
+			].! !
+
+!methodRemoval: CartTest #test06 stamp: 'LNB 10/31/2021 17:44:45'!
+test06
+
+	| cart book |
+	
+	book _ 'book ISBN'.
+	
+	cart _ Cart withCatalogue: (self catalogueWith: book).
+	
+	
+	
+	self 
+		should: [cart add: book times: 0.] 
+		raise: Error - MessageNotUnderstood 
+		withExceptionDo: [ :anError |
+			self assert: anError messageText equals: Cart cannotAddLessThanOneItemErrorDescription.
+			self assert: (cart isEmpty).
+			].!
+!CartTest methodsFor: 'as yet unclassified' stamp: 'LNB 10/31/2021 17:45:03'!
+test07BookNotAddedIsNotIncluded
+
+	| cart book |
+	
+	book _ 'book ISBN'.
+	
+	cart _ Cart withCatalogue: (self catalogueWith: book).
+	
+	self deny: (cart includes: book).! !
+
+!methodRemoval: CartTest #test07 stamp: 'LNB 10/31/2021 17:45:03'!
+test07
+
+	| cart book |
+	
+	book _ 'book ISBN'.
+	
+	cart _ Cart withCatalogue: (self catalogueWith: book).
+	
+	self deny: (cart includes: book).!
+
+!testRun: #CartTest #test01NewCartIsEmpty stamp: 'LNB 10/31/2021 17:45:08'!
+PASSED!
+
+!testRun: #CartTest #test02CartWithOneItemIsNotEmpty stamp: 'LNB 10/31/2021 17:45:08'!
+PASSED!
+
+!testRun: #CartTest #test03CartWithTwoDifferentItemsIncludesBoth stamp: 'LNB 10/31/2021 17:45:08'!
+PASSED!
+
+!testRun: #CartTest #test04CannotAddItemNotIncludedInCatalogue stamp: 'LNB 10/31/2021 17:45:08'!
+PASSED!
+
+!testRun: #CartTest #test05CanAddMoreThanOneCopyOfTheSameBook stamp: 'LNB 10/31/2021 17:45:08'!
+PASSED!
+
+!testRun: #CartTest #test06CannotAddLessThanOneCopyOfABook stamp: 'LNB 10/31/2021 17:45:08'!
+PASSED!
+
+!testRun: #CartTest #test07BookNotAddedIsNotIncluded stamp: 'LNB 10/31/2021 17:45:08'!
+PASSED!
+
+!testRun: #CartTest #test01NewCartIsEmpty stamp: 'LNB 10/31/2021 17:45:41'!
+PASSED!
+
+!testRun: #CartTest #test02CartWithOneItemIsNotEmpty stamp: 'LNB 10/31/2021 17:45:41'!
+PASSED!
+
+!testRun: #CartTest #test03CartWithTwoDifferentItemsIncludesBoth stamp: 'LNB 10/31/2021 17:45:41'!
+PASSED!
+
+!testRun: #CartTest #test04CannotAddItemNotIncludedInCatalogue stamp: 'LNB 10/31/2021 17:45:41'!
+PASSED!
+
+!testRun: #CartTest #test05CanAddMoreThanOneCopyOfTheSameBook stamp: 'LNB 10/31/2021 17:45:41'!
+PASSED!
+
+!testRun: #CartTest #test06CannotAddLessThanOneCopyOfABook stamp: 'LNB 10/31/2021 17:45:41'!
+PASSED!
+
+!testRun: #CartTest #test07BookNotAddedIsNotIncluded stamp: 'LNB 10/31/2021 17:45:41'!
+PASSED!
+!Cart methodsFor: 'as yet unclassified' stamp: 'LNB 10/31/2021 17:45:57' prior: 50915823!
+add: aBook times: anAmount  
+
+	(catalogue includes: aBook) ifFalse: [ self error: self class cannotAddItemNotIncludedInCatalogueErrorDescription].
+	(anAmount > 0) ifFalse: [self error: self class cannotAddLessThanOneItemErrorDescription].
+	
+	contents add: aBook withOccurrences: anAmount.! !
+!Cart methodsFor: 'as yet unclassified' stamp: 'LNB 10/31/2021 17:46:05' prior: 50915155!
+includes: aBookISBN 
+
+	^contents includes: aBookISBN.! !
+!Cart methodsFor: 'as yet unclassified' stamp: 'LNB 10/31/2021 17:46:10' prior: 50915194!
+isEmpty
+
+	^contents isEmpty.! !
+!Cart methodsFor: 'as yet unclassified' stamp: 'LNB 10/31/2021 17:46:14' prior: 50915977!
+occurrencesOf: aBook
+
+	^contents occurrencesOf: aBook.! !
+!Cart methodsFor: 'as yet unclassified' stamp: 'LNB 10/31/2021 17:46:18' prior: 50915982 overrides: 16880927!
+size
+
+	^contents size.! !
+!Cart methodsFor: 'as yet unclassified' stamp: 'LNB 10/31/2021 17:47:46'!
+assertIsInCatalogue: aBook
+
+	^ (catalogue includes: aBook) ifFalse: [ self error: self class cannotAddItemNotIncludedInCatalogueErrorDescription]! !
+!Cart methodsFor: 'as yet unclassified' stamp: 'LNB 10/31/2021 17:47:46' prior: 50916461!
+add: aBook times: anAmount  
+
+	self assertIsInCatalogue: aBook.
+	(anAmount > 0) ifFalse: [self error: self class cannotAddLessThanOneItemErrorDescription].
+	
+	contents add: aBook withOccurrences: anAmount.! !
+!Cart methodsFor: 'as yet unclassified' stamp: 'LNB 10/31/2021 17:47:55'!
+assertIsPositive: anAmount
+
+	^ (anAmount > 0) ifFalse: [self error: self class cannotAddLessThanOneItemErrorDescription]! !
+!Cart methodsFor: 'as yet unclassified' stamp: 'LNB 10/31/2021 17:47:55' prior: 50916500!
+add: aBook times: anAmount  
+
+	self assertIsInCatalogue: aBook.
+	self assertIsPositive: anAmount.
+	
+	contents add: aBook withOccurrences: anAmount.! !
+!Cart methodsFor: 'as yet unclassified' stamp: 'LNB 10/31/2021 17:48:20'!
+signalCannotAddItemNotIncludedInCatalogue
+
+	^ self error: self class cannotAddItemNotIncludedInCatalogueErrorDescription! !
+!Cart methodsFor: 'as yet unclassified' stamp: 'LNB 10/31/2021 17:48:20' prior: 50916492!
+assertIsInCatalogue: aBook
+
+	^ (catalogue includes: aBook) ifFalse: [ self signalCannotAddItemNotIncludedInCatalogue]! !
+!Cart methodsFor: 'as yet unclassified' stamp: 'LNB 10/31/2021 17:48:36'!
+signalCannotAddLessThanOneItem
+
+	^ self error: self class cannotAddLessThanOneItemErrorDescription! !
+!Cart methodsFor: 'as yet unclassified' stamp: 'LNB 10/31/2021 17:48:37' prior: 50916509!
+assertIsPositive: anAmount
+
+	^ (anAmount > 0) ifFalse: [self signalCannotAddLessThanOneItem]! !
+!Cart methodsFor: 'initialization' stamp: 'LNB 10/31/2021 17:50:50' prior: 50915385!
+initializeWith: aCatalogue 
+
+	contents _ Bag new.
+	catalogue := aCatalogue.! !
+
+!methodRemoval: Cart #initialize stamp: 'LNB 10/31/2021 17:50:56'!
+initialize 
+	
+	contents _ Bag new.!
+
+!testRun: #CartTest #test01NewCartIsEmpty stamp: 'LNB 10/31/2021 17:51:04'!
+ERROR!
+
+!testRun: #CartTest #test02CartWithOneItemIsNotEmpty stamp: 'LNB 10/31/2021 17:51:04'!
+PASSED!
+
+!testRun: #CartTest #test03CartWithTwoDifferentItemsIncludesBoth stamp: 'LNB 10/31/2021 17:51:04'!
+PASSED!
+
+!testRun: #CartTest #test04CannotAddItemNotIncludedInCatalogue stamp: 'LNB 10/31/2021 17:51:04'!
+PASSED!
+
+!testRun: #CartTest #test05CanAddMoreThanOneCopyOfTheSameBook stamp: 'LNB 10/31/2021 17:51:04'!
+PASSED!
+
+!testRun: #CartTest #test06CannotAddLessThanOneCopyOfABook stamp: 'LNB 10/31/2021 17:51:04'!
+PASSED!
+
+!testRun: #CartTest #test07BookNotAddedIsNotIncluded stamp: 'LNB 10/31/2021 17:51:04'!
+PASSED!
+
+!testRun: #CartTest #test01NewCartIsEmpty stamp: 'LNB 10/31/2021 17:51:04'!
+ERROR!
+
+!testRun: #CartTest #test01NewCartIsEmpty stamp: 'LNB 10/31/2021 17:51:15'!
+ERROR!
+
+!testRun: #CartTest #test02CartWithOneItemIsNotEmpty stamp: 'LNB 10/31/2021 17:51:15'!
+PASSED!
+
+!testRun: #CartTest #test03CartWithTwoDifferentItemsIncludesBoth stamp: 'LNB 10/31/2021 17:51:15'!
+PASSED!
+
+!testRun: #CartTest #test04CannotAddItemNotIncludedInCatalogue stamp: 'LNB 10/31/2021 17:51:15'!
+PASSED!
+
+!testRun: #CartTest #test05CanAddMoreThanOneCopyOfTheSameBook stamp: 'LNB 10/31/2021 17:51:15'!
+PASSED!
+
+!testRun: #CartTest #test06CannotAddLessThanOneCopyOfABook stamp: 'LNB 10/31/2021 17:51:15'!
+PASSED!
+
+!testRun: #CartTest #test07BookNotAddedIsNotIncluded stamp: 'LNB 10/31/2021 17:51:15'!
+PASSED!
+
+!testRun: #CartTest #test01NewCartIsEmpty stamp: 'LNB 10/31/2021 17:51:15'!
+ERROR!
+!CartTest methodsFor: 'tests' stamp: 'LNB 10/31/2021 17:51:40' prior: 50916273!
+test01NewCartIsEmpty
+
+	| cart |
+	
+	cart _ Cart newWith: OrderedCollection new..
+	
+	self assert: cart isEmpty.! !
+!CartTest methodsFor: 'tests' stamp: 'LNB 10/31/2021 17:51:47' prior: 50916608!
+test01NewCartIsEmpty
+
+	| cart |
+	
+	cart _ Cart with: OrderedCollection new.
+	
+	self assert: cart isEmpty.! !
+
+!testRun: #CartTest #test01NewCartIsEmpty stamp: 'LNB 10/31/2021 17:51:49'!
+ERROR!
+!CartTest methodsFor: 'tests' stamp: 'LNB 10/31/2021 17:51:57' prior: 50916615!
+test01NewCartIsEmpty
+
+	| cart |
+	
+	cart _ Cart withCatalogue: OrderedCollection new.
+	
+	self assert: cart isEmpty.! !
+!CartTest methodsFor: 'tests' stamp: 'LNB 10/31/2021 17:52:12' prior: 50916624!
+test01NewCartIsEmpty
+
+	| cart |
+	
+	cart _ Cart withCatalogue: self catalogue.
+	
+	self assert: cart isEmpty.! !
+
+!testRun: #CartTest #test01NewCartIsEmpty stamp: 'LNB 10/31/2021 17:52:22'!
+PASSED!
+
+!testRun: #CartTest #test02CartWithOneItemIsNotEmpty stamp: 'LNB 10/31/2021 17:52:22'!
+PASSED!
+
+!testRun: #CartTest #test03CartWithTwoDifferentItemsIncludesBoth stamp: 'LNB 10/31/2021 17:52:23'!
+PASSED!
+
+!testRun: #CartTest #test04CannotAddItemNotIncludedInCatalogue stamp: 'LNB 10/31/2021 17:52:23'!
+PASSED!
+
+!testRun: #CartTest #test05CanAddMoreThanOneCopyOfTheSameBook stamp: 'LNB 10/31/2021 17:52:23'!
+PASSED!
+
+!testRun: #CartTest #test06CannotAddLessThanOneCopyOfABook stamp: 'LNB 10/31/2021 17:52:23'!
+PASSED!
+
+!testRun: #CartTest #test07BookNotAddedIsNotIncluded stamp: 'LNB 10/31/2021 17:52:23'!
+PASSED!
+
+!testRun: #CartTest #test01NewCartIsEmpty stamp: 'LNB 10/31/2021 17:54:08'!
+PASSED!
+
+!testRun: #CartTest #test02CartWithOneItemIsNotEmpty stamp: 'LNB 10/31/2021 17:54:08'!
+PASSED!
+
+!testRun: #CartTest #test03CartWithTwoDifferentItemsIncludesBoth stamp: 'LNB 10/31/2021 17:54:08'!
+PASSED!
+
+!testRun: #CartTest #test04CannotAddItemNotIncludedInCatalogue stamp: 'LNB 10/31/2021 17:54:08'!
+PASSED!
+
+!testRun: #CartTest #test05CanAddMoreThanOneCopyOfTheSameBook stamp: 'LNB 10/31/2021 17:54:08'!
+PASSED!
+
+!testRun: #CartTest #test06CannotAddLessThanOneCopyOfABook stamp: 'LNB 10/31/2021 17:54:08'!
+PASSED!
+
+!testRun: #CartTest #test07BookNotAddedIsNotIncluded stamp: 'LNB 10/31/2021 17:54:08'!
+PASSED!
+
+----SNAPSHOT----(31 October 2021 17:54:22) CuisUniversity-4913.image priorSource: 18674829!
+
+----QUIT----(31 October 2021 17:54:28) CuisUniversity-4913.image priorSource: 18720962!
+
+----STARTUP---- (31 October 2021 17:54:47) as E:\Cursada Actual IS1\!!Ejercicio actual\20-TusLibros\CuisUniversity-4913.image!
+
+
+----QUIT----(31 October 2021 17:55:59) CuisUniversity-4913.image priorSource: 18721055!
