@@ -1,0 +1,1797 @@
+
+
+----QUIT----(13 October 2021 15:20:10) CuisUniversity-4913.image priorSource: 14638157!
+
+----STARTUP---- (13 October 2021 15:20:10) as /Users/hernan/Documents/Cuis/5.0-64Bits/Cuis-University-Installer/CuisUniversity-4913.image!
+
+
+----QUIT----(13 October 2021 15:20:10) CuisUniversity-4913.image priorSource: 18661767!
+
+----STARTUP---- (13 October 2021 15:21:02) as /Users/hernan/Documents/Cuis/5.0-64Bits/Cuis-University-Installer/CuisUniversity-4913.image!
+
+
+----QUIT----(13 October 2021 15:21:02) CuisUniversity-4913.image priorSource: 18661997!
+
+----QUIT----(13 October 2021 15:26:07) CuisUniversity-4913.image priorSource: 14638157!
+
+----STARTUP---- (13 October 2021 15:26:08) as /Users/hernan/Documents/Cuis/5.0-64Bits/Cuis-University-Installer/CuisUniversity-4913.image!
+
+
+----QUIT----(13 October 2021 15:26:08) CuisUniversity-4913.image priorSource: 18661767!
+
+----STARTUP---- (1 November 2021 19:21:04) as E:\Cursada Actual IS1\!!Ejercicio actual\20-TusLibros\Iteracion2\CuisUniversity-4913.image!
+
+
+----End fileIn of C:\Users\Leandro\Downloads\2021-2c-main\20-TusLibros\Iteracion1\TusLibros-18.st----!
+
+TestCase subclass: #CashierTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #CashierTest category: 'TusLibros' stamp: 'LNB 11/1/2021 19:22:22'!
+TestCase subclass: #CashierTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!CashierTest methodsFor: 'nil' stamp: 'LNB 11/1/2021 19:24:31'!
+test01
+	"self assert: (Cashier new checkout: (Cart withCatalogue: OrderedCollection new) ) equals:"! !
+
+!testRun: #CashierTest #test01 stamp: 'LNB 11/1/2021 19:24:34'!
+PASSED!
+
+!testRun: #CashierTest #test01 stamp: 'LNB 11/1/2021 19:24:34'!
+PASSED!
+!Cart methodsFor: 'initialization' stamp: 'LNB 11/1/2021 19:24:51' prior: 50914879!
+initializeAcceptingItemsOf: aCatalog
+
+	catalog := aCatalog.
+	items := Bag new.! !
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'LNB 11/1/2021 19:24:54'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'LNB 11/1/2021 19:24:54'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'LNB 11/1/2021 19:24:54'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'LNB 11/1/2021 19:24:54'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'LNB 11/1/2021 19:24:54'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'LNB 11/1/2021 19:24:54'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'LNB 11/1/2021 19:24:54'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'LNB 11/1/2021 19:24:54'!
+PASSED!
+!Cart methodsFor: 'adding' stamp: 'LNB 11/1/2021 19:25:38' prior: 50914897!
+add: aQuantity of: anItem
+
+	self assertIsValidQuantity: aQuantity.
+	self assertIsValidItem: anItem.
+
+	items add: anItem withOccurrences: aQuantity.! !
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'LNB 11/1/2021 19:25:40'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'LNB 11/1/2021 19:25:40'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'LNB 11/1/2021 19:25:40'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'LNB 11/1/2021 19:25:40'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'LNB 11/1/2021 19:25:40'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'LNB 11/1/2021 19:25:40'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'LNB 11/1/2021 19:25:40'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'LNB 11/1/2021 19:25:40'!
+PASSED!
+
+!classDefinition: #Cart category: 'TusLibros' stamp: 'LNB 11/1/2021 19:25:49'!
+Object subclass: #Cart
+	instanceVariableNames: 'catalog contents'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!Cart methodsFor: 'as yet unclassified' stamp: 'LNB 11/1/2021 19:25:49' prior: 50915052!
+initializeAcceptingItemsOf: aCatalog
+
+	catalog := aCatalog.
+	contents := Bag new.! !
+!Cart methodsFor: 'as yet unclassified' stamp: 'LNB 11/1/2021 19:25:49' prior: 50914893!
+isEmpty
+	
+	^contents isEmpty ! !
+!Cart methodsFor: 'as yet unclassified' stamp: 'LNB 11/1/2021 19:25:49' prior: 50914889!
+includes: anItem
+
+	^contents includes: anItem ! !
+!Cart methodsFor: 'as yet unclassified' stamp: 'LNB 11/1/2021 19:25:49' prior: 50915083!
+add: aQuantity of: anItem
+
+	self assertIsValidQuantity: aQuantity.
+	self assertIsValidItem: anItem.
+
+	contents add: anItem withOccurrences: aQuantity.! !
+!Cart methodsFor: 'as yet unclassified' stamp: 'LNB 11/1/2021 19:25:49' prior: 50914885!
+occurrencesOf: anItem
+
+	^contents occurrencesOf: anItem  ! !
+!Cart methodsFor: 'adding' stamp: 'LNB 11/1/2021 19:26:01'!
+add: aQuantity withOccurrences: anItem
+
+	self assertIsValidQuantity: aQuantity.
+	self assertIsValidItem: anItem.
+
+	contents add: anItem withOccurrences: aQuantity.! !
+!Cart methodsFor: 'as yet unclassified' stamp: 'LNB 11/1/2021 19:26:01' prior: 50914905!
+add: anItem
+
+	^ self add: 1 withOccurrences: anItem ! !
+!CartTest methodsFor: 'as yet unclassified' stamp: 'LNB 11/1/2021 19:26:01' prior: 50914988!
+test05CanNotAddMoreThanOneItemNotSellByTheStore
+
+	| cart |
+	
+	cart := self createCart.
+	
+	self 
+		should: [cart add: 2 withOccurrences: self itemNotSellByTheStore  ]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = cart invalidItemErrorMessage.
+			self assert: cart isEmpty ]! !
+!CartTest methodsFor: 'as yet unclassified' stamp: 'LNB 11/1/2021 19:26:01' prior: 50914959!
+test08CartRemembersTheNumberOfAddedItems
+
+	| cart |
+	
+	cart := self createCart.
+	
+	cart add: 2 withOccurrences: self itemSellByTheStore.
+	self assert: (cart occurrencesOf: self itemSellByTheStore) = 2! !
+!CartTest methodsFor: 'as yet unclassified' stamp: 'LNB 11/1/2021 19:26:01' prior: 50914933!
+test04CanNotAddNonPositiveNumberOfItems
+
+	| cart |
+	
+	cart := self createCart.
+	
+	self 
+		should: [cart add: 0 withOccurrences: self itemSellByTheStore ]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = cart invalidQuantityErrorMessage.
+			self assert: cart isEmpty ]! !
+
+!methodRemoval: Cart #add:of: stamp: 'LNB 11/1/2021 19:26:01'!
+add: aQuantity of: anItem
+
+	self assertIsValidQuantity: aQuantity.
+	self assertIsValidItem: anItem.
+
+	contents add: anItem withOccurrences: aQuantity.!
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'LNB 11/1/2021 19:26:05'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'LNB 11/1/2021 19:26:05'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'LNB 11/1/2021 19:26:05'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'LNB 11/1/2021 19:26:05'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'LNB 11/1/2021 19:26:05'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'LNB 11/1/2021 19:26:05'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'LNB 11/1/2021 19:26:05'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'LNB 11/1/2021 19:26:05'!
+PASSED!
+!Cart methodsFor: 'assertions' stamp: 'LNB 11/1/2021 19:27:51'!
+signalInvalidItemError
+
+	^ self error: self invalidItemErrorMessage! !
+!Cart methodsFor: 'assertions' stamp: 'LNB 11/1/2021 19:27:51' prior: 50914866!
+assertIsValidItem: anItem
+
+	(catalog includes: anItem) ifFalse: [ self signalInvalidItemError ]! !
+!Cart methodsFor: 'assertions' stamp: 'LNB 11/1/2021 19:28:08'!
+signalInvalidQuantityError
+
+	^ self error: self invalidQuantityErrorMessage! !
+!Cart methodsFor: 'assertions' stamp: 'LNB 11/1/2021 19:28:08' prior: 50914872!
+assertIsValidQuantity: aQuantity
+
+	aQuantity strictlyPositive ifFalse: [ self signalInvalidQuantityError ]! !
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'LNB 11/1/2021 19:29:03'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'LNB 11/1/2021 19:29:04'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'LNB 11/1/2021 19:29:04'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'LNB 11/1/2021 19:29:04'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'LNB 11/1/2021 19:29:04'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'LNB 11/1/2021 19:29:04'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'LNB 11/1/2021 19:29:04'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'LNB 11/1/2021 19:29:04'!
+PASSED!
+
+!classDefinition: #Cashier category: 'TusLibros' stamp: 'LNB 11/1/2021 19:34:02'!
+Object subclass: #Cashier
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'LNB 11/1/2021 19:33:54' prior: 50915041!
+test01
+	self 
+		should: [self assert: (Cashier new checkout: (Cart acceptingItemsOf: OrderedCollection new) ).] 
+		raise:  Error - MessageNotUnderstood 
+		withExceptionDo: [ :anError |
+			self assert: anError messageText equals: Cashier cantCheckoutEmptyCartErrorDescription.
+			]! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'LNB 11/1/2021 19:34:31' prior: 50915287!
+test01
+	
+	self 
+		should: [self assert: (Cashier new checkout: (Cart acceptingItemsOf: OrderedCollection new) ).] 
+		raise:  Error - MessageNotUnderstood 
+		withExceptionDo: [ :anError |
+			self assert: anError messageText equals: Cashier cantCheckoutEmptyCartErrorDescription.
+			]! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'LNB 11/1/2021 19:34:38' prior: 50915299!
+test01
+	
+	self 
+		should: [| cashier |
+	cashier _ Cashier new.
+	self assert: (cashier checkout: (Cart acceptingItemsOf: OrderedCollection new) ).] 
+		raise:  Error - MessageNotUnderstood 
+		withExceptionDo: [ :anError |
+			self assert: anError messageText equals: Cashier cantCheckoutEmptyCartErrorDescription.
+			]! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'LNB 11/1/2021 19:35:46' prior: 50915311!
+test01
+	| cashier |
+	
+	cashier _ Cashier new.
+	
+	self 
+		should: [cashier checkout: (Cart acceptingItemsOf: OrderedCollection new).] 
+		raise:  Error - MessageNotUnderstood 
+		withExceptionDo: [ :anError |
+			self assert: anError messageText equals: Cashier cantCheckoutEmptyCartErrorDescription.
+			]! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'LNB 11/1/2021 19:36:25' prior: 50915324!
+test01
+	| cashier cart |
+	
+	cashier _ Cashier new.
+	cart _ Cart acceptingItemsOf: OrderedCollection new.
+	
+	self 
+		should: [cashier checkout: (Cart acceptingItemsOf: OrderedCollection new).] 
+		raise:  Error - MessageNotUnderstood 
+		withExceptionDo: [ :anError |
+			self assert: anError messageText equals: Cashier cantCheckoutEmptyCartErrorDescription.
+			]! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'LNB 11/1/2021 19:36:38' prior: 50915337!
+test01
+	| cashier cart |
+	
+	cashier _ Cashier new.
+	cart _ Cart acceptingItemsOf: OrderedCollection new.
+	
+	self 
+		should: [cashier checkout: cart.] 
+		raise:  Error - MessageNotUnderstood 
+		withExceptionDo: [ :anError |
+			self assert: anError messageText equals: Cashier cantCheckoutEmptyCartErrorDescription.
+			]! !
+
+TestCase subclass: #TusLibrosTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #TusLibrosTest category: 'TusLibros' stamp: 'LNB 11/1/2021 19:37:30'!
+TestCase subclass: #TusLibrosTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+TusLibrosTest subclass: #CartTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #CartTest category: 'TusLibros' stamp: 'LNB 11/1/2021 19:37:42'!
+TusLibrosTest subclass: #CartTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!TusLibrosTest methodsFor: 'support' stamp: 'LNB 11/1/2021 19:37:49'!
+createCart
+	
+	^Cart acceptingItemsOf: self defaultCatalog! !
+
+!methodRemoval: CartTest #createCart stamp: 'LNB 11/1/2021 19:37:50'!
+createCart
+	
+	^Cart acceptingItemsOf: self defaultCatalog!
+
+!methodRemoval: CartTest #defaultCatalog stamp: 'LNB 11/1/2021 19:38:06'!
+defaultCatalog
+	
+	^ Array with: self itemSellByTheStore!
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'LNB 11/1/2021 19:38:23'!
+ERROR!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'LNB 11/1/2021 19:38:23'!
+ERROR!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'LNB 11/1/2021 19:38:23'!
+ERROR!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'LNB 11/1/2021 19:38:23'!
+ERROR!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'LNB 11/1/2021 19:38:23'!
+ERROR!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'LNB 11/1/2021 19:38:23'!
+ERROR!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'LNB 11/1/2021 19:38:23'!
+ERROR!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'LNB 11/1/2021 19:38:23'!
+ERROR!
+!CartTest methodsFor: 'support' stamp: 'HernanWilkinson 6/17/2013 17:43'!
+defaultCatalog
+	
+	^ Array with: self itemSellByTheStore! !
+!TusLibrosTest methodsFor: 'support' stamp: 'LNB 11/1/2021 19:39:29'!
+defaultCatalog
+	
+	^ Array with: self itemSellByTheStore! !
+
+!methodRemoval: CartTest #defaultCatalog stamp: 'LNB 11/1/2021 19:39:29'!
+defaultCatalog
+	
+	^ Array with: self itemSellByTheStore!
+!TusLibrosTest methodsFor: 'support' stamp: 'LNB 11/1/2021 19:39:32'!
+itemNotSellByTheStore
+	
+	^'invalidBook'! !
+
+!methodRemoval: CartTest #itemNotSellByTheStore stamp: 'LNB 11/1/2021 19:39:32'!
+itemNotSellByTheStore
+	
+	^'invalidBook'!
+!TusLibrosTest methodsFor: 'support' stamp: 'LNB 11/1/2021 19:39:36'!
+itemSellByTheStore
+	
+	^ 'validBook'! !
+
+!methodRemoval: CartTest #itemSellByTheStore stamp: 'LNB 11/1/2021 19:39:36'!
+itemSellByTheStore
+	
+	^ 'validBook'!
+
+TusLibrosTest subclass: #CashierTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #CashierTest category: 'TusLibros' stamp: 'LNB 11/1/2021 19:40:02'!
+TusLibrosTest subclass: #CashierTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'LNB 11/1/2021 19:41:09' prior: 50915352!
+test01
+	| cashier cart |
+	
+	cashier _ Cashier new.
+	cart _ Cart acceptingItemsOf: OrderedCollection new.
+	
+	
+	self 
+		should: [cashier checkout: cart.] 
+		raise:  Error - MessageNotUnderstood 
+		withExceptionDo: [ :anError |
+			self assert: anError messageText equals: Cashier cantCheckoutEmptyCartErrorDescription.
+			]! !
+
+!testRun: #CashierTest #test01 stamp: 'LNB 11/1/2021 19:41:26'!
+ERROR!
+!Cashier methodsFor: 'as yet unclassified' stamp: 'LNB 11/1/2021 19:42:14'!
+checkout: aCart 
+	self shouldBeImplemented.! !
+!Cashier methodsFor: 'as yet unclassified' stamp: 'LNB 11/1/2021 19:42:29' prior: 50915481!
+checkout: aCart 
+	self error: self class cantCheckoutEmptyCartErrorDescription.! !
+
+!testRun: #CashierTest #test01 stamp: 'LNB 11/1/2021 19:42:32'!
+ERROR!
+!Cashier class methodsFor: 'error description' stamp: 'LNB 11/1/2021 19:43:10'!
+cantCheckoutEmptyCartErrorDescription
+	self shouldBeImplemented.! !
+!Cashier class methodsFor: 'error description' stamp: 'LNB 11/1/2021 19:43:24' prior: 50915494!
+cantCheckoutEmptyCartErrorDescription
+	'Cant checkout an empty cart.'! !
+!Cashier class methodsFor: 'error description' stamp: 'LNB 11/1/2021 19:43:27' prior: 50915500!
+cantCheckoutEmptyCartErrorDescription
+	^'Cant checkout an empty cart.'! !
+!Cashier class methodsFor: 'error description' stamp: 'LNB 11/1/2021 19:43:29' prior: 50915506!
+cantCheckoutEmptyCartErrorDescription
+	^'Cant checkout an empty cart.'.! !
+
+!testRun: #CashierTest #test01 stamp: 'LNB 11/1/2021 19:43:30'!
+PASSED!
+
+!testRun: #CashierTest #test01 stamp: 'LNB 11/1/2021 19:43:30'!
+PASSED!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'LNB 11/1/2021 19:44:14' prior: 50915466!
+test01
+	| cashier cart |
+	
+	cashier _ Cashier new.
+	cart _ self createCart.
+	
+	
+	self 
+		should: [cashier checkout: cart.] 
+		raise:  Error - MessageNotUnderstood 
+		withExceptionDo: [ :anError |
+			self assert: anError messageText equals: Cashier cantCheckoutEmptyCartErrorDescription.
+			]! !
+
+!testRun: #CashierTest #test01 stamp: 'LNB 11/1/2021 19:44:15'!
+PASSED!
+
+!testRun: #CashierTest #test01 stamp: 'LNB 11/1/2021 19:44:15'!
+PASSED!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'LNB 11/1/2021 19:55:46'!
+test02
+	| cashier cart |
+	
+	cashier _ Cashier new.
+	cart _ self createCart.
+	cart add: self itemSellByTheStore.
+	
+	
+	self 
+		should: [cashier checkout: cart.] 
+		raise:  Error - MessageNotUnderstood 
+		withExceptionDo: [ :anError |
+			self assert: anError messageText equals: Cashier cantCheckoutEmptyCartErrorDescription.
+			]! !
+!TusLibrosTest methodsFor: 'support' stamp: 'LNB 11/1/2021 19:56:11'!
+itemNotSoldByTheStore
+	
+	^'invalidBook'! !
+!CartTest methodsFor: 'as yet unclassified' stamp: 'LNB 11/1/2021 19:56:11' prior: 50915163!
+test05CanNotAddMoreThanOneItemNotSellByTheStore
+
+	| cart |
+	
+	cart := self createCart.
+	
+	self 
+		should: [cart add: 2 withOccurrences: self itemNotSoldByTheStore  ]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = cart invalidItemErrorMessage.
+			self assert: cart isEmpty ]! !
+!CartTest methodsFor: 'as yet unclassified' stamp: 'LNB 11/1/2021 19:56:11' prior: 50914946!
+test02CanNotAddItemsThatDoNotBelongToStore
+
+	| cart |
+	
+	cart := self createCart.
+	
+	self 
+		should: [ cart add: self itemNotSoldByTheStore ]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = cart invalidItemErrorMessage.
+			self assert: cart isEmpty ]! !
+
+!methodRemoval: TusLibrosTest #itemNotSellByTheStore stamp: 'LNB 11/1/2021 19:56:11'!
+itemNotSellByTheStore
+	
+	^'invalidBook'!
+!TusLibrosTest methodsFor: 'support' stamp: 'LNB 11/1/2021 19:56:18'!
+itemSoldByTheStore
+	
+	^ 'validBook'! !
+!CartTest methodsFor: 'as yet unclassified' stamp: 'LNB 11/1/2021 19:56:18' prior: 50915187!
+test04CanNotAddNonPositiveNumberOfItems
+
+	| cart |
+	
+	cart := self createCart.
+	
+	self 
+		should: [cart add: 0 withOccurrences: self itemSoldByTheStore ]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = cart invalidQuantityErrorMessage.
+			self assert: cart isEmpty ]! !
+!CartTest methodsFor: 'as yet unclassified' stamp: 'LNB 11/1/2021 19:56:19' prior: 50914973!
+test03AfterAddingAnItemTheCartIsNotEmptyAnymore
+
+	| cart |
+	
+	cart := self createCart.
+	
+	cart add: self itemSoldByTheStore.
+	self deny: cart isEmpty ! !
+!CartTest methodsFor: 'as yet unclassified' stamp: 'LNB 11/1/2021 19:56:19' prior: 50915001!
+test06CartRemembersAddedItems
+
+	| cart |
+	
+	cart := self createCart.
+	
+	cart add: self itemSoldByTheStore.
+	self assert: (cart includes: self itemSoldByTheStore)! !
+!CartTest methodsFor: 'as yet unclassified' stamp: 'LNB 11/1/2021 19:56:19' prior: 50914981!
+test07CartDoesNotHoldNotAddedItems
+
+	| cart |
+	
+	cart := self createCart.
+	
+	self deny: (cart includes: self itemSoldByTheStore)! !
+!CartTest methodsFor: 'as yet unclassified' stamp: 'LNB 11/1/2021 19:56:19' prior: 50915177!
+test08CartRemembersTheNumberOfAddedItems
+
+	| cart |
+	
+	cart := self createCart.
+	
+	cart add: 2 withOccurrences: self itemSoldByTheStore.
+	self assert: (cart occurrencesOf: self itemSoldByTheStore) = 2! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'LNB 11/1/2021 19:56:19' prior: 50915539!
+test02
+	| cashier cart |
+	
+	cashier _ Cashier new.
+	cart _ self createCart.
+	cart add: self itemSoldByTheStore.
+	
+	
+	self 
+		should: [cashier checkout: cart.] 
+		raise:  Error - MessageNotUnderstood 
+		withExceptionDo: [ :anError |
+			self assert: anError messageText equals: Cashier cantCheckoutEmptyCartErrorDescription.
+			]! !
+!TusLibrosTest methodsFor: 'as yet unclassified' stamp: 'LNB 11/1/2021 19:56:19' prior: 50915430!
+defaultCatalog
+	
+	^ Array with: self itemSoldByTheStore! !
+
+!methodRemoval: TusLibrosTest #itemSellByTheStore stamp: 'LNB 11/1/2021 19:56:19'!
+itemSellByTheStore
+	
+	^ 'validBook'!
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'LNB 11/1/2021 19:56:24'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'LNB 11/1/2021 19:56:24'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'LNB 11/1/2021 19:56:25'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'LNB 11/1/2021 19:56:25'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'LNB 11/1/2021 19:56:25'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'LNB 11/1/2021 19:56:25'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'LNB 11/1/2021 19:56:25'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'LNB 11/1/2021 19:56:25'!
+PASSED!
+
+!testRun: #CashierTest #test01 stamp: 'LNB 11/1/2021 19:56:27'!
+PASSED!
+
+!testRun: #CashierTest #test02 stamp: 'LNB 11/1/2021 19:56:27'!
+PASSED!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'LNB 11/1/2021 19:57:45' prior: 50915641!
+test02
+	| cashier cart |
+	
+	cashier _ Cashier new.
+	cart _ self createCart.
+	cart add: self itemSoldByTheStore.
+	
+	
+	self assert: (cashier checkout: cart) equals: 10.! !
+
+!testRun: #CashierTest #test02 stamp: 'LNB 11/1/2021 19:57:46'!
+ERROR!
+!Cashier methodsFor: 'as yet unclassified' stamp: 'LNB 11/1/2021 19:58:44' prior: 50915486!
+checkout: aCart 
+	(aCart isEmpty) ifTrue: [self error: self class cantCheckoutEmptyCartErrorDescription.].
+	
+	^10! !
+
+!testRun: #CashierTest #test01 stamp: 'LNB 11/1/2021 19:58:45'!
+PASSED!
+
+!testRun: #CashierTest #test02 stamp: 'LNB 11/1/2021 19:58:45'!
+PASSED!
+!Cashier methodsFor: 'as yet unclassified' stamp: 'LNB 11/1/2021 19:59:00' prior: 50915705!
+checkout: aCart 
+	(aCart isEmpty) ifTrue: [self error: self class cantCheckoutEmptyCartErrorDescription.].
+	
+	^10.! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'LNB 11/1/2021 20:01:28' prior: 50915694!
+test02
+	| cashier cart |
+	
+	cashier _ Cashier new.
+	cart _ self createCart.
+	cart add: self itemThatCosts10.
+	
+	
+	self assert: (cashier checkout: cart) equals: 10.! !
+
+!testRun: #CashierTest #test02 stamp: 'LNB 11/1/2021 20:01:30'!
+ERROR!
+!CashierTest methodsFor: 'support' stamp: 'LNB 11/1/2021 20:01:56'!
+itemThatCosts10
+	self shouldBeImplemented.! !
+!CashierTest methodsFor: 'support' stamp: 'LNB 11/1/2021 20:02:19' prior: 50915734!
+itemThatCosts10
+	^'item that costs 10'.! !
+
+!testRun: #CashierTest #test02 stamp: 'LNB 11/1/2021 20:02:29'!
+ERROR!
+!TusLibrosTest methodsFor: 'support' stamp: 'LNB 11/1/2021 20:02:55' prior: 50915655!
+defaultCatalog
+	
+	^ Array with: self itemSoldByTheStore with: self itemThatCosts10.! !
+!CartTest methodsFor: 'support' stamp: 'LNB 11/1/2021 20:03:51' overrides: 50915387!
+createCart
+	
+	^Cart acceptingItemsOf: self defaultCatalog! !
+!CashierTest methodsFor: 'support' stamp: 'LNB 11/1/2021 20:03:51' overrides: 50915387!
+createCart
+	
+	^Cart acceptingItemsOf: self defaultCatalog! !
+
+!methodRemoval: TusLibrosTest #createCart stamp: 'LNB 11/1/2021 20:03:51'!
+createCart
+	
+	^Cart acceptingItemsOf: self defaultCatalog!
+!CartTest methodsFor: 'support' stamp: 'LNB 11/1/2021 20:03:57' overrides: 50915746!
+defaultCatalog
+	
+	^ Array with: self itemSoldByTheStore with: self itemThatCosts10.! !
+!CashierTest methodsFor: 'support' stamp: 'LNB 11/1/2021 20:03:57' overrides: 50915746!
+defaultCatalog
+	
+	^ Array with: self itemSoldByTheStore with: self itemThatCosts10.! !
+
+!methodRemoval: TusLibrosTest #defaultCatalog stamp: 'LNB 11/1/2021 20:03:57'!
+defaultCatalog
+	
+	^ Array with: self itemSoldByTheStore with: self itemThatCosts10.!
+!CartTest methodsFor: 'support' stamp: 'LNB 11/1/2021 20:04:01' overrides: 50915552!
+itemNotSoldByTheStore
+	
+	^'invalidBook'! !
+!CashierTest methodsFor: 'support' stamp: 'LNB 11/1/2021 20:04:02' overrides: 50915552!
+itemNotSoldByTheStore
+	
+	^'invalidBook'! !
+
+!methodRemoval: TusLibrosTest #itemNotSoldByTheStore stamp: 'LNB 11/1/2021 20:04:02'!
+itemNotSoldByTheStore
+	
+	^'invalidBook'!
+!CartTest methodsFor: 'support' stamp: 'LNB 11/1/2021 20:04:09' overrides: 50915587!
+itemSoldByTheStore
+	
+	^ 'validBook'! !
+!CashierTest methodsFor: 'support' stamp: 'LNB 11/1/2021 20:04:09' overrides: 50915587!
+itemSoldByTheStore
+	
+	^ 'validBook'! !
+
+!methodRemoval: TusLibrosTest #itemSoldByTheStore stamp: 'LNB 11/1/2021 20:04:09'!
+itemSoldByTheStore
+	
+	^ 'validBook'!
+
+TestCase subclass: #CartTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #CartTest category: 'TusLibros' stamp: 'LNB 11/1/2021 20:04:22'!
+TestCase subclass: #CartTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+TestCase subclass: #CashierTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #CashierTest category: 'TusLibros' stamp: 'LNB 11/1/2021 20:04:26'!
+TestCase subclass: #CashierTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classRemoval: #TusLibrosTest stamp: 'LNB 11/1/2021 20:04:31'!
+TestCase subclass: #TusLibrosTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!testRun: #CashierTest #test01 stamp: 'LNB 11/1/2021 20:04:47'!
+PASSED!
+
+!testRun: #CashierTest #test02 stamp: 'LNB 11/1/2021 20:04:48'!
+PASSED!
+!CashierTest methodsFor: 'tests' stamp: 'LNB 11/1/2021 20:05:45'!
+test03
+	| cashier cart |
+	
+	cashier _ Cashier new.
+	cart _ self createCart.
+	cart add: self itemThatCosts20.
+	
+	
+	self assert: (cashier checkout: cart) equals: 20.! !
+
+!testRun: #CashierTest #test03 stamp: 'LNB 11/1/2021 20:05:56'!
+ERROR!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'LNB 11/1/2021 20:06:10'!
+itemThatCosts20
+	self shouldBeImplemented.! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'LNB 11/1/2021 20:06:23' prior: 50915850!
+itemThatCosts20
+	'item that costs 20'! !
+
+!testRun: #CashierTest #test03 stamp: 'LNB 11/1/2021 20:06:25'!
+ERROR!
+!CashierTest methodsFor: 'support' stamp: 'LNB 11/1/2021 20:06:56' prior: 50915772!
+defaultCatalog
+	
+	^ Array with: self itemSoldByTheStore with: self itemThatCosts10 with: self itemThatCosts20.! !
+!CashierTest methodsFor: 'support' stamp: 'LNB 11/1/2021 20:07:22' prior: 50915862!
+defaultCatalog
+	
+	^ Array with: self itemSoldByTheStore with: self itemThatCosts10 with: self itemThatCosts20.! !
+
+!testRun: #CashierTest #test01 stamp: 'LNB 11/1/2021 20:07:23'!
+PASSED!
+
+!testRun: #CashierTest #test02 stamp: 'LNB 11/1/2021 20:07:23'!
+PASSED!
+
+!testRun: #CashierTest #test03 stamp: 'LNB 11/1/2021 20:07:24'!
+FAILURE!
+
+!testRun: #CashierTest #test03 stamp: 'LNB 11/1/2021 20:07:24'!
+FAILURE!
+!CashierTest methodsFor: 'support' stamp: 'LNB 11/1/2021 20:07:36' prior: 50915869!
+defaultCatalog
+	
+	^ Dictionary with: self itemSoldByTheStore with: self itemThatCosts10 with: self itemThatCosts20.! !
+
+!testRun: #CashierTest #test01 stamp: 'LNB 11/1/2021 20:07:37'!
+ERROR!
+
+!testRun: #CashierTest #test02 stamp: 'LNB 11/1/2021 20:07:37'!
+ERROR!
+
+!testRun: #CashierTest #test03 stamp: 'LNB 11/1/2021 20:07:37'!
+ERROR!
+!CashierTest methodsFor: 'support' stamp: 'LNB 11/1/2021 20:08:49' prior: 50915885!
+defaultCatalog
+	
+	^ Dictionary 
+		at: self itemThatCosts10;
+		at: self itemThatCosts20.! !
+
+!methodRemoval: CashierTest #itemSoldByTheStore stamp: 'LNB 11/1/2021 20:08:52'!
+itemSoldByTheStore
+	
+	^ 'validBook'!
+!CashierTest methodsFor: 'support' stamp: 'LNB 11/1/2021 20:09:13' prior: 50915899!
+defaultCatalog
+	
+	^ Dictionary 
+		at: self itemThatCosts10 put: 10;
+		at: self itemThatCosts20 put: 20.! !
+
+!testRun: #CashierTest #test01 stamp: 'LNB 11/1/2021 20:09:17'!
+ERROR!
+
+!testRun: #CashierTest #test02 stamp: 'LNB 11/1/2021 20:09:17'!
+ERROR!
+
+!testRun: #CashierTest #test03 stamp: 'LNB 11/1/2021 20:09:17'!
+ERROR!
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'LNB 11/1/2021 20:09:23'!
+ERROR!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'LNB 11/1/2021 20:09:23'!
+ERROR!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'LNB 11/1/2021 20:09:23'!
+ERROR!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'LNB 11/1/2021 20:09:23'!
+ERROR!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'LNB 11/1/2021 20:09:23'!
+ERROR!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'LNB 11/1/2021 20:09:23'!
+ERROR!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'LNB 11/1/2021 20:09:23'!
+ERROR!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'LNB 11/1/2021 20:09:23'!
+ERROR!
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'LNB 11/1/2021 20:09:29'!
+ERROR!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'LNB 11/1/2021 20:09:29'!
+ERROR!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'LNB 11/1/2021 20:09:29'!
+ERROR!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'LNB 11/1/2021 20:09:29'!
+ERROR!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'LNB 11/1/2021 20:09:29'!
+ERROR!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'LNB 11/1/2021 20:09:29'!
+ERROR!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'LNB 11/1/2021 20:09:29'!
+ERROR!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'LNB 11/1/2021 20:09:29'!
+ERROR!
+!CartTest methodsFor: 'support' stamp: 'LNB 11/1/2021 20:09:41' prior: 50915766!
+defaultCatalog
+	
+	^ Array with: self itemSoldByTheStore.! !
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'LNB 11/1/2021 20:09:42'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'LNB 11/1/2021 20:09:42'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'LNB 11/1/2021 20:09:42'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'LNB 11/1/2021 20:09:42'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'LNB 11/1/2021 20:09:42'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'LNB 11/1/2021 20:09:42'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'LNB 11/1/2021 20:09:42'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'LNB 11/1/2021 20:09:42'!
+PASSED!
+!CartTest methodsFor: 'support' stamp: 'LNB 11/1/2021 20:10:11' prior: 50915973!
+defaultCatalog
+	
+	^ Dictionary new
+		at: self itemThatCosts10 put: 10;
+		at: self itemThatCosts20 put: 20.! !
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'LNB 11/1/2021 20:10:12'!
+ERROR!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'LNB 11/1/2021 20:10:12'!
+ERROR!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'LNB 11/1/2021 20:10:12'!
+ERROR!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'LNB 11/1/2021 20:10:12'!
+ERROR!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'LNB 11/1/2021 20:10:12'!
+ERROR!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'LNB 11/1/2021 20:10:12'!
+ERROR!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'LNB 11/1/2021 20:10:13'!
+ERROR!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'LNB 11/1/2021 20:10:13'!
+ERROR!
+!CartTest methodsFor: 'support' stamp: 'LNB 11/1/2021 20:10:22' prior: 50916003!
+defaultCatalog
+	
+	^ Dictionary new
+		at: self itemThatCosts10 put: 10 yourself;
+		at: self itemThatCosts20 put: 20.! !
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'LNB 11/1/2021 20:10:23'!
+ERROR!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'LNB 11/1/2021 20:10:23'!
+ERROR!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'LNB 11/1/2021 20:10:23'!
+ERROR!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'LNB 11/1/2021 20:10:23'!
+ERROR!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'LNB 11/1/2021 20:10:23'!
+ERROR!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'LNB 11/1/2021 20:10:23'!
+ERROR!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'LNB 11/1/2021 20:10:23'!
+ERROR!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'LNB 11/1/2021 20:10:23'!
+ERROR!
+!CartTest methodsFor: 'support' stamp: 'LNB 11/1/2021 20:10:46' prior: 50916035!
+defaultCatalog
+	
+	^ Dictionary new
+		at: self itemSoldByTheStore put: 10.! !
+!CartTest methodsFor: 'support' stamp: 'LNB 11/1/2021 20:10:49' prior: 50916067!
+defaultCatalog
+	
+	^ Dictionary new
+		at: self itemSoldByTheStore put: 10.! !
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'LNB 11/1/2021 20:10:49'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'LNB 11/1/2021 20:10:49'!
+ERROR!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'LNB 11/1/2021 20:10:49'!
+ERROR!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'LNB 11/1/2021 20:10:49'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'LNB 11/1/2021 20:10:49'!
+ERROR!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'LNB 11/1/2021 20:10:49'!
+ERROR!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'LNB 11/1/2021 20:10:49'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'LNB 11/1/2021 20:10:50'!
+ERROR!
+!CartTest methodsFor: 'support' stamp: 'LNB 11/1/2021 20:10:55' prior: 50916072!
+defaultCatalog
+	
+	^ Dictionary new
+		at: self itemSoldByTheStore put: 10 yourself.! !
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'LNB 11/1/2021 20:10:56'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'LNB 11/1/2021 20:10:56'!
+ERROR!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'LNB 11/1/2021 20:10:56'!
+ERROR!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'LNB 11/1/2021 20:10:56'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'LNB 11/1/2021 20:10:56'!
+ERROR!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'LNB 11/1/2021 20:10:56'!
+ERROR!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'LNB 11/1/2021 20:10:57'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'LNB 11/1/2021 20:10:57'!
+ERROR!
+!CartTest methodsFor: 'support' stamp: 'LNB 11/1/2021 20:11:01' prior: 50916103!
+defaultCatalog
+	
+	^ Dictionary new
+		at: self itemSoldByTheStore put: 10; yourself.! !
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'LNB 11/1/2021 20:11:02'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'LNB 11/1/2021 20:11:02'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'LNB 11/1/2021 20:11:02'!
+ERROR!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'LNB 11/1/2021 20:11:02'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'LNB 11/1/2021 20:11:02'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'LNB 11/1/2021 20:11:02'!
+ERROR!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'LNB 11/1/2021 20:11:03'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'LNB 11/1/2021 20:11:03'!
+ERROR!
+!CartTest methodsFor: 'support' stamp: 'LNB 11/1/2021 20:11:13' prior: 50916134!
+defaultCatalog
+	
+	^ Dictionary new
+		at: self itemSoldByTheStore put: 10;
+		yourself.! !
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'LNB 11/1/2021 20:11:14'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'LNB 11/1/2021 20:11:14'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'LNB 11/1/2021 20:11:14'!
+ERROR!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'LNB 11/1/2021 20:11:14'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'LNB 11/1/2021 20:11:14'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'LNB 11/1/2021 20:11:14'!
+ERROR!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'LNB 11/1/2021 20:11:14'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'LNB 11/1/2021 20:11:14'!
+ERROR!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'LNB 11/1/2021 20:11:27'!
+ERROR!
+!Cart methodsFor: 'assertions' stamp: 'LNB 11/1/2021 20:11:40' prior: 50915237!
+assertIsValidItem: anItem
+
+	(catalog includesKey: anItem) ifFalse: [ self signalInvalidItemError ]! !
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'LNB 11/1/2021 20:11:54'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'LNB 11/1/2021 20:11:54'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'LNB 11/1/2021 20:11:54'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'LNB 11/1/2021 20:11:54'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'LNB 11/1/2021 20:11:55'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'LNB 11/1/2021 20:11:55'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'LNB 11/1/2021 20:11:55'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'LNB 11/1/2021 20:11:55'!
+PASSED!
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'LNB 11/1/2021 20:11:58'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'LNB 11/1/2021 20:11:58'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'LNB 11/1/2021 20:11:58'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'LNB 11/1/2021 20:11:58'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'LNB 11/1/2021 20:11:58'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'LNB 11/1/2021 20:11:58'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'LNB 11/1/2021 20:11:58'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'LNB 11/1/2021 20:11:58'!
+PASSED!
+!CashierTest methodsFor: 'support' stamp: 'LNB 11/1/2021 20:12:50' prior: 50915909!
+defaultCatalog
+	
+	^ Dictionary new
+		at: self itemSoldByTheStore put: 10;
+		at: self itemThatCosts10 put: 10;
+		at: self itemThatCosts20 put: 20;
+		yourself.! !
+!CashierTest methodsFor: 'support' stamp: 'LNB 11/1/2021 20:12:54' prior: 50916257!
+defaultCatalog
+	
+	^ Dictionary new
+		at: self itemThatCosts10 put: 10;
+		at: self itemThatCosts20 put: 20;
+		yourself.! !
+
+!testRun: #CashierTest #test01 stamp: 'LNB 11/1/2021 20:12:59'!
+PASSED!
+
+!testRun: #CashierTest #test02 stamp: 'LNB 11/1/2021 20:12:59'!
+PASSED!
+
+!testRun: #CashierTest #test03 stamp: 'LNB 11/1/2021 20:12:59'!
+FAILURE!
+
+!testRun: #CashierTest #test03 stamp: 'LNB 11/1/2021 20:13:00'!
+FAILURE!
+
+!classDefinition: #Cashier category: 'TusLibros' stamp: 'LNB 11/1/2021 20:19:51'!
+Object subclass: #Cashier
+	instanceVariableNames: 'catalogue'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!Cashier methodsFor: 'as yet unclassified' stamp: 'LNB 11/1/2021 20:20:25' prior: 50915717!
+checkout: aCart 
+	
+	
+	| totalPrice |
+	
+	
+	(aCart isEmpty) ifTrue: [self error: self class cantCheckoutEmptyCartErrorDescription.].
+	
+	
+	totalPrice _ 0.
+	aCart do: [:aProduct | totalPrice _ totalPrice + catalogue at: aProduct ].
+	
+	^totalPrice.! !
+
+!testRun: #CashierTest #test01 stamp: 'LNB 11/1/2021 20:20:26'!
+PASSED!
+
+!testRun: #CashierTest #test02 stamp: 'LNB 11/1/2021 20:20:26'!
+ERROR!
+
+!testRun: #CashierTest #test03 stamp: 'LNB 11/1/2021 20:20:26'!
+ERROR!
+!Cashier methodsFor: 'as yet unclassified' stamp: 'LNB 11/1/2021 20:21:23'!
+initializeWith: aCatalogue
+
+	catalogue _ aCatalogue.! !
+
+!testRun: #CashierTest #test01 stamp: 'LNB 11/1/2021 20:21:24'!
+PASSED!
+
+!testRun: #CashierTest #test02 stamp: 'LNB 11/1/2021 20:21:24'!
+ERROR!
+
+!testRun: #CashierTest #test03 stamp: 'LNB 11/1/2021 20:21:24'!
+ERROR!
+!Cashier class methodsFor: 'error description' stamp: 'LNB 11/1/2021 20:22:17'!
+acceptingItemsOf: aCatalog
+
+	^self new initializeWith: aCatalog.! !
+
+!testRun: #CashierTest #test01 stamp: 'LNB 11/1/2021 20:22:17'!
+PASSED!
+
+!testRun: #CashierTest #test02 stamp: 'LNB 11/1/2021 20:22:17'!
+ERROR!
+
+!testRun: #CashierTest #test03 stamp: 'LNB 11/1/2021 20:22:17'!
+ERROR!
+
+!testRun: #CashierTest #test01 stamp: 'LNB 11/1/2021 20:22:28'!
+PASSED!
+
+!testRun: #CashierTest #test02 stamp: 'LNB 11/1/2021 20:22:28'!
+ERROR!
+
+!testRun: #CashierTest #test03 stamp: 'LNB 11/1/2021 20:22:28'!
+ERROR!
+
+!testRun: #CashierTest #test02 stamp: 'LNB 11/1/2021 20:22:30'!
+ERROR!
+!Cart methodsFor: 'as yet unclassified' stamp: 'LNB 11/1/2021 20:23:00'!
+do: aBlockClosure 
+	self shouldBeImplemented.! !
+!Cart methodsFor: 'as yet unclassified' stamp: 'LNB 11/1/2021 20:23:23' prior: 50916338!
+do: aBlockClosure 
+	contents do: aBlockClosure.! !
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'LNB 11/1/2021 20:23:26'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'LNB 11/1/2021 20:23:26'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'LNB 11/1/2021 20:23:26'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'LNB 11/1/2021 20:23:27'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'LNB 11/1/2021 20:23:27'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'LNB 11/1/2021 20:23:27'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'LNB 11/1/2021 20:23:27'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'LNB 11/1/2021 20:23:27'!
+PASSED!
+
+!testRun: #CashierTest #test02 stamp: 'LNB 11/1/2021 20:23:29'!
+ERROR!
+
+!testRun: #CashierTest #test01 stamp: 'LNB 11/1/2021 20:23:42'!
+PASSED!
+
+!testRun: #CashierTest #test02 stamp: 'LNB 11/1/2021 20:23:42'!
+ERROR!
+
+!testRun: #CashierTest #test03 stamp: 'LNB 11/1/2021 20:23:42'!
+ERROR!
+
+!testRun: #CashierTest #test02 stamp: 'LNB 11/1/2021 20:23:44'!
+ERROR!
+!Cashier methodsFor: 'as yet unclassified' stamp: 'LNB 11/1/2021 20:24:02' prior: 50916288!
+checkout: aCart 
+	
+	
+	| totalPrice |
+	
+	
+	(aCart isEmpty) ifTrue: [self error: self class cantCheckoutEmptyCartErrorDescription.].
+	
+	
+	totalPrice _ 0.
+	aCart do: [:aProduct | totalPrice _ totalPrice + (catalogue at: aProduct) ].
+	
+	^totalPrice.! !
+
+!testRun: #CashierTest #test02 stamp: 'LNB 11/1/2021 20:24:06'!
+ERROR!
+
+!testRun: #CashierTest #test01 stamp: 'LNB 11/1/2021 20:25:05'!
+PASSED!
+
+!testRun: #CashierTest #test02 stamp: 'LNB 11/1/2021 20:25:05'!
+ERROR!
+
+!testRun: #CashierTest #test03 stamp: 'LNB 11/1/2021 20:25:05'!
+ERROR!
+
+!testRun: #CashierTest #test02 stamp: 'LNB 11/1/2021 20:25:14'!
+ERROR!
+
+!testRun: #CashierTest #test02 stamp: 'LNB 11/1/2021 20:25:37'!
+ERROR!
+!CashierTest methodsFor: 'tests' stamp: 'LNB 11/1/2021 20:26:19' prior: 50915522!
+test01
+	| cashier cart |
+	
+	cashier _ self createCashier.
+	cart _ self createCart.
+	
+	
+	self 
+		should: [cashier checkout: cart.] 
+		raise:  Error - MessageNotUnderstood 
+		withExceptionDo: [ :anError |
+			self assert: anError messageText equals: Cashier cantCheckoutEmptyCartErrorDescription.
+			]! !
+
+!testRun: #CashierTest #test01 stamp: 'LNB 11/1/2021 20:26:23'!
+ERROR!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'LNB 11/1/2021 20:26:33'!
+createCashier
+	self shouldBeImplemented.! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'LNB 11/1/2021 20:27:19' prior: 50916424!
+createCashier
+	^Cashier acceptingItemsOf: self defaultCatalog.! !
+
+!testRun: #CashierTest #test01 stamp: 'LNB 11/1/2021 20:27:20'!
+PASSED!
+
+!testRun: #CashierTest #test02 stamp: 'LNB 11/1/2021 20:27:20'!
+ERROR!
+
+!testRun: #CashierTest #test03 stamp: 'LNB 11/1/2021 20:27:20'!
+ERROR!
+
+!testRun: #CashierTest #test02 stamp: 'LNB 11/1/2021 20:27:27'!
+ERROR!
+!CashierTest methodsFor: 'tests' stamp: 'LNB 11/1/2021 20:28:08' prior: 50915724!
+test02
+	| cashier cart |
+	
+	cashier _ self createCashier.
+	cart _ self createCart.
+	cart add: self itemThatCosts10.
+	
+	
+	self assert: (cashier checkout: cart) equals: 10.! !
+!CashierTest methodsFor: 'tests' stamp: 'LNB 11/1/2021 20:28:10' prior: 50915840!
+test03
+	| cashier cart |
+	
+	cashier _ self createCashier.
+	cart _ self createCart.
+	cart add: self itemThatCosts20.
+	
+	
+	self assert: (cashier checkout: cart) equals: 20.! !
+
+!testRun: #CashierTest #test03 stamp: 'LNB 11/1/2021 20:28:11'!
+PASSED!
+
+!testRun: #CashierTest #test01 stamp: 'LNB 11/1/2021 20:28:11'!
+PASSED!
+
+!testRun: #CashierTest #test02 stamp: 'LNB 11/1/2021 20:28:11'!
+PASSED!
+
+!testRun: #CashierTest #test03 stamp: 'LNB 11/1/2021 20:28:11'!
+PASSED!
+!CashierTest methodsFor: 'tests' stamp: 'LNB 11/1/2021 20:28:43'!
+test04
+	| cashier cart |
+	
+	cashier _ self createCashier.
+	cart _ self createCart.
+	cart add: self itemThatCosts20.
+	cart add: self itemThatCosts10.
+	
+	self assert: (cashier checkout: cart) equals: 30.! !
+!CashierTest methodsFor: 'tests' stamp: 'LNB 11/1/2021 20:28:48' prior: 50916468!
+test04
+	| cashier cart |
+	
+	cashier _ self createCashier.
+	cart _ self createCart.
+	cart add: self itemThatCosts20.
+	cart add: self itemThatCosts10.
+	
+	self assert: (cashier checkout: cart) equals: 30.! !
+
+!testRun: #CashierTest #test04 stamp: 'LNB 11/1/2021 20:28:49'!
+PASSED!
+
+!testRun: #CashierTest #test01 stamp: 'LNB 11/1/2021 20:28:49'!
+PASSED!
+
+!testRun: #CashierTest #test02 stamp: 'LNB 11/1/2021 20:28:49'!
+PASSED!
+
+!testRun: #CashierTest #test03 stamp: 'LNB 11/1/2021 20:28:49'!
+PASSED!
+
+!testRun: #CashierTest #test04 stamp: 'LNB 11/1/2021 20:28:49'!
+PASSED!
+!CashierTest methodsFor: 'tests' stamp: 'LNB 11/1/2021 20:29:02' prior: 50916477!
+test04
+	"| cashier cart |
+	
+	cashier _ self createCashier.
+	cart _ self createCart.
+	cart add: self itemThatCosts20.
+	cart add: self itemThatCosts10.
+	
+	self assert: (cashier checkout: cart) equals: 30."! !
+!Behavior method!
+acceptingItemsOf: aCatalog
+	^ [
+	([
+	(self coverAll:
+		{31 to: 34}) new ] valueCoveringAll:
+		{36 to: 38}) initializeWith:
+		(aCatalog
+			cover: (56 to: 63)
+			declaredAt: (19 to: 26)) ] valueCoveringAll:
+		{40 to: 54}.! !
+!Behavior method!
+initializeWith: aCatalogue
+	(catalogue _ aCatalogue
+		cover: (42 to: 51)
+		declaredAt: (17 to: 26))
+		cover: (30 to: 38)
+		declaredAt: (30 to: 38).! !
+!Behavior method!
+acceptingItemsOf: aCatalog
+	^ [
+	([
+	(self coverAll:
+		{31 to: 34}) new ] valueCoveringAll:
+		{36 to: 38}) initializeAcceptingItemsOf:
+		(aCatalog
+			cover: (68 to: 75)
+			declaredAt: (19 to: 26)) ] valueCoveringAll:
+		{40 to: 66}.! !
+!Behavior method!
+initializeAcceptingItemsOf: aCatalog
+	(catalog _ aCatalog
+		cover: (51 to: 58)
+		declaredAt: (29 to: 36))
+		cover: (40 to: 46)
+		declaredAt: (40 to: 46).
+	(contents _ [
+	(Bag
+		cover: (74 to: 76)
+		declaredAt: (74 to: 76)) new ] valueCoveringAll:
+		{78 to: 80})
+		cover: (62 to: 69)
+		declaredAt: (62 to: 69).! !
+!Behavior method!
+checkout: aCart
+	| totalPrice |
+	[
+	([
+	(aCart
+		cover: (44 to: 48)
+		declaredAt: (11 to: 15)) isEmpty ] valueCoveringAll:
+		{50 to: 56}) ifTrue: [
+		[
+		(self coverAll:
+			{68 to: 71}) error:
+			([
+			([
+			(self coverAll:
+				{80 to: 83}) class ] valueCoveringAll:
+				{85 to: 89}) cantCheckoutEmptyCartErrorDescription ] valueCoveringAll:
+				{91 to: 127}) ] valueCoveringAll:
+			{73 to: 78} ]] valueCoveringAll:
+		{59 to: 65}.
+	(totalPrice _ 0 coverAll:
+		{150 to: 150})
+		cover: (137 to: 146)
+		declaredAt: (25 to: 34).
+	[
+	(aCart
+		cover: (154 to: 158)
+		declaredAt: (11 to: 15)) do: [ :aProduct |
+		(totalPrice _ [
+		(totalPrice
+			cover: (177 to: 186)
+			declaredAt: (25 to: 34)) +
+			([
+			(catalogue
+				cover: (204 to: 212)
+				declaredAt: (204 to: 212)) at:
+				(aProduct
+					cover: (218 to: 225)
+					declaredAt: (166 to: 173)) ] valueCoveringAll:
+				{214 to: 216}) ] valueCoveringAll:
+			{201 to: 201})
+			cover: (190 to: 199)
+			declaredAt: (25 to: 34) ]] valueCoveringAll:
+		{160 to: 162}.
+	^ totalPrice
+		cover: (235 to: 244)
+		declaredAt: (25 to: 34).! !
+!Behavior method!
+isEmpty
+	^ [
+	(contents
+		cover: (13 to: 20)
+		declaredAt: (13 to: 20)) isEmpty ] valueCoveringAll:
+		{22 to: 28}.! !
+!Behavior method!
+cantCheckoutEmptyCartErrorDescription
+	^ 'Cant checkout an empty cart.' coverAll:
+		{41 to: 70}.! !
+
+!testRun: #CashierTest #test01 stamp: 'LNB 11/1/2021 20:29:08'!
+PASSED!
+!Behavior method!
+add: anItem
+	^ [
+	(self coverAll:
+		{17 to: 20})
+		add:
+			(1 coverAll:
+				{27 to: 27})
+		withOccurrences:
+			(anItem
+				cover: (46 to: 51)
+				declaredAt: (6 to: 11)) ] valueCoveringAll:
+		{22 to: 25. 29 to: 44}.! !
+!Behavior method!
+add: aQuantity withOccurrences: anItem
+	[
+	(self coverAll:
+		{42 to: 45}) assertIsValidQuantity:
+		(aQuantity
+			cover: (70 to: 78)
+			declaredAt: (6 to: 14)) ] valueCoveringAll:
+		{47 to: 68}.
+	[
+	(self coverAll:
+		{82 to: 85}) assertIsValidItem:
+		(anItem
+			cover: (106 to: 111)
+			declaredAt: (33 to: 38)) ] valueCoveringAll:
+		{87 to: 104}.
+	[
+	(contents
+		cover: (116 to: 123)
+		declaredAt: (116 to: 123))
+		add:
+			(anItem
+				cover: (130 to: 135)
+				declaredAt: (33 to: 38))
+		withOccurrences:
+			(aQuantity
+				cover: (154 to: 162)
+				declaredAt: (6 to: 14)) ] valueCoveringAll:
+		{125 to: 128. 137 to: 152}.! !
+!Behavior method!
+assertIsValidQuantity: aQuantity
+	[
+	([
+	(aQuantity
+		cover: (36 to: 44)
+		declaredAt: (24 to: 32)) strictlyPositive ] valueCoveringAll:
+		{46 to: 61}) ifFalse: [
+		[
+		(self coverAll:
+			{74 to: 77}) signalInvalidQuantityError ] valueCoveringAll:
+			{79 to: 104} ]] valueCoveringAll:
+		{63 to: 70}.! !
+!Behavior method!
+assertIsValidItem: anItem
+	[
+	([
+	(catalog
+		cover: (30 to: 36)
+		declaredAt: (30 to: 36)) includesKey:
+		(anItem
+			cover: (51 to: 56)
+			declaredAt: (20 to: 25)) ] valueCoveringAll:
+		{38 to: 49}) ifFalse: [
+		[
+		(self coverAll:
+			{70 to: 73}) signalInvalidItemError ] valueCoveringAll:
+			{75 to: 96} ]] valueCoveringAll:
+		{59 to: 66}.! !
+!Behavior method!
+do: aBlockClosure
+	[
+	(contents
+		cover: (21 to: 28)
+		declaredAt: (21 to: 28)) do:
+		(aBlockClosure
+			cover: (34 to: 46)
+			declaredAt: (5 to: 17)) ] valueCoveringAll:
+		{30 to: 32}.! !
+
+!testRun: #CashierTest #test02 stamp: 'LNB 11/1/2021 20:29:08'!
+PASSED!
+
+!testRun: #CashierTest #test03 stamp: 'LNB 11/1/2021 20:29:08'!
+PASSED!
+
+!testRun: #CashierTest #test04 stamp: 'LNB 11/1/2021 20:29:08'!
+PASSED!
+!CashierTest methodsFor: 'tests' stamp: 'LNB 11/1/2021 20:29:21' prior: 50916498!
+test04
+	| cashier cart |
+	
+	cashier _ self createCashier.
+	cart _ self createCart.
+	cart add: self itemThatCosts20.
+	cart add: self itemThatCosts10.
+	
+	self assert: (cashier checkout: cart) equals: 30.! !
+
+!testRun: #CashierTest #test04 stamp: 'LNB 11/1/2021 20:29:22'!
+PASSED!
+
+!testRun: #CashierTest #test01 stamp: 'LNB 11/1/2021 20:29:22'!
+PASSED!
+
+!testRun: #CashierTest #test02 stamp: 'LNB 11/1/2021 20:29:22'!
+PASSED!
+
+!testRun: #CashierTest #test03 stamp: 'LNB 11/1/2021 20:29:22'!
+PASSED!
+
+!testRun: #CashierTest #test04 stamp: 'LNB 11/1/2021 20:29:22'!
+PASSED!
+!CashierTest methodsFor: 'support' stamp: 'LNB 11/1/2021 20:32:17'!
+validExpirationDate
+	^GregorianMonthOfYear current.! !
+!CashierTest methodsFor: 'support' stamp: 'LNB 11/1/2021 20:34:30' prior: 50916673!
+validExpirationDate
+	^GregorianMonthOfYear current + 1 * GregorianMonth .! !
+
+^GregorianMonthOfYear current + 1 * GregorianMonth .!
+!CashierTest methodsFor: 'support' stamp: 'LNB 11/1/2021 20:36:53' prior: 50916678!
+validExpirationDate
+	^GregorianMonthOfYear current nextMonth: 1.! !
+
+	^GregorianMonthOfYear current nextMonth: 1.!
+!CashierTest methodsFor: 'support' stamp: 'LNB 11/1/2021 20:41:13' prior: 50916685!
+validExpirationDate
+	^GregorianMonthOfYear current next: GregorianMonth.! !
+
+^GregorianMonthOfYear current next: GregorianMonth.!
+!CashierTest methodsFor: 'support' stamp: 'LNB 11/1/2021 20:41:26' prior: 50916692!
+validExpirationDate
+	^GregorianMonthOfYear current next: GregorianMonth current.! !
+
+^GregorianMonthOfYear current next: GregorianMonth current.!
+!CashierTest methodsFor: 'support' stamp: 'LNB 11/1/2021 20:51:46' prior: 50916699!
+validExpirationDate
+	^GregorianMonthOfYear current next: 1.! !
+
+!testRun: #CashierTest #test01 stamp: 'LNB 11/1/2021 20:51:48'!
+PASSED!
+
+!testRun: #CashierTest #test02 stamp: 'LNB 11/1/2021 20:51:48'!
+PASSED!
+
+!testRun: #CashierTest #test03 stamp: 'LNB 11/1/2021 20:51:48'!
+PASSED!
+
+!testRun: #CashierTest #test04 stamp: 'LNB 11/1/2021 20:51:48'!
+PASSED!
+
+^GregorianMonthOfYear current next: 1.!
+!CashierTest methodsFor: 'support' stamp: 'LNB 11/1/2021 20:52:00' prior: 50916707!
+validExpirationDate
+	^GregorianMonthOfYear current next: 1*Month.! !
+
+!testRun: #CashierTest #test01 stamp: 'LNB 11/1/2021 20:52:01'!
+PASSED!
+
+!testRun: #CashierTest #test02 stamp: 'LNB 11/1/2021 20:52:02'!
+PASSED!
+
+!testRun: #CashierTest #test03 stamp: 'LNB 11/1/2021 20:52:02'!
+PASSED!
+
+!testRun: #CashierTest #test04 stamp: 'LNB 11/1/2021 20:52:02'!
+PASSED!
+
+	^GregorianMonthOfYear current next: 1*Month.!
+
+	GregorianMonth next: 1.!
+!CashierTest methodsFor: 'support' stamp: 'LNB 11/1/2021 21:02:38' prior: 50916722!
+validExpirationDate
+	GregorianMonth next: 1.
+	^GregorianMonthOfYear current next: 1*month.! !
+
+GregorianMonthOfYear current next: 1*month.!
+!CashierTest methodsFor: 'support' stamp: 'LNB 11/1/2021 21:03:43' prior: 50916739!
+validExpirationDate
+	
+	^GregorianMonthOfYear current next: 1*month.! !
+!CashierTest methodsFor: 'support' stamp: 'LNB 11/1/2021 21:04:42'!
+expiredExpirationDate
+	
+	^GregorianMonthOfYear current previous: 1*month.! !
+
+!testRun: #CashierTest #test01 stamp: 'LNB 11/1/2021 21:04:43'!
+PASSED!
+
+!testRun: #CashierTest #test02 stamp: 'LNB 11/1/2021 21:04:43'!
+PASSED!
+
+!testRun: #CashierTest #test03 stamp: 'LNB 11/1/2021 21:04:43'!
+PASSED!
+
+!testRun: #CashierTest #test04 stamp: 'LNB 11/1/2021 21:04:43'!
+PASSED!
+
+^GregorianMonthOfYear current previous: 1*month.!
+!CashierTest methodsFor: 'support' stamp: 'LNB 11/1/2021 21:04:55' prior: 50916751!
+expiredExpirationDate
+	
+	^GregorianMonthOfYear current previous: 1*month.! !
+!CashierTest methodsFor: 'support' stamp: 'LNB 11/1/2021 21:05:16' prior: 50916746!
+validExpirationDate
+	
+	^GregorianMonthOfYear current .! !
+
+----SNAPSHOT----(1 November 2021 21:38:38) CuisUniversity-4913.image priorSource: 18661997!
