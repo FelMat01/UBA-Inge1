@@ -1,11 +1,19 @@
+!classDefinition: #TusLibrosClientWindow category: 'TusLibros-Views'!
+SystemWindow subclass: #TusLibrosClientWindow
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros-Views'!
+
+
 !classDefinition: #TusLibrosClientCatalogAndCartContentsWindow category: 'TusLibros-Views'!
-SystemWindow subclass: #TusLibrosClientCatalogAndCartContentsWindow
+TusLibrosClientWindow subclass: #TusLibrosClientCatalogAndCartContentsWindow
 	instanceVariableNames: 'cartContentsPluggableList'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'TusLibros-Views'!
 
-!TusLibrosClientCatalogAndCartContentsWindow methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 16:48:08'!
+!TusLibrosClientCatalogAndCartContentsWindow methodsFor: 'window building' stamp: 'LNB 11/27/2021 16:48:08'!
 build1stColumn
 
 	| firstColumnLayoutMorph |
@@ -19,7 +27,7 @@ build1stColumn
 	
 	^firstColumnLayoutMorph.! !
 
-!TusLibrosClientCatalogAndCartContentsWindow methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 16:47:43'!
+!TusLibrosClientCatalogAndCartContentsWindow methodsFor: 'window building' stamp: 'LNB 11/27/2021 16:47:43'!
 build2ndColumn
 
 	| secondColumnLayoutMorph quantityToTransferTextBoxMorph |
@@ -52,7 +60,7 @@ build2ndColumn
 	
 	! !
 
-!TusLibrosClientCatalogAndCartContentsWindow methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 18:10:34'!
+!TusLibrosClientCatalogAndCartContentsWindow methodsFor: 'window building' stamp: 'LNB 11/27/2021 18:10:34'!
 build3rdColumn
 
 	| thirdColumnLayoutMorph |
@@ -67,7 +75,7 @@ build3rdColumn
 	
 	^thirdColumnLayoutMorph.! !
 
-!TusLibrosClientCatalogAndCartContentsWindow methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 16:42:22'!
+!TusLibrosClientCatalogAndCartContentsWindow methodsFor: 'window building' stamp: 'LNB 11/27/2021 16:42:22'!
 buildMorphicWindow
 
 	self layoutMorph beRow;
@@ -80,26 +88,70 @@ buildMorphicWindow
 	" estaria bueno que la responsabilidad de hacer el layoutSpec la tenga el morph que va a cambiar
 	su layout spec"! !
 
-!TusLibrosClientCatalogAndCartContentsWindow methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 14:57:52'!
+
+!TusLibrosClientCatalogAndCartContentsWindow methodsFor: 'initialization' stamp: 'LNB 11/27/2021 14:57:52'!
 defaultExtent
 
 	^ 1280@720
 ! !
 
-!TusLibrosClientCatalogAndCartContentsWindow methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 17:52:05'!
+!TusLibrosClientCatalogAndCartContentsWindow methodsFor: 'initialization' stamp: 'LNB 11/28/2021 00:32:43'!
 initializeNamed: aTitle modeledBy: aModel
 
-	"self titleMorph showButtonsNamed: #( close collapse )."
 	self setLabel: aTitle.
 	self model: aModel.
-	self morphExtent: (self defaultExtent).
+	
 	self buildMorphicWindow.
 	
 	self model when: #cartContentsModified send: #updateCartContents to: self.
+	self model when: #checkoutCartSuccess send: #displaySaleTicketWindow to: self.
+	self model when: #checkoutCouldNotBePerformed send: #displayCheckoutError to: self.
+	self model when: #triedToRemoveTooManyItems send: #displayRemoveError to: self.
+	self model when: #mustInputAValidQuantity send: #displayInvalidQuantityError to: self.
 	
-	self openInWorld.! !
+	self openInWorld.
+	self morphExtent: (self defaultExtent).! !
 
-!TusLibrosClientCatalogAndCartContentsWindow methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 18:10:52'!
+
+!TusLibrosClientCatalogAndCartContentsWindow methodsFor: 'error description' stamp: 'LNB 11/28/2021 00:24:54'!
+checkoutErrorDescription
+
+	^'Could not perform checkout'.! !
+
+!TusLibrosClientCatalogAndCartContentsWindow methodsFor: 'error description' stamp: 'LNB 11/28/2021 00:33:31'!
+invalidQuantityErrorDescription
+
+	^'Quantity must be a valid number.'! !
+
+!TusLibrosClientCatalogAndCartContentsWindow methodsFor: 'error description' stamp: 'LNB 11/28/2021 00:28:31'!
+removeErrorDescription
+
+	^'Tried to remove more items than currently found in cart'! !
+
+
+!TusLibrosClientCatalogAndCartContentsWindow methodsFor: 'open new windows' stamp: 'LNB 11/28/2021 00:24:02'!
+displayCheckoutError
+	
+	TusLibrosClientErrorWindow openWithErrorMessage: self checkoutErrorDescription.! !
+
+!TusLibrosClientCatalogAndCartContentsWindow methodsFor: 'open new windows' stamp: 'LNB 11/28/2021 00:33:09'!
+displayInvalidQuantityError
+
+	TusLibrosClientErrorWindow openWithErrorMessage: self invalidQuantityErrorDescription.! !
+
+!TusLibrosClientCatalogAndCartContentsWindow methodsFor: 'open new windows' stamp: 'LNB 11/28/2021 00:28:09'!
+displayRemoveError
+	
+	TusLibrosClientErrorWindow openWithErrorMessage: self removeErrorDescription.! !
+
+!TusLibrosClientCatalogAndCartContentsWindow methodsFor: 'open new windows' stamp: 'LNB 11/27/2021 22:40:05'!
+displaySaleTicketWindow
+
+	TusLibrosClientTicketDisplayWindow openWithModel: self model.
+	self delete.! !
+
+
+!TusLibrosClientCatalogAndCartContentsWindow methodsFor: 'access' stamp: 'LNB 11/27/2021 18:10:52'!
 updateCartContents
 	
 	cartContentsPluggableList updateList.! !
@@ -110,20 +162,68 @@ updateCartContents
 TusLibrosClientCatalogAndCartContentsWindow class
 	instanceVariableNames: ''!
 
-!TusLibrosClientCatalogAndCartContentsWindow class methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 15:06:36'!
+!TusLibrosClientCatalogAndCartContentsWindow class methodsFor: 'instance creation' stamp: 'LNB 11/27/2021 15:06:36'!
 openWithModel: aModel
 
 	^self new initializeNamed: 'TusLibros - Client Window' modeledBy: aModel.! !
 
 
-!classDefinition: #TusLibrosClientWindow category: 'TusLibros-Views'!
-SystemWindow subclass: #TusLibrosClientWindow
+!classDefinition: #TusLibrosClientErrorWindow category: 'TusLibros-Views'!
+TusLibrosClientWindow subclass: #TusLibrosClientErrorWindow
+	instanceVariableNames: 'errorDescription'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros-Views'!
+
+!TusLibrosClientErrorWindow methodsFor: 'initialization' stamp: 'LNB 11/28/2021 00:14:38'!
+defaultExtent
+
+	^ 250@100.! !
+
+!TusLibrosClientErrorWindow methodsFor: 'initialization' stamp: 'LNB 11/28/2021 00:18:10'!
+initializeNamed: aTitle withMessageText: anErrorDescription
+
+	self setLabel: aTitle.
+	errorDescription _ anErrorDescription.
+	self buildMorphicWindow.
+	
+	self model when: #cartCreationSuccesful send: #displayCatalogAndCartContents to: self.
+	self model when: #succesfullyLoggedOut send: #logOut to: self.
+	self model when: #purchaseHistoryArrived send: #createNewWindowForPurchaseHistory to: self.
+	
+	self openInWorld.
+	self morphExtent: (self defaultExtent).
+	self layoutMorph color: Color red.! !
+
+
+!TusLibrosClientErrorWindow methodsFor: 'window building' stamp: 'LNB 11/28/2021 00:15:37'!
+buildMorphicWindow
+
+	self layoutMorph beColumn;
+	separation: 50;
+	axisEdgeWeight: 0;
+	addMorph: (LabelMorph contents: errorDescription) layoutSpec: (LayoutSpec fixedWidth: 1 fixedHeight: 1).! !
+
+"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
+
+!classDefinition: 'TusLibrosClientErrorWindow class' category: 'TusLibros-Views'!
+TusLibrosClientErrorWindow class
+	instanceVariableNames: ''!
+
+!TusLibrosClientErrorWindow class methodsFor: 'instance creation' stamp: 'LNB 11/28/2021 00:02:20'!
+openWithErrorMessage: anErrorDescription
+
+	^self new initializeNamed: 'TusLibros - Error' withMessageText: anErrorDescription.! !
+
+
+!classDefinition: #TusLibrosClientMainWindow category: 'TusLibros-Views'!
+TusLibrosClientWindow subclass: #TusLibrosClientMainWindow
 	instanceVariableNames: 'usernameTextBoxMorph passwordTextBoxMorph'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'TusLibros-Views'!
 
-!TusLibrosClientWindow methodsFor: 'as yet unclassified' stamp: 'MF 11/18/2021 18:18:09'!
+!TusLibrosClientMainWindow methodsFor: 'window building' stamp: 'MF 11/18/2021 18:18:09'!
 build1stRow
 
 	| firstRowLayoutMorph |
@@ -140,14 +240,14 @@ build1stRow
 	^firstRowLayoutMorph.
 	! !
 
-!TusLibrosClientWindow methodsFor: 'as yet unclassified' stamp: 'MF 11/18/2021 18:20:20'!
+!TusLibrosClientMainWindow methodsFor: 'window building' stamp: 'MF 11/18/2021 18:20:20'!
 build2ndRow
 
 	^PluggableButtonMorph model: self model stateGetter: nil action: #createCart label: 'Create Cart'
 	
 	! !
 
-!TusLibrosClientWindow methodsFor: 'as yet unclassified' stamp: 'MF 11/18/2021 18:05:57'!
+!TusLibrosClientMainWindow methodsFor: 'window building' stamp: 'MF 11/18/2021 18:05:57'!
 buildLabeledTextMorphWith: aTextMorph labeledBy: aLabelText
 
 	| columnLayoutMorph |
@@ -162,7 +262,7 @@ buildLabeledTextMorphWith: aTextMorph labeledBy: aLabelText
 	^columnLayoutMorph.
 	! !
 
-!TusLibrosClientWindow methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 15:17:49'!
+!TusLibrosClientMainWindow methodsFor: 'window building' stamp: 'LNB 11/27/2021 15:17:49'!
 buildMorphicWindow
 
 	self layoutMorph beColumn;
@@ -174,13 +274,7 @@ buildMorphicWindow
 	" estaria bueno que la responsabilidad de hacer el layoutSpec la tenga el morph que va a cambiar
 	su layout spec"! !
 
-!TusLibrosClientWindow methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 15:18:25'!
-buildMorphicWindowDisplayingCartContentsAndCatalog
-
-	TusLibrosClientCatalogAndCartContentsWindow openWithModel: self model.
-	self delete.! !
-
-!TusLibrosClientWindow methodsFor: 'as yet unclassified' stamp: 'MF 11/18/2021 18:01:44'!
+!TusLibrosClientMainWindow methodsFor: 'window building' stamp: 'MF 11/18/2021 18:01:44'!
 buildPasswordTextMorph
 
 	passwordTextBoxMorph _ TextModelMorph
@@ -193,7 +287,7 @@ buildPasswordTextMorph
 	passwordTextBoxMorph  borderWidth: 1; borderColor: Color skyBlue; morphWidth: 300; morphHeight: 1. 
 ! !
 
-!TusLibrosClientWindow methodsFor: 'as yet unclassified' stamp: 'MF 11/18/2021 18:01:19'!
+!TusLibrosClientMainWindow methodsFor: 'window building' stamp: 'MF 11/18/2021 18:01:19'!
 buildUsernameTextMorph
 
 	usernameTextBoxMorph _ TextModelMorph 
@@ -205,40 +299,200 @@ buildUsernameTextMorph
 							toValue: [ :key | usernameTextBoxMorph innerTextMorph acceptContents ].				
 	usernameTextBoxMorph  borderWidth: 1; borderColor: Color skyBlue; morphWidth: 300; morphHeight: 1. ! !
 
-!TusLibrosClientWindow methodsFor: 'as yet unclassified' stamp: 'MF 11/15/2021 21:38:33'!
+
+!TusLibrosClientMainWindow methodsFor: 'open new window' stamp: 'LNB 11/27/2021 22:56:44'!
+displayCatalogAndCartContents
+
+	TusLibrosClientCatalogAndCartContentsWindow openWithModel: self model.
+	self delete.! !
+
+!TusLibrosClientMainWindow methodsFor: 'open new window' stamp: 'LNB 11/28/2021 00:00:13'!
+displayWrongUsernameOrPasswordError
+
+	TusLibrosClientErrorWindow openWithErrorMessage: self wrongUsernameOrPasswordErrorDescription.! !
+
+
+!TusLibrosClientMainWindow methodsFor: 'initialization' stamp: 'MF 11/15/2021 21:38:33'!
 defaultExtent
 
 	^ 1280@720
 ! !
 
-!TusLibrosClientWindow methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 15:05:05'!
-displayCatalogAndCartContents
-
-	self buildMorphicWindowDisplayingCartContentsAndCatalog.! !
-
-!TusLibrosClientWindow methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 15:17:49'!
+!TusLibrosClientMainWindow methodsFor: 'initialization' stamp: 'LNB 11/28/2021 00:17:14'!
 initializeWith: aTitle
 
-	"self titleMorph showButtonsNamed: #( close collapse )."
 	self setLabel: aTitle.
 	self model: (TusLibrosLoginWindowModel new).
-	self morphExtent: (self defaultExtent).
+	
 	self buildMorphicWindow.
 	
 	self model when: #cartCreationSuccesful send: #displayCatalogAndCartContents to: self.
+	self model when: #wrongUsernameOrPassword send: #displayWrongUsernameOrPasswordError to: self.
 	
-	self openInWorld.! !
+	self openInWorld.
+	self morphExtent: (self defaultExtent).! !
+
+
+!TusLibrosClientMainWindow methodsFor: 'error description' stamp: 'LNB 11/27/2021 23:59:19'!
+wrongUsernameOrPasswordErrorDescription
+
+	^'Username or password is incorrect.'! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
-!classDefinition: 'TusLibrosClientWindow class' category: 'TusLibros-Views'!
-TusLibrosClientWindow class
+!classDefinition: 'TusLibrosClientMainWindow class' category: 'TusLibros-Views'!
+TusLibrosClientMainWindow class
 	instanceVariableNames: ''!
 
-!TusLibrosClientWindow class methodsFor: 'as yet unclassified' stamp: 'MF 11/15/2021 21:19:45'!
+!TusLibrosClientMainWindow class methodsFor: 'instance creation' stamp: 'MF 11/15/2021 21:19:45'!
 open
 
 	^self new initializeWith: 'TusLibros - Client Window'! !
+
+
+!classDefinition: #TusLibrosClientPurchaseHistoryWindow category: 'TusLibros-Views'!
+TusLibrosClientWindow subclass: #TusLibrosClientPurchaseHistoryWindow
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros-Views'!
+
+!TusLibrosClientPurchaseHistoryWindow methodsFor: 'window building' stamp: 'LNB 11/27/2021 23:44:29'!
+buildMorphicWindow
+
+	self layoutMorph beColumn;
+	separation: 50;
+	axisEdgeWeight: 0;
+	addMorph: (LabelMorph contents: 'Purchase History:') layoutSpec: (LayoutSpec fixedWidth: 1 fixedHeight: 1);
+	
+	addMorph: ((PluggableListMorph model: self model listGetter: #purchaseHistoryDisplay indexGetter: #purchaseHistoryIndex indexSetter: #purchaseHistoryIndex:) borderWidth: 1; borderColor: Color black) layoutSpec: (LayoutSpec proportionalWidth: 1 proportionalHeight: 1);
+	
+	addMorph: (LabelMorph contents: 'Total: $' , model purchaseHistoryTotal asString) layoutSpec: (LayoutSpec proportionalWidth: 1 fixedHeight: 1).! !
+
+
+!TusLibrosClientPurchaseHistoryWindow methodsFor: 'initialization' stamp: 'LNB 11/27/2021 23:26:44'!
+defaultExtent
+
+	^ 1280@720
+! !
+
+!TusLibrosClientPurchaseHistoryWindow methodsFor: 'initialization' stamp: 'LNB 11/28/2021 00:39:00'!
+initializeNamed: aTitle modeledBy: aModel
+
+	self setLabel: aTitle.
+	self model: aModel.
+	
+	self buildMorphicWindow.
+	
+	self openInWorld.
+	self morphExtent: (self defaultExtent).! !
+
+"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
+
+!classDefinition: 'TusLibrosClientPurchaseHistoryWindow class' category: 'TusLibros-Views'!
+TusLibrosClientPurchaseHistoryWindow class
+	instanceVariableNames: ''!
+
+!TusLibrosClientPurchaseHistoryWindow class methodsFor: 'instance creation' stamp: 'LNB 11/27/2021 23:26:45'!
+openWithModel: aModel
+
+	^self new initializeNamed: 'TusLibros - Client Window' modeledBy: aModel.! !
+
+
+!classDefinition: #TusLibrosClientTicketDisplayWindow category: 'TusLibros-Views'!
+TusLibrosClientWindow subclass: #TusLibrosClientTicketDisplayWindow
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros-Views'!
+
+!TusLibrosClientTicketDisplayWindow methodsFor: 'window building' stamp: 'LNB 11/27/2021 23:16:15'!
+buildButtonsRow
+
+	| thirdColumnLayoutMorph createNewCartButton logOutButton listPurchasesButton |
+	
+	logOutButton _ ((PluggableButtonMorph model: self model stateGetter: nil action: #logOut label: 'Log out') borderWidth: 1; borderColor: Color black) layoutSpec: (LayoutSpec fixedWidth: 200 fixedHeight: 50).
+	
+	createNewCartButton _ ((PluggableButtonMorph model: self model stateGetter: nil action: #createCart label: 'Create New Cart') borderWidth: 1; borderColor: Color black) layoutSpec: (LayoutSpec fixedWidth: 200 fixedHeight: 50).
+	
+	listPurchasesButton _ ((PluggableButtonMorph model: self model stateGetter: nil action: #listPurchases label: 'List Purchases') borderWidth: 1; borderColor: Color black) layoutSpec: (LayoutSpec fixedWidth: 200 fixedHeight: 50).
+	
+	thirdColumnLayoutMorph _ LayoutMorph newRow.
+	thirdColumnLayoutMorph axisEdgeWeight: 0.5;
+	separation: 50;
+	addMorph: logOutButton;
+	addMorph: createNewCartButton;
+	addMorph: listPurchasesButton.
+	
+	^thirdColumnLayoutMorph.! !
+
+!TusLibrosClientTicketDisplayWindow methodsFor: 'window building' stamp: 'LNB 11/27/2021 22:47:16'!
+buildMorphicWindow
+
+	self layoutMorph beColumn;
+	separation: 50;
+	axisEdgeWeight: 0;
+	addMorph: (LabelMorph contents: 'Ticket:') layoutSpec: (LayoutSpec fixedWidth: 1 fixedHeight: 1);
+	
+	addMorph: ((PluggableListMorph model: self model listGetter: #lastTicketDisplay indexGetter: #ticketIndex indexSetter: #ticketIndex:) borderWidth: 1; borderColor: Color black) layoutSpec: (LayoutSpec proportionalWidth: 1 proportionalHeight: 1);
+	
+	addMorph: (LabelMorph contents: 'Total: $' , model lastTicketTotal) layoutSpec: (LayoutSpec proportionalWidth: 1 fixedHeight: 1);
+	
+	addMorph: self buildButtonsRow layoutSpec: (LayoutSpec fixedWidth: 1 fixedHeight: 1).
+	
+	" estaria bueno que la responsabilidad de hacer el layoutSpec la tenga el morph que va a cambiar
+	su layout spec"! !
+
+
+!TusLibrosClientTicketDisplayWindow methodsFor: 'open new window' stamp: 'LNB 11/27/2021 23:43:15'!
+createNewWindowForPurchaseHistory
+	
+	TusLibrosClientPurchaseHistoryWindow openWithModel: self model.! !
+
+!TusLibrosClientTicketDisplayWindow methodsFor: 'open new window' stamp: 'LNB 11/27/2021 22:56:58'!
+displayCatalogAndCartContents
+
+	TusLibrosClientCatalogAndCartContentsWindow openWithModel: self model.
+	self delete.! !
+
+!TusLibrosClientTicketDisplayWindow methodsFor: 'open new window' stamp: 'LNB 11/27/2021 23:04:05'!
+logOut
+
+	TusLibrosClientMainWindow open.
+	self delete.! !
+
+
+!TusLibrosClientTicketDisplayWindow methodsFor: 'initialization' stamp: 'LNB 11/27/2021 22:23:54'!
+defaultExtent
+
+	^ 1280@720
+! !
+
+!TusLibrosClientTicketDisplayWindow methodsFor: 'initialization' stamp: 'LNB 11/28/2021 00:17:57'!
+initializeNamed: aTitle modeledBy: aModel
+
+	self setLabel: aTitle.
+	self model: aModel.
+	
+	self buildMorphicWindow.
+	
+	self model when: #cartCreationSuccesful send: #displayCatalogAndCartContents to: self.
+	self model when: #succesfullyLoggedOut send: #logOut to: self.
+	self model when: #purchaseHistoryArrived send: #createNewWindowForPurchaseHistory to: self.
+	
+	self openInWorld.
+	self morphExtent: (self defaultExtent).! !
+
+"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
+
+!classDefinition: 'TusLibrosClientTicketDisplayWindow class' category: 'TusLibros-Views'!
+TusLibrosClientTicketDisplayWindow class
+	instanceVariableNames: ''!
+
+!TusLibrosClientTicketDisplayWindow class methodsFor: 'instance creation' stamp: 'LNB 11/27/2021 22:23:54'!
+openWithModel: aModel
+
+	^self new initializeNamed: 'TusLibros - Client Window' modeledBy: aModel.! !
 
 
 !classDefinition: #TusLibrosClientInterface category: 'TusLibros-Views'!
@@ -248,7 +502,7 @@ Object subclass: #TusLibrosClientInterface
 	poolDictionaries: ''
 	category: 'TusLibros-Views'!
 
-!TusLibrosClientInterface methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 17:48:13'!
+!TusLibrosClientInterface methodsFor: 'sending requests' stamp: 'LNB 11/27/2021 17:48:13'!
 addToCartRequest: aCartId for: aBookISBN of: anAmount
 
 	| fieldDict resp |
@@ -259,7 +513,7 @@ addToCartRequest: aCartId for: aBookISBN of: anAmount
 	resp isSuccess 
         		ifFalse:[^self error: resp content].! !
 
-!TusLibrosClientInterface methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 19:28:24'!
+!TusLibrosClientInterface methodsFor: 'sending requests' stamp: 'LNB 11/27/2021 19:28:24'!
 checkoutCartRequestFor: aCartId withCCN: aCCN withCCME: aCCME withCCYE: aCCYE withCCO: aCCO
 
 	| fieldDict resp |
@@ -271,7 +525,7 @@ checkoutCartRequestFor: aCartId withCCN: aCCN withCCME: aCCME withCCYE: aCCYE wi
 		ifTrue:[^WebUtils jsonDecode: ((resp content) readStream).] 
         		ifFalse:[^self error: resp content].! !
 
-!TusLibrosClientInterface methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 17:35:33'!
+!TusLibrosClientInterface methodsFor: 'sending requests' stamp: 'LNB 11/27/2021 17:35:33'!
 createCartRequestFor: aUsername with: aPassword
 
 	" un username no deberia tener espacios, todo: chequear que eso no suceda"
@@ -284,7 +538,7 @@ createCartRequestFor: aUsername with: aPassword
         		ifTrue:[^(WebUtils jsonDecode: ((resp content) readStream)).] 
         		ifFalse:[^self error: resp content].! !
 
-!TusLibrosClientInterface methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 18:19:17'!
+!TusLibrosClientInterface methodsFor: 'sending requests' stamp: 'LNB 11/27/2021 18:19:17'!
 listCartRequestFor: aCartId
 
 	| fieldDict resp |
@@ -296,7 +550,7 @@ listCartRequestFor: aCartId
 		ifTrue:[^(WebUtils jsonDecode: ((resp content) readStream)).]
         		ifFalse:[^self error: resp content].! !
 
-!TusLibrosClientInterface methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 17:20:41'!
+!TusLibrosClientInterface methodsFor: 'sending requests' stamp: 'LNB 11/27/2021 17:20:41'!
 listCatalog
 
 	| resp |
@@ -307,12 +561,20 @@ listCatalog
         		ifTrue:[^WebUtils jsonDecode: ((resp content) readStream).] 
         		ifFalse:[^self error: resp content].! !
 
-!TusLibrosClientInterface methodsFor: 'as yet unclassified' stamp: 'MF 11/15/2021 21:14:54'!
-port
-	
-	^port ifNil: [port:=8080].! !
+!TusLibrosClientInterface methodsFor: 'sending requests' stamp: 'LNB 11/27/2021 23:21:36'!
+listPurchasesRequestFor: aUsername authenticatingWith: aPassword
 
-!TusLibrosClientInterface methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 18:24:42'!
+	" un username no deberia tener espacios, todo: chequear que eso no suceda"
+	| fieldDict resp |
+	fieldDict _ Dictionary newFromPairs: { 'clientId'. aUsername. 'password'. aPassword }.
+	
+	resp _ WebClient htmlSubmit: (self url, '/listPurchases') fields: fieldDict method: 'POST'.
+	
+	resp isSuccess 
+        		ifTrue:[^(WebUtils jsonDecode: ((resp content) readStream)).] 
+        		ifFalse:[^self error: resp content].! !
+
+!TusLibrosClientInterface methodsFor: 'sending requests' stamp: 'LNB 11/27/2021 18:24:42'!
 removeFromCartRequest: aCartId for: aBookISBN of: anAmount
 
 	| fieldDict resp |
@@ -323,7 +585,13 @@ removeFromCartRequest: aCartId for: aBookISBN of: anAmount
 	resp isSuccess 
         		ifFalse:[^self error: resp content].! !
 
-!TusLibrosClientInterface methodsFor: 'as yet unclassified' stamp: 'MF 11/15/2021 21:14:48'!
+
+!TusLibrosClientInterface methodsFor: 'initialization' stamp: 'MF 11/15/2021 21:14:54'!
+port
+	
+	^port ifNil: [port:=8080].! !
+
+!TusLibrosClientInterface methodsFor: 'initialization' stamp: 'MF 11/15/2021 21:14:48'!
 url
 	
 	^'http://localhost:', self port asString! !
@@ -331,22 +599,80 @@ url
 
 !classDefinition: #TusLibrosLoginWindowModel category: 'TusLibros-Views'!
 Object subclass: #TusLibrosLoginWindowModel
-	instanceVariableNames: 'username password restInterface cartId catalogueSelectionIndex cartSelectionIndex quantityToTransferTextBoxContents ticket ccn ccme ccye'
+	instanceVariableNames: 'username password restInterface cartId catalogueSelectionIndex cartSelectionIndex quantityToTransferTextBoxContents ticket ccn ccme ccye ticketSelectedIndex lastPurchaseHistoryRequest purchaseHistorySelectionIndex'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'TusLibros-Views'!
 
-!TusLibrosLoginWindowModel methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 18:14:56'!
+!TusLibrosLoginWindowModel methodsFor: 'initialization' stamp: 'LNB 11/28/2021 00:31:52'!
+initialize
+
+	username _ ''.
+	password _ ''.
+	restInterface _ TusLibrosClientInterface new.
+	
+	catalogueSelectionIndex _ 1.
+	cartSelectionIndex _ 1.
+	
+	quantityToTransferTextBoxContents _ '1'.
+	
+	ticketSelectedIndex _ 0.
+	
+	purchaseHistorySelectionIndex _ 0.
+	
+	"Cargamos un archivo encriptado con la tarjeta de credito del usuario"
+	
+	ccn _ '1234567890123456'.
+	ccme _ GregorianMonth current number asString.
+	ccye _ GregorianYear current number asString.! !
+
+
+!TusLibrosLoginWindowModel methodsFor: 'login window selectors' stamp: 'LNB 11/28/2021 00:13:15'!
+createCart
+
+	[cartId _ restInterface createCartRequestFor: username with: password.
+	self triggerEvent: #cartCreationSuccesful.] 
+		on: Error - MessageNotUnderstood
+		do: [:anError | self triggerEvent: #wrongUsernameOrPassword.].
+	
+	! !
+
+!TusLibrosLoginWindowModel methodsFor: 'login window selectors' stamp: 'MF 11/18/2021 17:46:36'!
+password
+
+	^password.! !
+
+!TusLibrosLoginWindowModel methodsFor: 'login window selectors' stamp: 'MF 11/18/2021 18:17:30'!
+password: aPassword
+
+	password _ aPassword.
+	^true.! !
+
+!TusLibrosLoginWindowModel methodsFor: 'login window selectors' stamp: 'MF 11/18/2021 17:46:11'!
+username
+
+	^username! !
+
+!TusLibrosLoginWindowModel methodsFor: 'login window selectors' stamp: 'MF 11/18/2021 18:17:35'!
+username: aUsername
+
+	username _ aUsername.
+	^true.! !
+
+
+!TusLibrosLoginWindowModel methodsFor: 'checkout window selectors' stamp: 'LNB 11/28/2021 00:31:02'!
 addToCart
 
 	| bookISBN |
-	bookISBN _ (restInterface listCatalog keys at: catalogueSelectionIndex).
+	[bookISBN _ (restInterface listCatalog keys at: catalogueSelectionIndex).
 
 	restInterface addToCartRequest: cartId for: bookISBN of: quantityToTransferTextBoxContents asNumber.
 	
-	self triggerEvent: #cartContentsModified.! !
+	self triggerEvent: #cartContentsModified.]
+		on: Error - MessageNotUnderstood
+		do: [:anError | self triggerEvent: #mustInputAValidQuantity.].! !
 
-!TusLibrosLoginWindowModel methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 18:19:01'!
+!TusLibrosLoginWindowModel methodsFor: 'checkout window selectors' stamp: 'LNB 11/27/2021 18:19:01'!
 cartContents
 
 	| cartContents |
@@ -355,29 +681,29 @@ cartContents
 	^cartContents keys collect:[:aBookISBN | aBookISBN , ' | ' , ((cartContents at: aBookISBN) asString)].
 	! !
 
-!TusLibrosLoginWindowModel methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 16:09:56'!
+!TusLibrosLoginWindowModel methodsFor: 'checkout window selectors' stamp: 'LNB 11/27/2021 16:09:56'!
 cartContentsIndex
 
 	^cartSelectionIndex.! !
 
-!TusLibrosLoginWindowModel methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 16:10:22'!
+!TusLibrosLoginWindowModel methodsFor: 'checkout window selectors' stamp: 'LNB 11/27/2021 16:10:22'!
 cartContentsIndex: aNewIndex
 
 	cartSelectionIndex _ aNewIndex.
 	^true.! !
 
-!TusLibrosLoginWindowModel methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 16:04:27'!
+!TusLibrosLoginWindowModel methodsFor: 'checkout window selectors' stamp: 'LNB 11/27/2021 16:04:27'!
 catalogueListIndex
 
 	^catalogueSelectionIndex.! !
 
-!TusLibrosLoginWindowModel methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 17:29:14'!
+!TusLibrosLoginWindowModel methodsFor: 'checkout window selectors' stamp: 'LNB 11/27/2021 17:29:14'!
 catalogueListIndex: aNewIndex
 
 	catalogueSelectionIndex _ aNewIndex.
 	^true.! !
 
-!TusLibrosLoginWindowModel methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 17:27:56'!
+!TusLibrosLoginWindowModel methodsFor: 'checkout window selectors' stamp: 'LNB 11/27/2021 17:27:56'!
 catalogueProducts
 
 	| catalog |
@@ -385,79 +711,100 @@ catalogueProducts
 	
 	^catalog keys collect:[:aBookISBN | aBookISBN , ' | $' , ((catalog at: aBookISBN) asString)].! !
 
-!TusLibrosLoginWindowModel methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 19:29:29'!
+!TusLibrosLoginWindowModel methodsFor: 'checkout window selectors' stamp: 'LNB 11/28/2021 00:23:16'!
 checkoutCart
 
-	ticket _ restInterface checkoutCartRequestFor: cartId withCCN: ccn withCCME: ccme withCCYE: ccye withCCO: 'admin'.
-	
-	self halt.
-	
-	self triggerEvent: #checkoutCartSuccess.! !
+	[ticket _ restInterface checkoutCartRequestFor: cartId withCCN: ccn withCCME: ccme withCCYE: ccye withCCO: 'admin'.
+	self triggerEvent: #checkoutCartSuccess.]
+		on: Error - MessageNotUnderstood
+		do: [:anError | self triggerEvent: #checkoutCouldNotBePerformed.].! !
 
-!TusLibrosLoginWindowModel methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 17:03:24'!
-createCart
-
-	cartId _ restInterface createCartRequestFor: username with: password.
-	
-	self triggerEvent: #cartCreationSuccesful.! !
-
-!TusLibrosLoginWindowModel methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 19:15:15'!
-initialize
-
-	username _ ''.
-	password _ ''.
-	restInterface _ TusLibrosClientInterface new.
-	
-	catalogueSelectionIndex _ 0.
-	cartSelectionIndex _ 0.
-	
-	quantityToTransferTextBoxContents _ ''.
-	
-	"Cargamos un archivo encriptado con la tarjeta de credito del usuario"
-	
-	ccn _ '1234567890123456'.
-	ccme _ GregorianMonth current number asString.
-	ccye _ GregorianYear current number asString.! !
-
-!TusLibrosLoginWindowModel methodsFor: 'as yet unclassified' stamp: 'MF 11/18/2021 17:46:36'!
-password
-
-	^password.! !
-
-!TusLibrosLoginWindowModel methodsFor: 'as yet unclassified' stamp: 'MF 11/18/2021 18:17:30'!
-password: aPassword
-
-	password _ aPassword.
-	^true.! !
-
-!TusLibrosLoginWindowModel methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 16:23:45'!
+!TusLibrosLoginWindowModel methodsFor: 'checkout window selectors' stamp: 'LNB 11/27/2021 16:23:45'!
 quantityToTransfer
 
 	^quantityToTransferTextBoxContents.! !
 
-!TusLibrosLoginWindowModel methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 16:32:34'!
+!TusLibrosLoginWindowModel methodsFor: 'checkout window selectors' stamp: 'LNB 11/27/2021 16:32:34'!
 quantityToTransfer: transferableQuantityString
 
 	quantityToTransferTextBoxContents _ transferableQuantityString.
 	^true.! !
 
-!TusLibrosLoginWindowModel methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 18:22:10'!
+!TusLibrosLoginWindowModel methodsFor: 'checkout window selectors' stamp: 'LNB 11/28/2021 00:27:28'!
 removeFromCart
 
 	| bookISBN |
-	bookISBN _ (restInterface listCatalog keys at: catalogueSelectionIndex).
+	[bookISBN _ (restInterface listCatalog keys at: catalogueSelectionIndex).
 
 	restInterface removeFromCartRequest: cartId for: bookISBN of: quantityToTransferTextBoxContents asNumber.
 	
-	self triggerEvent: #cartContentsModified.! !
+	self triggerEvent: #cartContentsModified.]
+		on: Error - MessageNotUnderstood
+		do: [:anError | self triggerEvent: #triedToRemoveTooManyItems.].! !
 
-!TusLibrosLoginWindowModel methodsFor: 'as yet unclassified' stamp: 'MF 11/18/2021 17:46:11'!
-username
 
-	^username! !
+!TusLibrosLoginWindowModel methodsFor: 'ticket window selectors' stamp: 'LNB 11/27/2021 22:41:50'!
+lastTicketDisplay
 
-!TusLibrosLoginWindowModel methodsFor: 'as yet unclassified' stamp: 'MF 11/18/2021 18:17:35'!
-username: aUsername
+	| ticketForDisplay |
+	ticketForDisplay _ ticket copy.
+	ticketForDisplay removeKey: 'total'.
+	
+	^ticketForDisplay keys collect:[:aBookISBN | aBookISBN , ' | $' , ((ticketForDisplay at: aBookISBN) asString)].! !
 
-	username _ aUsername.
+!TusLibrosLoginWindowModel methodsFor: 'ticket window selectors' stamp: 'LNB 11/27/2021 22:43:45'!
+lastTicketTotal
+	
+	^(ticket at: 'total') asString.! !
+
+!TusLibrosLoginWindowModel methodsFor: 'ticket window selectors' stamp: 'LNB 11/27/2021 23:19:38'!
+listPurchases
+
+	lastPurchaseHistoryRequest _ restInterface listPurchasesRequestFor: username authenticatingWith: password.
+	
+	self triggerEvent: #purchaseHistoryArrived.! !
+
+!TusLibrosLoginWindowModel methodsFor: 'ticket window selectors' stamp: 'LNB 11/27/2021 23:04:03'!
+logOut
+
+	self triggerEvent: #succesfullyLoggedOut.! !
+
+!TusLibrosLoginWindowModel methodsFor: 'ticket window selectors' stamp: 'LNB 11/27/2021 22:38:37'!
+ticketIndex
+
+	^ticketSelectedIndex.! !
+
+!TusLibrosLoginWindowModel methodsFor: 'ticket window selectors' stamp: 'LNB 11/27/2021 22:39:13'!
+ticketIndex: aSelectionIndex
+
+	ticketSelectedIndex _ aSelectionIndex.
 	^true.! !
+
+
+!TusLibrosLoginWindowModel methodsFor: 'purchase history window selectors' stamp: 'LNB 11/27/2021 23:40:22'!
+purchaseHistoryDisplay
+
+	| purchaseHistoryForDisplay |
+	purchaseHistoryForDisplay _ lastPurchaseHistoryRequest copy.
+	purchaseHistoryForDisplay removeKey: 'total'.
+	
+	^purchaseHistoryForDisplay keys collect:[:aBookISBN | aBookISBN , 
+		' | qty ' , (((purchaseHistoryForDisplay at: aBookISBN) at: 'quantity') asString),
+		' | $' , (((purchaseHistoryForDisplay at: aBookISBN) at: 'total') asString)].
+	! !
+
+!TusLibrosLoginWindowModel methodsFor: 'purchase history window selectors' stamp: 'LNB 11/27/2021 23:34:07'!
+purchaseHistoryIndex
+
+	^purchaseHistorySelectionIndex.! !
+
+!TusLibrosLoginWindowModel methodsFor: 'purchase history window selectors' stamp: 'LNB 11/27/2021 23:34:31'!
+purchaseHistoryIndex: aNewSelectionIndex
+
+	purchaseHistorySelectionIndex _ aNewSelectionIndex.
+	^true.! !
+
+!TusLibrosLoginWindowModel methodsFor: 'purchase history window selectors' stamp: 'LNB 11/27/2021 23:41:49'!
+purchaseHistoryTotal
+
+	^lastPurchaseHistoryRequest at: 'total'.! !

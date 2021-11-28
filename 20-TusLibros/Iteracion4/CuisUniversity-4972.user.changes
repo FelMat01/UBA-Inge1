@@ -9961,3 +9961,1980 @@ checkoutCart
 TusLibrosClientWindow open.!
 
 ----QUIT----(27 November 2021 19:31:06) CuisUniversity-4972.image priorSource: 20901445!
+
+----STARTUP---- (27 November 2021 19:33:08) as E:\Cursada Actual IS1\Ejercicios para entregar\20-TusLibros\Iteracion4\CuisUniversity-4972.image!
+
+
+----QUIT----(27 November 2021 19:39:31) CuisUniversity-4972.image priorSource: 20906268!
+
+----STARTUP---- (27 November 2021 19:44:59) as E:\Cursada Actual IS1\Ejercicios para entregar\20-TusLibros\Iteracion4\CuisUniversity-4972.image!
+
+
+server _ TusLibrosServerInterface listeningOn: 8080 interactingWith: factory createSystemFacade.!
+
+TusLibrosServerInterface allInstances do: [ :aServer | aServer destroy ].!
+
+server _ TusLibrosServerInterface listeningOn: 8080 interactingWith: factory createSystemFacade.!
+
+TusLibrosClientWindow open.!
+!TusLibrosLoginWindowModel methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 19:47:10' prior: 50984962!
+checkoutCart
+
+	ticket _ restInterface checkoutCartRequestFor: cartId withCCN: ccn withCCME: ccme withCCYE: ccye withCCO: 'admin'.
+	
+	self triggerEvent: #checkoutCartSuccess.! !
+
+TusLibrosServerInterface allInstances.!
+
+self at: 'El Señor de los anillos' put: 2000*peso!
+
+self updateList!
+
+self updateList!
+
+TusLibrosServerInterface allInstances do: [ :aServer | aServer destroy ].!
+
+TusLibrosServerInterface allInstances.!
+
+TusLibrosServerInterface allInstances.!
+
+TusLibrosServerInterface allInstances do: [ :aServer | aServer destroy ].!
+
+TusLibrosServerInterface allInstances do: [ :aServer | aServer destroy ].!
+
+server destroy!
+
+server _ TusLibrosServerInterface listeningOn: 8080 interactingWith: factory createSystemFacade.!
+
+TusLibrosServerInterface allInstances.!
+
+Smalltalk garbageCollectMost !
+
+TusLibrosServerInterface allInstances do: [ :aServer | aServer destroy ].!
+
+Smalltalk garbageCollectMost !
+
+TusLibrosServerInterface allInstances.!
+
+Utilities garbageCollectAndReport !
+
+TusLibrosServerInterface allInstances do: [ :aServer | aServer destroy ].!
+
+Utilities garbageCollectAndReport !
+
+TusLibrosServerInterface allInstances.!
+
+TusLibrosClientWindow open.!
+
+Utilities garbageCollectAndReport !
+
+TusLibrosServerInterface allInstances do: [ :aServer | aServer destroy ].!
+
+Utilities garbageCollectAndReport !
+
+TusLibrosServerInterface allInstances.!
+
+self !
+
+TusLibrosServerInterface allInstances do: [ :aServer | aServer destroy ].!
+
+Utilities garbageCollectAndReport !
+
+TusLibrosServerInterface allInstances.!
+
+TusLibrosServerInterface allInstances.!
+
+TusLibrosServerInterface listeningOn: 8080 interactingWith: factory createSystemFacade.!
+
+TusLibrosServerInterface allInstances.!
+
+factory _ InterfaceTestObjectsFactory new.!
+
+TusLibrosServerInterface listeningOn: 8080 interactingWith: factory createSystemFacade.!
+
+TusLibrosServerInterface allInstances.!
+
+self at: 'El Señor de los Anillos' put: 2000*peso!
+
+TusLibrosClientWindow open.!
+
+TusLibrosServerInterface allInstances do: [ :aServer | aServer destroy ].!
+
+Smalltalk garbageCollectMost !
+
+TusLibrosServerInterface allInstances.!
+
+Utilities garbageCollectAndReport !
+
+TusLibrosServerInterface allInstances.!
+
+TusLibrosServerInterface listeningOn: 8080 interactingWith: factory createSystemFacade.!
+
+TusLibrosClientWindow open.!
+
+TusLibrosServerInterface allInstances.!
+
+self at: 'El Señor de los Anillos' put: 2000!
+
+TusLibrosClientWindow open.!
+
+TusLibrosServerInterface allInstances.!
+
+self at: 'A Song of Ice and Fire - A Game Of Thrones Story' put: 3000!
+
+TusLibrosServerInterface listeningOn: 8080 interactingWith: factory createSystemFacade.!
+
+TusLibrosServerInterface allInstances.!
+
+self at: 'A Song of Ice and Fire - A Game Of Thrones Story' put: 100!
+
+self at: 'El Señor de los Anillos' put: 80!
+
+TusLibrosClientWindow open.!
+
+----STARTUP---- (27 November 2021 22:03:38) as E:\Cursada Actual IS1\Ejercicios para entregar\20-TusLibros\Iteracion4\CuisUniversity-4972.image!
+
+
+TusLibrosServerInterface allInstances.!
+!TusLibrosClientCatalogAndCartContentsWindow methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 22:05:55' prior: 50983932!
+initializeNamed: aTitle modeledBy: aModel
+
+	"self titleMorph showButtonsNamed: #( close collapse )."
+	self setLabel: aTitle.
+	self model: aModel.
+	self morphExtent: (self defaultExtent).
+	self buildMorphicWindow.
+	
+	self model when: #cartContentsModified send: #updateCartContents to: self.
+	self model when: #checkoutCartSuccess send: #updateCartContents to: self.
+	
+	self openInWorld.! !
+!TusLibrosClientCatalogAndCartContentsWindow methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 22:06:45' prior: 50984990!
+initializeNamed: aTitle modeledBy: aModel
+
+	"self titleMorph showButtonsNamed: #( close collapse )."
+	self setLabel: aTitle.
+	self model: aModel.
+	self morphExtent: (self defaultExtent).
+	self buildMorphicWindow.
+	
+	self model when: #cartContentsModified send: #updateCartContents to: self.
+	self model when: #checkoutCartSuccess send: #displaySaleTicketWindow to: self.
+	
+	self openInWorld.! !
+!TusLibrosClientCatalogAndCartContentsWindow methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 22:06:52'!
+displaySaleTicketWindow! !
+!TusLibrosLoginWindowModel methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 22:07:05' prior: 50984962!
+checkoutCart
+
+	ticket _ restInterface checkoutCartRequestFor: cartId withCCN: ccn withCCME: ccme withCCYE: ccye withCCO: 'admin'.
+	
+	self triggerEvent: #checkoutCartSuccess.! !
+!TusLibrosLoginWindowModel methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 22:07:42' prior: 50985028!
+checkoutCart
+
+	ticket _ restInterface checkoutCartRequestFor: cartId withCCN: ccn withCCME: ccme withCCYE: ccye withCCO: 'admin'.
+	
+	self triggerEvent: #checkoutCartSuccess: with: ticket.! !
+!TusLibrosClientCatalogAndCartContentsWindow methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 22:08:08' prior: 50985007!
+initializeNamed: aTitle modeledBy: aModel
+
+	"self titleMorph showButtonsNamed: #( close collapse )."
+	self setLabel: aTitle.
+	self model: aModel.
+	self morphExtent: (self defaultExtent).
+	self buildMorphicWindow.
+	
+	self model when: #cartContentsModified send: #updateCartContents to: self.
+	self model when: #checkoutCartSuccess: send: #displaySaleTicketWindow: to: self.
+	
+	self openInWorld.! !
+!TusLibrosClientCatalogAndCartContentsWindow methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 22:08:24'!
+displaySaleTicketWindow: aTicket! !
+
+!methodRemoval: TusLibrosClientCatalogAndCartContentsWindow #displaySaleTicketWindow stamp: 'LNB 11/27/2021 22:08:26'!
+displaySaleTicketWindow!
+!TusLibrosLoginWindowModel methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 22:09:35' prior: 50985037!
+checkoutCart
+
+	ticket _ restInterface checkoutCartRequestFor: cartId withCCN: ccn withCCME: ccme withCCYE: ccye withCCO: 'admin'.
+	
+	self triggerEvent: #checkoutCartSuccess.! !
+!TusLibrosClientCatalogAndCartContentsWindow methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 22:10:57'!
+displaySaleTicketWindow
+
+	TusLibrosClientCatalogAndCartContentsWindow openWithModel: self model.
+	self delete.! !
+
+!methodRemoval: TusLibrosClientCatalogAndCartContentsWindow #displaySaleTicketWindow: stamp: 'LNB 11/27/2021 22:11:00'!
+displaySaleTicketWindow: aTicket!
+!TusLibrosClientCatalogAndCartContentsWindow methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 22:11:10' prior: 50985047!
+initializeNamed: aTitle modeledBy: aModel
+
+	"self titleMorph showButtonsNamed: #( close collapse )."
+	self setLabel: aTitle.
+	self model: aModel.
+	self morphExtent: (self defaultExtent).
+	self buildMorphicWindow.
+	
+	self model when: #cartContentsModified send: #updateCartContents to: self.
+	self model when: #checkoutCartSuccess send: #displaySaleTicketWindow to: self.
+	
+	self openInWorld.! !
+
+!classDefinition: #TusLibrosClientTicketDisplayWindow category: 'TusLibros-Views' stamp: 'LNB 11/27/2021 22:12:25'!
+Object subclass: #TusLibrosClientTicketDisplayWindow
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros-Views'!
+!TusLibrosClientCatalogAndCartContentsWindow methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 22:12:10' prior: 50985083!
+displaySaleTicketWindow
+
+	TusLibrosClientTicketDisplayWindow openWithModel: self model.
+	self delete.! !
+
+!classRenamed: #TusLibrosClientWindow as: #TusLibrosClientMainWindow stamp: 'LNB 11/27/2021 22:12:33'!
+Smalltalk renameClassNamed: #TusLibrosClientWindow as: #TusLibrosClientMainWindow!
+
+SystemWindow subclass: #TusLibrosClientWindow
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros-Views'!
+
+!classDefinition: #TusLibrosClientWindow category: 'TusLibros-Views' stamp: 'LNB 11/27/2021 22:12:58'!
+SystemWindow subclass: #TusLibrosClientWindow
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros-Views'!
+
+TusLibrosClientWindow subclass: #TusLibrosClientTicketDisplayWindow
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros-Views'!
+
+!classDefinition: #TusLibrosClientTicketDisplayWindow category: 'TusLibros-Views' stamp: 'LNB 11/27/2021 22:13:20'!
+TusLibrosClientWindow subclass: #TusLibrosClientTicketDisplayWindow
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros-Views'!
+
+TusLibrosClientWindow subclass: #TusLibrosClientMainWindow
+	instanceVariableNames: 'usernameTextBoxMorph passwordTextBoxMorph'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros-Views'!
+
+!classDefinition: #TusLibrosClientMainWindow category: 'TusLibros-Views' stamp: 'LNB 11/27/2021 22:13:25'!
+TusLibrosClientWindow subclass: #TusLibrosClientMainWindow
+	instanceVariableNames: 'usernameTextBoxMorph passwordTextBoxMorph'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros-Views'!
+
+TusLibrosClientWindow subclass: #TusLibrosClientCatalogAndCartContentsWindow
+	instanceVariableNames: 'cartContentsPluggableList'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros-Views'!
+
+!classDefinition: #TusLibrosClientCatalogAndCartContentsWindow category: 'TusLibros-Views' stamp: 'LNB 11/27/2021 22:13:30'!
+TusLibrosClientWindow subclass: #TusLibrosClientCatalogAndCartContentsWindow
+	instanceVariableNames: 'cartContentsPluggableList'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros-Views'!
+!TusLibrosClientCatalogAndCartContentsWindow methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 22:14:25' prior: 50985121!
+displaySaleTicketWindow
+
+	TusLibrosClientWindow openWithModel: self model.
+	self delete.! !
+
+!classRemoval: #TusLibrosClientTicketDisplayWindow stamp: 'LNB 11/27/2021 22:14:28'!
+TusLibrosClientWindow subclass: #TusLibrosClientTicketDisplayWindow
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros-Views'!
+
+TusLibrosClientWindow subclass: #TusLibrosClientTicketDisplayWindow
+	instanceVariableNames: 'cartContentsPluggableList'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros-Views'!
+
+!classDefinition: #TusLibrosClientTicketDisplayWindow category: 'TusLibros-Views' stamp: 'LNB 11/27/2021 22:23:53'!
+TusLibrosClientWindow subclass: #TusLibrosClientTicketDisplayWindow
+	instanceVariableNames: 'cartContentsPluggableList'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros-Views'!
+
+TusLibrosClientTicketDisplayWindow class
+	instanceVariableNames: ''!
+
+!classDefinition: 'TusLibrosClientTicketDisplayWindow class' category: 'TusLibros-Views' stamp: 'LNB 11/27/2021 22:23:53'!
+TusLibrosClientTicketDisplayWindow class
+	instanceVariableNames: ''!
+!TusLibrosClientTicketDisplayWindow methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 22:23:53'!
+build1stColumn
+
+	| firstColumnLayoutMorph |
+	
+	firstColumnLayoutMorph _ LayoutMorph newColumn.
+	firstColumnLayoutMorph axisEdgeWeight: 0.5;
+	separation: 50;
+	addMorph: (LabelMorph contents: 'Catalogue');
+	addMorph: ((PluggableListMorph model: self model listGetter: #catalogueProducts indexGetter: #catalogueListIndex indexSetter: #catalogueListIndex:) borderWidth: 1; borderColor: Color black) layoutSpec: (LayoutSpec proportionalWidth: 1 proportionalHeight: 1).
+	"firstRowLayoutMorph borderColor: Color skyBlue; borderWidth: 1; morphWidth:300."
+	
+	^firstColumnLayoutMorph.! !
+!TusLibrosClientTicketDisplayWindow methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 22:23:53'!
+build2ndColumn
+
+	| secondColumnLayoutMorph quantityToTransferTextBoxMorph |
+	
+	quantityToTransferTextBoxMorph _ 
+		(TextModelMorph
+			textProvider: self model
+			textGetter: #quantityToTransfer
+			textSetter: #quantityToTransfer:).
+			
+	quantityToTransferTextBoxMorph innerTextMorph 
+							setProperty: #keyStroke: 
+							toValue: [ :key | quantityToTransferTextBoxMorph innerTextMorph acceptContents ].	
+	
+	quantityToTransferTextBoxMorph borderWidth: 1; borderColor: Color black.
+	
+	secondColumnLayoutMorph _ LayoutMorph newColumn.
+	secondColumnLayoutMorph axisEdgeWeight: 0.5;
+	separation: 50;
+	addMorph: (LabelMorph contents: 'Quantity to transfer:');
+	addMorph: quantityToTransferTextBoxMorph layoutSpec: (LayoutSpec fixedWidth: 200 fixedHeight: 25);
+								
+	addMorph: (PluggableButtonMorph model: self model stateGetter: nil action: #addToCart label: 'Add') layoutSpec: (LayoutSpec fixedWidth: 200 fixedHeight: 50);
+	addMorph: (PluggableButtonMorph model: self model stateGetter: nil action: #removeFromCart label: 'Remove') layoutSpec: (LayoutSpec fixedWidth: 200 fixedHeight: 50);
+	addMorph: (PluggableButtonMorph model: self model stateGetter: nil action: #checkoutCart label: 'Checkout Cart') layoutSpec: (LayoutSpec fixedWidth: 200 fixedHeight: 50).
+	
+	^secondColumnLayoutMorph.
+	
+	
+	
+	! !
+!TusLibrosClientTicketDisplayWindow methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 22:23:53'!
+build3rdColumn
+
+	| thirdColumnLayoutMorph |
+	
+	cartContentsPluggableList _ ((PluggableListMorph model: self model listGetter: #cartContents indexGetter: #cartContentsIndex indexSetter: #cartContentsIndex:) borderWidth: 1; borderColor: Color black) layoutSpec: (LayoutSpec proportionalWidth: 1 proportionalHeight: 1).
+	
+	thirdColumnLayoutMorph _ LayoutMorph newColumn.
+	thirdColumnLayoutMorph axisEdgeWeight: 0.5;
+	separation: 50;
+	addMorph: (LabelMorph contents: 'Cart');
+	addMorph: cartContentsPluggableList.
+	
+	^thirdColumnLayoutMorph.! !
+!TusLibrosClientTicketDisplayWindow methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 22:23:53'!
+buildMorphicWindow
+
+	self layoutMorph beRow;
+	separation: 0;
+	axisEdgeWeight: 0;
+	addMorph: self build1stColumn layoutSpec: (LayoutSpec proportionalWidth: 1 proportionalHeight: 1);
+	addMorph: self build2ndColumn layoutSpec: (LayoutSpec proportionalWidth: 1 proportionalHeight: 1);
+	addMorph: self build3rdColumn layoutSpec: (LayoutSpec proportionalWidth: 1 proportionalHeight: 1).
+	
+	" estaria bueno que la responsabilidad de hacer el layoutSpec la tenga el morph que va a cambiar
+	su layout spec"! !
+!TusLibrosClientTicketDisplayWindow methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 22:23:54'!
+defaultExtent
+
+	^ 1280@720
+! !
+!TusLibrosClientTicketDisplayWindow methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 22:23:54'!
+displaySaleTicketWindow
+
+	TusLibrosClientWindow openWithModel: self model.
+	self delete.! !
+!TusLibrosClientTicketDisplayWindow methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 22:23:54'!
+initializeNamed: aTitle modeledBy: aModel
+
+	"self titleMorph showButtonsNamed: #( close collapse )."
+	self setLabel: aTitle.
+	self model: aModel.
+	self morphExtent: (self defaultExtent).
+	self buildMorphicWindow.
+	
+	self model when: #cartContentsModified send: #updateCartContents to: self.
+	self model when: #checkoutCartSuccess send: #displaySaleTicketWindow to: self.
+	
+	self openInWorld.! !
+!TusLibrosClientTicketDisplayWindow methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 22:23:54'!
+updateCartContents
+	
+	cartContentsPluggableList updateList.! !
+!TusLibrosClientTicketDisplayWindow class methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 22:23:54'!
+openWithModel: aModel
+
+	^self new initializeNamed: 'TusLibros - Client Window' modeledBy: aModel.! !
+!TusLibrosClientTicketDisplayWindow methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 22:25:26' prior: 50985320!
+buildMorphicWindow
+
+	self layoutMorph beColumn;
+	separation: 0;
+	axisEdgeWeight: 0;
+	addMorph: self build1stColumn layoutSpec: (LayoutSpec proportionalWidth: 1 proportionalHeight: 1);
+	addMorph: self build2ndColumn layoutSpec: (LayoutSpec proportionalWidth: 1 proportionalHeight: 1);
+	addMorph: self build3rdColumn layoutSpec: (LayoutSpec proportionalWidth: 1 proportionalHeight: 1).
+	
+	" estaria bueno que la responsabilidad de hacer el layoutSpec la tenga el morph que va a cambiar
+	su layout spec"! !
+!TusLibrosClientTicketDisplayWindow methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 22:26:46' prior: 50985380!
+buildMorphicWindow
+
+	self layoutMorph beColumn;
+	separation: 0;
+	axisEdgeWeight: 0;
+	addMorph: self build1stColumn layoutSpec: (LayoutSpec proportionalWidth: 1 proportionalHeight: 1);
+	addMorph: self build2ndColumn layoutSpec: (LayoutSpec proportionalWidth: 1 proportionalHeight: 1);
+	addMorph: self build3rdColumn layoutSpec: (LayoutSpec fixedWidth: 1 fixedHeight: 1).
+	
+	" estaria bueno que la responsabilidad de hacer el layoutSpec la tenga el morph que va a cambiar
+	su layout spec"! !
+!TusLibrosClientTicketDisplayWindow methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 22:27:08'!
+buildButtonsRow
+
+	| thirdColumnLayoutMorph |
+	
+	cartContentsPluggableList _ ((PluggableListMorph model: self model listGetter: #cartContents indexGetter: #cartContentsIndex indexSetter: #cartContentsIndex:) borderWidth: 1; borderColor: Color black) layoutSpec: (LayoutSpec proportionalWidth: 1 proportionalHeight: 1).
+	
+	thirdColumnLayoutMorph _ LayoutMorph newColumn.
+	thirdColumnLayoutMorph axisEdgeWeight: 0.5;
+	separation: 50;
+	addMorph: (LabelMorph contents: 'Cart');
+	addMorph: cartContentsPluggableList.
+	
+	^thirdColumnLayoutMorph.! !
+!TusLibrosClientTicketDisplayWindow methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 22:27:08' prior: 50985400!
+buildMorphicWindow
+
+	self layoutMorph beColumn;
+	separation: 0;
+	axisEdgeWeight: 0;
+	addMorph: self build1stColumn layoutSpec: (LayoutSpec proportionalWidth: 1 proportionalHeight: 1);
+	addMorph: self build2ndColumn layoutSpec: (LayoutSpec proportionalWidth: 1 proportionalHeight: 1);
+	addMorph: self buildButtonsRow layoutSpec: (LayoutSpec fixedWidth: 1 fixedHeight: 1).
+	
+	" estaria bueno que la responsabilidad de hacer el layoutSpec la tenga el morph que va a cambiar
+	su layout spec"! !
+
+!methodRemoval: TusLibrosClientTicketDisplayWindow #build3rdColumn stamp: 'LNB 11/27/2021 22:27:08'!
+build3rdColumn
+
+	| thirdColumnLayoutMorph |
+	
+	cartContentsPluggableList _ ((PluggableListMorph model: self model listGetter: #cartContents indexGetter: #cartContentsIndex indexSetter: #cartContentsIndex:) borderWidth: 1; borderColor: Color black) layoutSpec: (LayoutSpec proportionalWidth: 1 proportionalHeight: 1).
+	
+	thirdColumnLayoutMorph _ LayoutMorph newColumn.
+	thirdColumnLayoutMorph axisEdgeWeight: 0.5;
+	separation: 50;
+	addMorph: (LabelMorph contents: 'Cart');
+	addMorph: cartContentsPluggableList.
+	
+	^thirdColumnLayoutMorph.!
+!TusLibrosClientTicketDisplayWindow methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 22:27:45' prior: 50985440!
+buildMorphicWindow
+
+	self layoutMorph beColumn;
+	separation: 0;
+	axisEdgeWeight: 0;
+	addMorph: self build1stColumn layoutSpec: (LayoutSpec proportionalWidth: 1 proportionalHeight: 1);
+	addMorph: self build2ndColumn layoutSpec: (LayoutSpec proportionalWidth: 1 proportionalHeight: 1);
+	addMorph: self build2ndColumn layoutSpec: (LayoutSpec proportionalWidth: 1 proportionalHeight: 1);
+	addMorph: self buildButtonsRow layoutSpec: (LayoutSpec fixedWidth: 1 fixedHeight: 1).
+	
+	" estaria bueno que la responsabilidad de hacer el layoutSpec la tenga el morph que va a cambiar
+	su layout spec"! !
+!TusLibrosClientTicketDisplayWindow methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 22:28:11' prior: 50985480!
+buildMorphicWindow
+
+	self layoutMorph beColumn;
+	separation: 0;
+	axisEdgeWeight: 0;
+	addMorph: (LabelMorph contents: 'Ticket:') layoutSpec: (LayoutSpec proportionalWidth: 1 proportionalHeight: 1);
+	addMorph: self build2ndColumn layoutSpec: (LayoutSpec proportionalWidth: 1 proportionalHeight: 1);
+	addMorph: self build2ndColumn layoutSpec: (LayoutSpec proportionalWidth: 1 proportionalHeight: 1);
+	addMorph: self buildButtonsRow layoutSpec: (LayoutSpec fixedWidth: 1 fixedHeight: 1).
+	
+	" estaria bueno que la responsabilidad de hacer el layoutSpec la tenga el morph que va a cambiar
+	su layout spec"! !
+!TusLibrosClientTicketDisplayWindow methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 22:30:37' prior: 50985503!
+buildMorphicWindow
+
+	self layoutMorph beColumn;
+	separation: 0;
+	axisEdgeWeight: 0;
+	addMorph: (LabelMorph contents: 'Ticket:') layoutSpec: (LayoutSpec proportionalWidth: 1 proportionalHeight: 1);
+	
+	addMorph: ((PluggableListMorph model: self model listGetter: #lastTicketDisplay indexGetter: #ticketIndex indexSetter: #ticketIndex:) borderWidth: 1; borderColor: Color black) layoutSpec: (LayoutSpec proportionalWidth: 1 proportionalHeight: 1);
+	
+	addMorph: self build2ndColumn layoutSpec: (LayoutSpec proportionalWidth: 1 proportionalHeight: 1);
+	
+	addMorph: self buildButtonsRow layoutSpec: (LayoutSpec fixedWidth: 1 fixedHeight: 1).
+	
+	" estaria bueno que la responsabilidad de hacer el layoutSpec la tenga el morph que va a cambiar
+	su layout spec"! !
+!TusLibrosClientTicketDisplayWindow methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 22:31:50' prior: 50985526!
+buildMorphicWindow
+
+	self layoutMorph beColumn;
+	separation: 0;
+	axisEdgeWeight: 0;
+	addMorph: (LabelMorph contents: 'Ticket:') layoutSpec: (LayoutSpec proportionalWidth: 1 proportionalHeight: 1);
+	
+	addMorph: ((PluggableListMorph model: self model listGetter: #lastTicketDisplay indexGetter: #ticketIndex indexSetter: #ticketIndex:) borderWidth: 1; borderColor: Color black) layoutSpec: (LayoutSpec proportionalWidth: 1 proportionalHeight: 1);
+	
+	addMorph: (LabelMorph contents: 'Total: $' , model lastTicketTotal) layoutSpec: (LayoutSpec proportionalWidth: 1 proportionalHeight: 1);
+	
+	addMorph: self buildButtonsRow layoutSpec: (LayoutSpec fixedWidth: 1 fixedHeight: 1).
+	
+	" estaria bueno que la responsabilidad de hacer el layoutSpec la tenga el morph que va a cambiar
+	su layout spec"! !
+
+!methodRemoval: TusLibrosClientTicketDisplayWindow #build1stColumn stamp: 'LNB 11/27/2021 22:31:56'!
+build1stColumn
+
+	| firstColumnLayoutMorph |
+	
+	firstColumnLayoutMorph _ LayoutMorph newColumn.
+	firstColumnLayoutMorph axisEdgeWeight: 0.5;
+	separation: 50;
+	addMorph: (LabelMorph contents: 'Catalogue');
+	addMorph: ((PluggableListMorph model: self model listGetter: #catalogueProducts indexGetter: #catalogueListIndex indexSetter: #catalogueListIndex:) borderWidth: 1; borderColor: Color black) layoutSpec: (LayoutSpec proportionalWidth: 1 proportionalHeight: 1).
+	"firstRowLayoutMorph borderColor: Color skyBlue; borderWidth: 1; morphWidth:300."
+	
+	^firstColumnLayoutMorph.!
+
+!methodRemoval: TusLibrosClientTicketDisplayWindow #build2ndColumn stamp: 'LNB 11/27/2021 22:31:58'!
+build2ndColumn
+
+	| secondColumnLayoutMorph quantityToTransferTextBoxMorph |
+	
+	quantityToTransferTextBoxMorph _ 
+		(TextModelMorph
+			textProvider: self model
+			textGetter: #quantityToTransfer
+			textSetter: #quantityToTransfer:).
+			
+	quantityToTransferTextBoxMorph innerTextMorph 
+							setProperty: #keyStroke: 
+							toValue: [ :key | quantityToTransferTextBoxMorph innerTextMorph acceptContents ].	
+	
+	quantityToTransferTextBoxMorph borderWidth: 1; borderColor: Color black.
+	
+	secondColumnLayoutMorph _ LayoutMorph newColumn.
+	secondColumnLayoutMorph axisEdgeWeight: 0.5;
+	separation: 50;
+	addMorph: (LabelMorph contents: 'Quantity to transfer:');
+	addMorph: quantityToTransferTextBoxMorph layoutSpec: (LayoutSpec fixedWidth: 200 fixedHeight: 25);
+								
+	addMorph: (PluggableButtonMorph model: self model stateGetter: nil action: #addToCart label: 'Add') layoutSpec: (LayoutSpec fixedWidth: 200 fixedHeight: 50);
+	addMorph: (PluggableButtonMorph model: self model stateGetter: nil action: #removeFromCart label: 'Remove') layoutSpec: (LayoutSpec fixedWidth: 200 fixedHeight: 50);
+	addMorph: (PluggableButtonMorph model: self model stateGetter: nil action: #checkoutCart label: 'Checkout Cart') layoutSpec: (LayoutSpec fixedWidth: 200 fixedHeight: 50).
+	
+	^secondColumnLayoutMorph.
+	
+	
+	
+	!
+
+!methodRemoval: TusLibrosClientTicketDisplayWindow #displaySaleTicketWindow stamp: 'LNB 11/27/2021 22:32:07'!
+displaySaleTicketWindow
+
+	TusLibrosClientWindow openWithModel: self model.
+	self delete.!
+!TusLibrosLoginWindowModel methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 22:33:03'!
+lastTicketDisplay
+
+	! !
+!TusLibrosLoginWindowModel methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 22:33:26' prior: 50985654!
+lastTicketDisplay
+
+	| catalog |
+	catalog _ restInterface listCatalog.
+	
+	^catalog keys collect:[:aBookISBN | aBookISBN , ' | $' , ((catalog at: aBookISBN) asString)].! !
+!TusLibrosLoginWindowModel methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 22:33:54' prior: 50985659!
+lastTicketDisplay
+
+	| ticketForDisplay |
+	ticketForDisplay _ restInterface listCatalog.
+	
+	^ticketForDisplay keys collect:[:aBookISBN | aBookISBN , ' | $' , ((ticketForDisplay at: aBookISBN) asString)].! !
+!TusLibrosLoginWindowModel methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 22:34:00' prior: 50985668!
+lastTicketDisplay
+
+	| ticketForDisplay |
+	ticketForDisplay _ ticket.
+	
+	^ticketForDisplay keys collect:[:aBookISBN | aBookISBN , ' | $' , ((ticketForDisplay at: aBookISBN) asString)].! !
+!TusLibrosLoginWindowModel methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 22:34:55' prior: 50985678!
+lastTicketDisplay
+
+	| ticketForDisplay |
+	ticketForDisplay _ ticket.
+	ticketForDisplay removeKey: 'Total'
+	
+	^ticketForDisplay keys collect:[:aBookISBN | aBookISBN , ' | $' , ((ticketForDisplay at: aBookISBN) asString)].! !
+!TusLibrosLoginWindowModel methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 22:35:00' prior: 50985688!
+lastTicketDisplay
+
+	| ticketForDisplay |
+	ticketForDisplay _ ticket.
+	ticketForDisplay removeKey: 'Total'.
+	
+	^ticketForDisplay keys collect:[:aBookISBN | aBookISBN , ' | $' , ((ticketForDisplay at: aBookISBN) asString)].! !
+!TusLibrosLoginWindowModel methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 22:35:24' prior: 50985699!
+lastTicketDisplay
+
+	| ticketForDisplay |
+	ticketForDisplay _ ticket copy.
+	ticketForDisplay removeKey: 'Total'.
+	
+	^ticketForDisplay keys collect:[:aBookISBN | aBookISBN , ' | $' , ((ticketForDisplay at: aBookISBN) asString)].! !
+!TusLibrosLoginWindowModel methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 22:37:57' prior: 50985710!
+lastTicketDisplay
+
+	| ticketForDisplay |
+	ticketForDisplay _ ticket copy.
+	self halt.
+	ticketForDisplay removeKey: 'Total'.
+	
+	^ticketForDisplay keys collect:[:aBookISBN | aBookISBN , ' | $' , ((ticketForDisplay at: aBookISBN) asString)].! !
+
+!classDefinition: #TusLibrosLoginWindowModel category: 'TusLibros-Views' stamp: 'LNB 11/27/2021 22:38:43'!
+Object subclass: #TusLibrosLoginWindowModel
+	instanceVariableNames: 'username password restInterface cartId catalogueSelectionIndex cartSelectionIndex quantityToTransferTextBoxContents ticket ccn ccme ccye ticketSelectedIndex'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros-Views'!
+!TusLibrosLoginWindowModel methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 22:38:37'!
+ticketIndex
+
+	^ticketSelectedIndex.! !
+!TusLibrosLoginWindowModel methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 22:39:13'!
+ticketIndex: aSelectionIndex
+
+	ticketSelectedIndex _ aSelectionIndex.
+	^true.! !
+
+TusLibrosClientWindow open.!
+
+TusLibrosClientMainWindow open.!
+!TusLibrosClientCatalogAndCartContentsWindow methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 22:40:05' prior: 50985194!
+displaySaleTicketWindow
+
+	TusLibrosClientTicketDisplayWindow openWithModel: self model.
+	self delete.! !
+!TusLibrosLoginWindowModel methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 22:40:42' prior: 50985721!
+lastTicketDisplay
+
+	| ticketForDisplay |
+	ticketForDisplay _ ticket copy.
+	self halt.
+	ticketForDisplay removeKey: 'total'.
+	
+	^ticketForDisplay keys collect:[:aBookISBN | aBookISBN , ' | $' , ((ticketForDisplay at: aBookISBN) asString)].! !
+!TusLibrosLoginWindowModel methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 22:41:30' prior: 50984770 overrides: 16896425!
+initialize
+
+	username _ ''.
+	password _ ''.
+	restInterface _ TusLibrosClientInterface new.
+	
+	catalogueSelectionIndex _ 0.
+	cartSelectionIndex _ 0.
+	
+	quantityToTransferTextBoxContents _ ''.
+	
+	ticketSelectedIndex _ 0.
+	
+	"Cargamos un archivo encriptado con la tarjeta de credito del usuario"
+	
+	ccn _ '1234567890123456'.
+	ccme _ GregorianMonth current number asString.
+	ccye _ GregorianYear current number asString.! !
+
+TusLibrosClientMainWindow open.!
+!TusLibrosLoginWindowModel methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 22:41:50' prior: 50985766!
+lastTicketDisplay
+
+	| ticketForDisplay |
+	ticketForDisplay _ ticket copy.
+	ticketForDisplay removeKey: 'total'.
+	
+	^ticketForDisplay keys collect:[:aBookISBN | aBookISBN , ' | $' , ((ticketForDisplay at: aBookISBN) asString)].! !
+!TusLibrosLoginWindowModel methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 22:42:31'!
+lastTicketTotal
+	
+	^ticket at: 'total'.! !
+!TusLibrosLoginWindowModel methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 22:43:17' prior: 50985807!
+lastTicketTotal
+	
+	^(ticket at: 'total') asNumber.! !
+
+TusLibrosClientMainWindow open.!
+!TusLibrosLoginWindowModel methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 22:43:45' prior: 50985812!
+lastTicketTotal
+	
+	^(ticket at: 'total') asString.! !
+!TusLibrosClientTicketDisplayWindow methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 22:45:37' prior: 50985554!
+buildMorphicWindow
+
+	self layoutMorph beColumn;
+	separation: 50;
+	axisEdgeWeight: 0;
+	addMorph: (LabelMorph contents: 'Ticket:') layoutSpec: (LayoutSpec proportionalWidth: 1 proportionalHeight: 1);
+	
+	addMorph: ((PluggableListMorph model: self model listGetter: #lastTicketDisplay indexGetter: #ticketIndex indexSetter: #ticketIndex:) borderWidth: 1; borderColor: Color black) layoutSpec: (LayoutSpec proportionalWidth: 1 proportionalHeight: 1);
+	
+	addMorph: (LabelMorph contents: 'Total: $' , model lastTicketTotal) layoutSpec: (LayoutSpec proportionalWidth: 1 proportionalHeight: 1);
+	
+	addMorph: self buildButtonsRow layoutSpec: (LayoutSpec fixedWidth: 1 fixedHeight: 1).
+	
+	" estaria bueno que la responsabilidad de hacer el layoutSpec la tenga el morph que va a cambiar
+	su layout spec"! !
+
+TusLibrosClientMainWindow open.!
+!TusLibrosClientTicketDisplayWindow methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 22:47:16' prior: 50985825!
+buildMorphicWindow
+
+	self layoutMorph beColumn;
+	separation: 50;
+	axisEdgeWeight: 0;
+	addMorph: (LabelMorph contents: 'Ticket:') layoutSpec: (LayoutSpec fixedWidth: 1 fixedHeight: 1);
+	
+	addMorph: ((PluggableListMorph model: self model listGetter: #lastTicketDisplay indexGetter: #ticketIndex indexSetter: #ticketIndex:) borderWidth: 1; borderColor: Color black) layoutSpec: (LayoutSpec proportionalWidth: 1 proportionalHeight: 1);
+	
+	addMorph: (LabelMorph contents: 'Total: $' , model lastTicketTotal) layoutSpec: (LayoutSpec proportionalWidth: 1 fixedHeight: 1);
+	
+	addMorph: self buildButtonsRow layoutSpec: (LayoutSpec fixedWidth: 1 fixedHeight: 1).
+	
+	" estaria bueno que la responsabilidad de hacer el layoutSpec la tenga el morph que va a cambiar
+	su layout spec"! !
+
+TusLibrosClientMainWindow open.!
+!TusLibrosClientTicketDisplayWindow methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 22:50:40' prior: 50985419!
+buildButtonsRow
+
+	| thirdColumnLayoutMorph |
+	
+	cartContentsPluggableList _ ((PluggableButtonMorph model: self model stateGetter: nil action: #createCart label: 'Create Cart') borderWidth: 1; borderColor: Color black) layoutSpec: (LayoutSpec proportionalWidth: 1 proportionalHeight: 1).
+	
+	thirdColumnLayoutMorph _ LayoutMorph newColumn.
+	thirdColumnLayoutMorph axisEdgeWeight: 0.5;
+	separation: 50;
+	addMorph: (LabelMorph contents: 'Cart');
+	addMorph: cartContentsPluggableList.
+	
+	^thirdColumnLayoutMorph.! !
+!TusLibrosClientTicketDisplayWindow methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 22:52:13' prior: 50985884!
+buildButtonsRow
+
+	| thirdColumnLayoutMorph createNewCartButton |
+	
+	createNewCartButton _ ((PluggableButtonMorph model: self model stateGetter: nil action: #createCart label: 'Create New Cart') borderWidth: 1; borderColor: Color black) layoutSpec: (LayoutSpec fixedWidth: 200 fixedHeight: 50).
+	
+	thirdColumnLayoutMorph _ LayoutMorph newColumn.
+	thirdColumnLayoutMorph axisEdgeWeight: 0.5;
+	separation: 50;
+	addMorph: (LabelMorph contents: 'Cart');
+	addMorph: cartContentsPluggableList.
+	
+	^thirdColumnLayoutMorph.! !
+!TusLibrosClientTicketDisplayWindow methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 22:53:53' prior: 50985904!
+buildButtonsRow
+
+	| thirdColumnLayoutMorph createNewCartButton logOutButton |
+	
+	logOutButton _ ((PluggableButtonMorph model: self model stateGetter: nil action: #logOut label: 'Log out') borderWidth: 1; borderColor: Color black) layoutSpec: (LayoutSpec fixedWidth: 200 fixedHeight: 50).
+	
+	createNewCartButton _ ((PluggableButtonMorph model: self model stateGetter: nil action: #createCart label: 'Create New Cart') borderWidth: 1; borderColor: Color black) layoutSpec: (LayoutSpec fixedWidth: 200 fixedHeight: 50).
+	
+	thirdColumnLayoutMorph _ LayoutMorph newRow.
+	thirdColumnLayoutMorph axisEdgeWeight: 0.5;
+	separation: 50;
+	addMorph: (LabelMorph contents: 'Cart');
+	addMorph: createNewCartButton.
+	
+	^thirdColumnLayoutMorph.! !
+!TusLibrosClientTicketDisplayWindow methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 22:54:10' prior: 50985924!
+buildButtonsRow
+
+	| thirdColumnLayoutMorph createNewCartButton logOutButton |
+	
+	logOutButton _ ((PluggableButtonMorph model: self model stateGetter: nil action: #logOut label: 'Log out') borderWidth: 1; borderColor: Color black) layoutSpec: (LayoutSpec fixedWidth: 200 fixedHeight: 50).
+	
+	createNewCartButton _ ((PluggableButtonMorph model: self model stateGetter: nil action: #createCart label: 'Create New Cart') borderWidth: 1; borderColor: Color black) layoutSpec: (LayoutSpec fixedWidth: 200 fixedHeight: 50).
+	
+	thirdColumnLayoutMorph _ LayoutMorph newRow.
+	thirdColumnLayoutMorph axisEdgeWeight: 0.5;
+	separation: 50;
+	addMorph: logOutButton;
+	addMorph: createNewCartButton.
+	
+	^thirdColumnLayoutMorph.! !
+
+TusLibrosClientMainWindow open.!
+!TusLibrosClientTicketDisplayWindow methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 22:55:59' prior: 50985351!
+initializeNamed: aTitle modeledBy: aModel
+
+	"self titleMorph showButtonsNamed: #( close collapse )."
+	self setLabel: aTitle.
+	self model: aModel.
+	self morphExtent: (self defaultExtent).
+	self buildMorphicWindow.
+	
+	self model when: #cartCreationSuccesful send: #displayCatalogAndCartContents to: self.
+	self model when: #cartContentsModified send: #updateCartContents to: self.
+	self model when: #checkoutCartSuccess send: #displaySaleTicketWindow to: self.
+	
+	self openInWorld.! !
+!TusLibrosClientMainWindow methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 22:56:44' prior: 50981575!
+displayCatalogAndCartContents
+
+	TusLibrosClientCatalogAndCartContentsWindow openWithModel: self model.
+	self delete.! !
+
+!methodRemoval: TusLibrosClientMainWindow #buildMorphicWindowDisplayingCartContentsAndCatalog stamp: 'LNB 11/27/2021 22:56:48'!
+buildMorphicWindowDisplayingCartContentsAndCatalog
+
+	TusLibrosClientCatalogAndCartContentsWindow openWithModel: self model.
+	self delete.!
+!TusLibrosClientTicketDisplayWindow methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 22:56:58'!
+displayCatalogAndCartContents
+
+	TusLibrosClientCatalogAndCartContentsWindow openWithModel: self model.
+	self delete.! !
+
+TusLibrosClientMainWindow open.!
+!TusLibrosLoginWindowModel methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 23:01:35'!
+logOut
+
+	| catalog |
+	catalog _ restInterface listCatalog.
+	
+	^catalog keys collect:[:aBookISBN | aBookISBN , ' | $' , ((catalog at: aBookISBN) asString)].! !
+!TusLibrosLoginWindowModel methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 23:02:43' prior: 50986022!
+logOut
+
+	
+	self triggerEvent: #succesfullyLoggedOut.
+	
+	TusLibrosClientMainWindow open.! !
+!TusLibrosLoginWindowModel methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 23:02:51' prior: 50986031!
+logOut
+
+	self triggerEvent: #succesfullyLoggedOut.
+	
+	TusLibrosClientMainWindow open.! !
+!TusLibrosClientTicketDisplayWindow methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 23:03:21' prior: 50985979!
+initializeNamed: aTitle modeledBy: aModel
+
+	"self titleMorph showButtonsNamed: #( close collapse )."
+	self setLabel: aTitle.
+	self model: aModel.
+	self morphExtent: (self defaultExtent).
+	self buildMorphicWindow.
+	
+	self model when: #cartCreationSuccesful send: #displayCatalogAndCartContents to: self.
+	self model when: #succesfullyLoggedOut send: #logOut to: self.
+	
+	self openInWorld.! !
+!TusLibrosClientTicketDisplayWindow methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 23:03:30'!
+logOut
+
+	! !
+!TusLibrosLoginWindowModel methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 23:04:03' prior: 50986038!
+logOut
+
+	self triggerEvent: #succesfullyLoggedOut.! !
+!TusLibrosClientTicketDisplayWindow methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 23:04:05' prior: 50986061!
+logOut
+
+	TusLibrosClientMainWindow open.
+	self delete.! !
+
+TusLibrosClientMainWindow open.!
+!TusLibrosClientTicketDisplayWindow methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 23:16:15' prior: 50985951!
+buildButtonsRow
+
+	| thirdColumnLayoutMorph createNewCartButton logOutButton listPurchasesButton |
+	
+	logOutButton _ ((PluggableButtonMorph model: self model stateGetter: nil action: #logOut label: 'Log out') borderWidth: 1; borderColor: Color black) layoutSpec: (LayoutSpec fixedWidth: 200 fixedHeight: 50).
+	
+	createNewCartButton _ ((PluggableButtonMorph model: self model stateGetter: nil action: #createCart label: 'Create New Cart') borderWidth: 1; borderColor: Color black) layoutSpec: (LayoutSpec fixedWidth: 200 fixedHeight: 50).
+	
+	listPurchasesButton _ ((PluggableButtonMorph model: self model stateGetter: nil action: #listPurchases label: 'List Purchases') borderWidth: 1; borderColor: Color black) layoutSpec: (LayoutSpec fixedWidth: 200 fixedHeight: 50).
+	
+	thirdColumnLayoutMorph _ LayoutMorph newRow.
+	thirdColumnLayoutMorph axisEdgeWeight: 0.5;
+	separation: 50;
+	addMorph: logOutButton;
+	addMorph: createNewCartButton;
+	addMorph: listPurchasesButton.
+	
+	^thirdColumnLayoutMorph.! !
+
+!classDefinition: #TusLibrosLoginWindowModel category: 'TusLibros-Views' stamp: 'LNB 11/27/2021 23:17:26'!
+Object subclass: #TusLibrosLoginWindowModel
+	instanceVariableNames: 'username password restInterface cartId catalogueSelectionIndex cartSelectionIndex quantityToTransferTextBoxContents ticket ccn ccme ccye ticketSelectedIndex lastPurchaseHistoryRequest'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros-Views'!
+!TusLibrosLoginWindowModel methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 23:17:22'!
+listPurchases
+
+	lastPurchaseHistoryRequest _ restInterface listPurchasesRequestFor: username withCCN: ccn withCCME: ccme withCCYE: ccye withCCO: 'admin'.
+	
+	self triggerEvent: #checkoutCartSuccess.! !
+!TusLibrosLoginWindowModel methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 23:18:00' prior: 50986126!
+listPurchases
+
+	lastPurchaseHistoryRequest _ restInterface listPurchasesRequestFor: username authenticatingWith: password.
+	
+	self triggerEvent: #checkoutCartSuccess.! !
+!TusLibrosLoginWindowModel methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 23:18:19' prior: 50986136!
+listPurchases
+
+	lastPurchaseHistoryRequest _ restInterface listPurchasesRequestFor: username authenticatingWith: password.
+	
+	self triggerEvent: #listPurchasesInNewWindow.! !
+!TusLibrosLoginWindowModel methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 23:18:38' prior: 50986145!
+listPurchases
+
+	lastPurchaseHistoryRequest _ restInterface listPurchasesRequestFor: username authenticatingWith: password.
+	
+	self triggerEvent: #purchasesArrived.! !
+!TusLibrosClientInterface methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 23:19:03'!
+listPurchasesRequestFor: aUsername authenticatingWith: aPassword
+
+	" un username no deberia tener espacios, todo: chequear que eso no suceda"
+	| fieldDict resp |
+	fieldDict _ Dictionary newFromPairs: { 'clientId'. aUsername. 'password'. aPassword }.
+	
+	resp _ WebClient htmlSubmit: (self url, '/createCart') fields: fieldDict method: 'POST'.
+	
+	resp isSuccess 
+        		ifTrue:[^(WebUtils jsonDecode: ((resp content) readStream)).] 
+        		ifFalse:[^self error: resp content].! !
+!TusLibrosLoginWindowModel methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 23:19:38' prior: 50986154!
+listPurchases
+
+	lastPurchaseHistoryRequest _ restInterface listPurchasesRequestFor: username authenticatingWith: password.
+	
+	self triggerEvent: #purchaseHistoryArrived.! !
+!TusLibrosClientInterface methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 23:21:36' prior: 50986163!
+listPurchasesRequestFor: aUsername authenticatingWith: aPassword
+
+	" un username no deberia tener espacios, todo: chequear que eso no suceda"
+	| fieldDict resp |
+	fieldDict _ Dictionary newFromPairs: { 'clientId'. aUsername. 'password'. aPassword }.
+	
+	resp _ WebClient htmlSubmit: (self url, '/listPurchases') fields: fieldDict method: 'POST'.
+	
+	resp isSuccess 
+        		ifTrue:[^(WebUtils jsonDecode: ((resp content) readStream)).] 
+        		ifFalse:[^self error: resp content].! !
+!TusLibrosClientTicketDisplayWindow methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 23:22:36' prior: 50986045!
+initializeNamed: aTitle modeledBy: aModel
+
+	"self titleMorph showButtonsNamed: #( close collapse )."
+	self setLabel: aTitle.
+	self model: aModel.
+	self morphExtent: (self defaultExtent).
+	self buildMorphicWindow.
+	
+	self model when: #cartCreationSuccesful send: #displayCatalogAndCartContents to: self.
+	self model when: #succesfullyLoggedOut send: #logOut to: self.
+	self model when: #purchaseHistoryArrived send: #createNewWindowForPurchaseHistory to: self.
+	
+	self openInWorld.! !
+!TusLibrosClientTicketDisplayWindow methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 23:22:46'!
+createNewWindowForPurchaseHistory
+	
+	! !
+!TusLibrosClientTicketDisplayWindow methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 23:23:22' prior: 50986229!
+createNewWindowForPurchaseHistory
+	
+	TusLibrosClientCatalogAndCartContentsWindow openWithModel: self model.! !
+
+TusLibrosClientWindow subclass: #TusLibrosClientPurchaseHistoryWindow
+	instanceVariableNames: 'cartContentsPluggableList'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros-Views'!
+
+!classDefinition: #TusLibrosClientPurchaseHistoryWindow category: 'TusLibros-Views' stamp: 'LNB 11/27/2021 23:26:44'!
+TusLibrosClientWindow subclass: #TusLibrosClientPurchaseHistoryWindow
+	instanceVariableNames: 'cartContentsPluggableList'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros-Views'!
+
+TusLibrosClientPurchaseHistoryWindow class
+	instanceVariableNames: ''!
+
+!classDefinition: 'TusLibrosClientPurchaseHistoryWindow class' category: 'TusLibros-Views' stamp: 'LNB 11/27/2021 23:26:44'!
+TusLibrosClientPurchaseHistoryWindow class
+	instanceVariableNames: ''!
+!TusLibrosClientPurchaseHistoryWindow methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 23:26:44'!
+buildButtonsRow
+
+	| thirdColumnLayoutMorph createNewCartButton logOutButton listPurchasesButton |
+	
+	logOutButton _ ((PluggableButtonMorph model: self model stateGetter: nil action: #logOut label: 'Log out') borderWidth: 1; borderColor: Color black) layoutSpec: (LayoutSpec fixedWidth: 200 fixedHeight: 50).
+	
+	createNewCartButton _ ((PluggableButtonMorph model: self model stateGetter: nil action: #createCart label: 'Create New Cart') borderWidth: 1; borderColor: Color black) layoutSpec: (LayoutSpec fixedWidth: 200 fixedHeight: 50).
+	
+	listPurchasesButton _ ((PluggableButtonMorph model: self model stateGetter: nil action: #listPurchases label: 'List Purchases') borderWidth: 1; borderColor: Color black) layoutSpec: (LayoutSpec fixedWidth: 200 fixedHeight: 50).
+	
+	thirdColumnLayoutMorph _ LayoutMorph newRow.
+	thirdColumnLayoutMorph axisEdgeWeight: 0.5;
+	separation: 50;
+	addMorph: logOutButton;
+	addMorph: createNewCartButton;
+	addMorph: listPurchasesButton.
+	
+	^thirdColumnLayoutMorph.! !
+!TusLibrosClientPurchaseHistoryWindow methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 23:26:44'!
+buildMorphicWindow
+
+	self layoutMorph beColumn;
+	separation: 50;
+	axisEdgeWeight: 0;
+	addMorph: (LabelMorph contents: 'Ticket:') layoutSpec: (LayoutSpec fixedWidth: 1 fixedHeight: 1);
+	
+	addMorph: ((PluggableListMorph model: self model listGetter: #lastTicketDisplay indexGetter: #ticketIndex indexSetter: #ticketIndex:) borderWidth: 1; borderColor: Color black) layoutSpec: (LayoutSpec proportionalWidth: 1 proportionalHeight: 1);
+	
+	addMorph: (LabelMorph contents: 'Total: $' , model lastTicketTotal) layoutSpec: (LayoutSpec proportionalWidth: 1 fixedHeight: 1);
+	
+	addMorph: self buildButtonsRow layoutSpec: (LayoutSpec fixedWidth: 1 fixedHeight: 1).
+	
+	" estaria bueno que la responsabilidad de hacer el layoutSpec la tenga el morph que va a cambiar
+	su layout spec"! !
+!TusLibrosClientPurchaseHistoryWindow methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 23:26:44'!
+createNewWindowForPurchaseHistory
+	
+	TusLibrosClientCatalogAndCartContentsWindow openWithModel: self model.! !
+!TusLibrosClientPurchaseHistoryWindow methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 23:26:44'!
+defaultExtent
+
+	^ 1280@720
+! !
+!TusLibrosClientPurchaseHistoryWindow methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 23:26:44'!
+displayCatalogAndCartContents
+
+	TusLibrosClientCatalogAndCartContentsWindow openWithModel: self model.
+	self delete.! !
+!TusLibrosClientPurchaseHistoryWindow methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 23:26:44'!
+initializeNamed: aTitle modeledBy: aModel
+
+	"self titleMorph showButtonsNamed: #( close collapse )."
+	self setLabel: aTitle.
+	self model: aModel.
+	self morphExtent: (self defaultExtent).
+	self buildMorphicWindow.
+	
+	self model when: #cartCreationSuccesful send: #displayCatalogAndCartContents to: self.
+	self model when: #succesfullyLoggedOut send: #logOut to: self.
+	self model when: #purchaseHistoryArrived send: #createNewWindowForPurchaseHistory to: self.
+	
+	self openInWorld.! !
+!TusLibrosClientPurchaseHistoryWindow methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 23:26:44'!
+logOut
+
+	TusLibrosClientMainWindow open.
+	self delete.! !
+!TusLibrosClientPurchaseHistoryWindow methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 23:26:45'!
+updateCartContents
+	
+	cartContentsPluggableList updateList.! !
+!TusLibrosClientPurchaseHistoryWindow class methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 23:26:45'!
+openWithModel: aModel
+
+	^self new initializeNamed: 'TusLibros - Client Window' modeledBy: aModel.! !
+
+TusLibrosClientWindow subclass: #TusLibrosClientTicketDisplayWindow
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros-Views'!
+
+!classDefinition: #TusLibrosClientTicketDisplayWindow category: 'TusLibros-Views' stamp: 'LNB 11/27/2021 23:26:55'!
+TusLibrosClientWindow subclass: #TusLibrosClientTicketDisplayWindow
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros-Views'!
+
+TusLibrosClientWindow subclass: #TusLibrosClientPurchaseHistoryWindow
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros-Views'!
+
+!classDefinition: #TusLibrosClientPurchaseHistoryWindow category: 'TusLibros-Views' stamp: 'LNB 11/27/2021 23:26:59'!
+TusLibrosClientWindow subclass: #TusLibrosClientPurchaseHistoryWindow
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros-Views'!
+
+!methodRemoval: TusLibrosClientTicketDisplayWindow #updateCartContents stamp: 'LNB 11/27/2021 23:27:28'!
+updateCartContents
+	
+	cartContentsPluggableList updateList.!
+
+!methodRemoval: TusLibrosClientPurchaseHistoryWindow #updateCartContents stamp: 'LNB 11/27/2021 23:27:42'!
+updateCartContents
+	
+	cartContentsPluggableList updateList.!
+!TusLibrosClientPurchaseHistoryWindow methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 23:28:26' prior: 50986302!
+buildMorphicWindow
+
+	self layoutMorph beColumn;
+	separation: 50;
+	axisEdgeWeight: 0;
+	addMorph: (LabelMorph contents: 'Purchase History:') layoutSpec: (LayoutSpec fixedWidth: 1 fixedHeight: 1);
+	
+	addMorph: ((PluggableListMorph model: self model listGetter: #lastTicketDisplay indexGetter: #ticketIndex indexSetter: #ticketIndex:) borderWidth: 1; borderColor: Color black) layoutSpec: (LayoutSpec proportionalWidth: 1 proportionalHeight: 1);
+	
+	addMorph: (LabelMorph contents: 'Total: $' , model lastTicketTotal) layoutSpec: (LayoutSpec proportionalWidth: 1 fixedHeight: 1);
+	
+	addMorph: self buildButtonsRow layoutSpec: (LayoutSpec fixedWidth: 1 fixedHeight: 1).
+	
+	" estaria bueno que la responsabilidad de hacer el layoutSpec la tenga el morph que va a cambiar
+	su layout spec"! !
+!TusLibrosClientPurchaseHistoryWindow methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 23:31:04' prior: 50986428!
+buildMorphicWindow
+
+	self layoutMorph beColumn;
+	separation: 50;
+	axisEdgeWeight: 0;
+	addMorph: (LabelMorph contents: 'Purchase History:') layoutSpec: (LayoutSpec fixedWidth: 1 fixedHeight: 1);
+	
+	addMorph: ((PluggableListMorph model: self model listGetter: #lastTicketDisplay indexGetter: #ticketIndex indexSetter: #ticketIndex:) borderWidth: 1; borderColor: Color black) layoutSpec: (LayoutSpec proportionalWidth: 1 proportionalHeight: 1);
+	
+	addMorph: (LabelMorph contents: 'Total: $' , model purchaseHistoryTotal) layoutSpec: (LayoutSpec proportionalWidth: 1 fixedHeight: 1);
+	
+	addMorph: self buildButtonsRow layoutSpec: (LayoutSpec fixedWidth: 1 fixedHeight: 1).
+	
+	" estaria bueno que la responsabilidad de hacer el layoutSpec la tenga el morph que va a cambiar
+	su layout spec"! !
+!TusLibrosClientPurchaseHistoryWindow methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 23:31:52' prior: 50986457!
+buildMorphicWindow
+
+	self layoutMorph beColumn;
+	separation: 50;
+	axisEdgeWeight: 0;
+	addMorph: (LabelMorph contents: 'Purchase History:') layoutSpec: (LayoutSpec fixedWidth: 1 fixedHeight: 1);
+	
+	addMorph: ((PluggableListMorph model: self model listGetter: #purchaseHistoryDisplay indexGetter: #purchaseHistoryIndex indexSetter: #purchaseHistoryIndex:) borderWidth: 1; borderColor: Color black) layoutSpec: (LayoutSpec proportionalWidth: 1 proportionalHeight: 1);
+	
+	addMorph: (LabelMorph contents: 'Total: $' , model purchaseHistoryTotal) layoutSpec: (LayoutSpec proportionalWidth: 1 fixedHeight: 1).
+	
+	" estaria bueno que la responsabilidad de hacer el layoutSpec la tenga el morph que va a cambiar
+	su layout spec"! !
+!TusLibrosClientPurchaseHistoryWindow methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 23:32:10' prior: 50986486!
+buildMorphicWindow
+
+	self layoutMorph beColumn;
+	separation: 50;
+	axisEdgeWeight: 0;
+	addMorph: (LabelMorph contents: 'Purchase History:') layoutSpec: (LayoutSpec fixedWidth: 1 fixedHeight: 1);
+	
+	addMorph: ((PluggableListMorph model: self model listGetter: #purchaseHistoryDisplay indexGetter: #purchaseHistoryIndex indexSetter: #purchaseHistoryIndex:) borderWidth: 1; borderColor: Color black) layoutSpec: (LayoutSpec proportionalWidth: 1 proportionalHeight: 1);
+	
+	addMorph: (LabelMorph contents: 'Total: $' , model purchaseHistoryTotal) layoutSpec: (LayoutSpec proportionalWidth: 1 fixedHeight: 1).! !
+!TusLibrosLoginWindowModel methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 23:33:50'!
+purchaseHistoryDisplay
+
+	^lastPurchaseHistoryRequest! !
+!TusLibrosLoginWindowModel methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 23:33:52' prior: 50986535!
+purchaseHistoryDisplay
+
+	^lastPurchaseHistoryRequest.! !
+
+!classDefinition: #TusLibrosLoginWindowModel category: 'TusLibros-Views' stamp: 'LNB 11/27/2021 23:34:08'!
+Object subclass: #TusLibrosLoginWindowModel
+	instanceVariableNames: 'username password restInterface cartId catalogueSelectionIndex cartSelectionIndex quantityToTransferTextBoxContents ticket ccn ccme ccye ticketSelectedIndex lastPurchaseHistoryRequest purchaseHistorySelectionIndex'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros-Views'!
+!TusLibrosLoginWindowModel methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 23:34:07'!
+purchaseHistoryIndex
+
+	^purchaseHistorySelectionIndex.! !
+!TusLibrosLoginWindowModel methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 23:34:31'!
+purchaseHistoryIndex: aNewSelectionIndex
+
+	purchaseHistorySelectionIndex _ aNewSelectionIndex.
+	^true.! !
+!TusLibrosLoginWindowModel methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 23:35:07'!
+purchaseHistoryTotal
+
+	^purchaseHistorySelectionIndex at: 'total'.! !
+!TusLibrosLoginWindowModel methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 23:35:54' prior: 50986541!
+purchaseHistoryDisplay
+
+	| ticketForDisplay |
+	ticketForDisplay _ lastPurchaseHistoryRequest copy.
+	ticketForDisplay removeKey: 'total'.
+	
+	^ticketForDisplay keys collect:[:aBookISBN | aBookISBN , ' | $' , ((ticketForDisplay at: aBookISBN) asString)].
+	! !
+!TusLibrosLoginWindowModel methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 23:36:01' prior: 50986579!
+purchaseHistoryDisplay
+
+	| purchaseHistoryForDisplay |
+	purchaseHistoryForDisplay _ lastPurchaseHistoryRequest copy.
+	purchaseHistoryForDisplay removeKey: 'total'.
+	
+	^purchaseHistoryForDisplay keys collect:[:aBookISBN | aBookISBN , ' | $' , ((purchaseHistoryForDisplay at: aBookISBN) asString)].
+	! !
+!TusLibrosLoginWindowModel methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 23:38:34' prior: 50986591!
+purchaseHistoryDisplay
+
+	| purchaseHistoryForDisplay |
+	purchaseHistoryForDisplay _ lastPurchaseHistoryRequest copy.
+	purchaseHistoryForDisplay removeKey: 'total'.
+	
+	^purchaseHistoryForDisplay keys collect:[:aBookISBN | aBookISBN , 
+		' | amount:',
+		' | $' , ((purchaseHistoryForDisplay at: aBookISBN) asString)].
+	! !
+!TusLibrosLoginWindowModel methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 23:39:53' prior: 50986604!
+purchaseHistoryDisplay
+
+	| purchaseHistoryForDisplay |
+	purchaseHistoryForDisplay _ lastPurchaseHistoryRequest copy.
+	purchaseHistoryForDisplay removeKey: 'total'.
+	
+	^purchaseHistoryForDisplay keys collect:[:aBookISBN | aBookISBN , 
+		' | amount: ' , (((purchaseHistoryForDisplay at: aBookISBN) at: 'quantity') asString),
+		' | $' , ((purchaseHistoryForDisplay at: aBookISBN) asString)].
+	! !
+!TusLibrosLoginWindowModel methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 23:40:07' prior: 50986618!
+purchaseHistoryDisplay
+
+	| purchaseHistoryForDisplay |
+	purchaseHistoryForDisplay _ lastPurchaseHistoryRequest copy.
+	purchaseHistoryForDisplay removeKey: 'total'.
+	
+	^purchaseHistoryForDisplay keys collect:[:aBookISBN | aBookISBN , 
+		' | amount: ' , (((purchaseHistoryForDisplay at: aBookISBN) at: 'quantity') asString),
+		' | $' , (((purchaseHistoryForDisplay at: aBookISBN) at: 'total') asString)].
+	! !
+!TusLibrosLoginWindowModel methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 23:40:22' prior: 50986634!
+purchaseHistoryDisplay
+
+	| purchaseHistoryForDisplay |
+	purchaseHistoryForDisplay _ lastPurchaseHistoryRequest copy.
+	purchaseHistoryForDisplay removeKey: 'total'.
+	
+	^purchaseHistoryForDisplay keys collect:[:aBookISBN | aBookISBN , 
+		' | qty ' , (((purchaseHistoryForDisplay at: aBookISBN) at: 'quantity') asString),
+		' | $' , (((purchaseHistoryForDisplay at: aBookISBN) at: 'total') asString)].
+	! !
+!TusLibrosLoginWindowModel methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 23:41:49' prior: 50986573!
+purchaseHistoryTotal
+
+	^lastPurchaseHistoryRequest at: 'total'.! !
+
+TusLibrosClientMainWindow open.!
+!TusLibrosClientTicketDisplayWindow methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 23:43:15' prior: 50986235!
+createNewWindowForPurchaseHistory
+	
+	TusLibrosClientPurchaseHistoryWindow openWithModel: self model.! !
+
+TusLibrosClientMainWindow open.!
+!TusLibrosLoginWindowModel methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 23:43:40' prior: 50985778 overrides: 16896425!
+initialize
+
+	username _ ''.
+	password _ ''.
+	restInterface _ TusLibrosClientInterface new.
+	
+	catalogueSelectionIndex _ 0.
+	cartSelectionIndex _ 0.
+	
+	quantityToTransferTextBoxContents _ ''.
+	
+	ticketSelectedIndex _ 0.
+	
+	purchaseHistorySelectionIndex _ 0.
+	
+	"Cargamos un archivo encriptado con la tarjeta de credito del usuario"
+	
+	ccn _ '1234567890123456'.
+	ccme _ GregorianMonth current number asString.
+	ccye _ GregorianYear current number asString.! !
+
+TusLibrosClientMainWindow open.!
+!TusLibrosClientPurchaseHistoryWindow methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 23:44:29' prior: 50986513!
+buildMorphicWindow
+
+	self layoutMorph beColumn;
+	separation: 50;
+	axisEdgeWeight: 0;
+	addMorph: (LabelMorph contents: 'Purchase History:') layoutSpec: (LayoutSpec fixedWidth: 1 fixedHeight: 1);
+	
+	addMorph: ((PluggableListMorph model: self model listGetter: #purchaseHistoryDisplay indexGetter: #purchaseHistoryIndex indexSetter: #purchaseHistoryIndex:) borderWidth: 1; borderColor: Color black) layoutSpec: (LayoutSpec proportionalWidth: 1 proportionalHeight: 1);
+	
+	addMorph: (LabelMorph contents: 'Total: $' , model purchaseHistoryTotal asString) layoutSpec: (LayoutSpec proportionalWidth: 1 fixedHeight: 1).! !
+
+!methodRemoval: TusLibrosClientPurchaseHistoryWindow #buildButtonsRow stamp: 'LNB 11/27/2021 23:45:20'!
+buildButtonsRow
+
+	| thirdColumnLayoutMorph createNewCartButton logOutButton listPurchasesButton |
+	
+	logOutButton _ ((PluggableButtonMorph model: self model stateGetter: nil action: #logOut label: 'Log out') borderWidth: 1; borderColor: Color black) layoutSpec: (LayoutSpec fixedWidth: 200 fixedHeight: 50).
+	
+	createNewCartButton _ ((PluggableButtonMorph model: self model stateGetter: nil action: #createCart label: 'Create New Cart') borderWidth: 1; borderColor: Color black) layoutSpec: (LayoutSpec fixedWidth: 200 fixedHeight: 50).
+	
+	listPurchasesButton _ ((PluggableButtonMorph model: self model stateGetter: nil action: #listPurchases label: 'List Purchases') borderWidth: 1; borderColor: Color black) layoutSpec: (LayoutSpec fixedWidth: 200 fixedHeight: 50).
+	
+	thirdColumnLayoutMorph _ LayoutMorph newRow.
+	thirdColumnLayoutMorph axisEdgeWeight: 0.5;
+	separation: 50;
+	addMorph: logOutButton;
+	addMorph: createNewCartButton;
+	addMorph: listPurchasesButton.
+	
+	^thirdColumnLayoutMorph.!
+!TusLibrosLoginWindowModel methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 23:53:29' prior: 50983386!
+createCart
+
+	[cartId _ restInterface createCartRequestFor: username with: password.] 
+		on: Error - MessageNotUnderstood
+		do: [:anError | self triggerEvent: #wrongUsernameOrPassword.].
+	
+	self triggerEvent: #cartCreationSuccesful.! !
+!TusLibrosClientMainWindow methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 23:54:33' prior: 50981690!
+initializeWith: aTitle
+
+	"self titleMorph showButtonsNamed: #( close collapse )."
+	self setLabel: aTitle.
+	self model: (TusLibrosLoginWindowModel new).
+	self morphExtent: (self defaultExtent).
+	self buildMorphicWindow.
+	
+	self model when: #cartCreationSuccesful send: #displayCatalogAndCartContents to: self.
+	self model when: #wrongUsernameOrPassword send: #displayWrongUsernameOrPasswordError to: self.
+	
+	self openInWorld.! !
+!TusLibrosClientMainWindow methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 23:54:54'!
+displayWrongUsernameOrPasswordError
+
+	! !
+!TusLibrosClientMainWindow methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 23:57:29' prior: 50986790!
+displayWrongUsernameOrPasswordError
+
+	TusLibrosClientCatalogAndCartContentsWindow openWithModel: self model withErrorMessage: self wrongUsernameOrPasswordErrorDescription.! !
+!TusLibrosClientMainWindow methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 23:58:20' prior: 50986795!
+displayWrongUsernameOrPasswordError
+
+	TusLibrosClientCatalogAndCartContentsWindow openWithErrorMessage: self wrongUsernameOrPasswordErrorDescription.! !
+!TusLibrosClientMainWindow methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 23:59:19'!
+wrongUsernameOrPasswordErrorDescription
+
+	^'Username or password is incorrect.'! !
+
+TusLibrosClientWindow subclass: #TusLibrosClientErrorWindow
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros-Views'!
+
+!classDefinition: #TusLibrosClientErrorWindow category: 'TusLibros-Views' stamp: 'LNB 11/28/2021 00:00:01'!
+TusLibrosClientWindow subclass: #TusLibrosClientErrorWindow
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros-Views'!
+
+TusLibrosClientErrorWindow class
+	instanceVariableNames: ''!
+
+!classDefinition: 'TusLibrosClientErrorWindow class' category: 'TusLibros-Views' stamp: 'LNB 11/28/2021 00:00:01'!
+TusLibrosClientErrorWindow class
+	instanceVariableNames: ''!
+!TusLibrosClientErrorWindow methodsFor: 'as yet unclassified' stamp: 'LNB 11/28/2021 00:00:01'!
+buildMorphicWindow
+
+	self layoutMorph beColumn;
+	separation: 50;
+	axisEdgeWeight: 0;
+	addMorph: (LabelMorph contents: 'Purchase History:') layoutSpec: (LayoutSpec fixedWidth: 1 fixedHeight: 1);
+	
+	addMorph: ((PluggableListMorph model: self model listGetter: #purchaseHistoryDisplay indexGetter: #purchaseHistoryIndex indexSetter: #purchaseHistoryIndex:) borderWidth: 1; borderColor: Color black) layoutSpec: (LayoutSpec proportionalWidth: 1 proportionalHeight: 1);
+	
+	addMorph: (LabelMorph contents: 'Total: $' , model purchaseHistoryTotal asString) layoutSpec: (LayoutSpec proportionalWidth: 1 fixedHeight: 1).! !
+!TusLibrosClientErrorWindow methodsFor: 'as yet unclassified' stamp: 'LNB 11/28/2021 00:00:01'!
+createNewWindowForPurchaseHistory
+	
+	TusLibrosClientCatalogAndCartContentsWindow openWithModel: self model.! !
+!TusLibrosClientErrorWindow methodsFor: 'as yet unclassified' stamp: 'LNB 11/28/2021 00:00:01'!
+defaultExtent
+
+	^ 1280@720
+! !
+!TusLibrosClientErrorWindow methodsFor: 'as yet unclassified' stamp: 'LNB 11/28/2021 00:00:01'!
+displayCatalogAndCartContents
+
+	TusLibrosClientCatalogAndCartContentsWindow openWithModel: self model.
+	self delete.! !
+!TusLibrosClientErrorWindow methodsFor: 'as yet unclassified' stamp: 'LNB 11/28/2021 00:00:02'!
+initializeNamed: aTitle modeledBy: aModel
+
+	"self titleMorph showButtonsNamed: #( close collapse )."
+	self setLabel: aTitle.
+	self model: aModel.
+	self morphExtent: (self defaultExtent).
+	self buildMorphicWindow.
+	
+	self model when: #cartCreationSuccesful send: #displayCatalogAndCartContents to: self.
+	self model when: #succesfullyLoggedOut send: #logOut to: self.
+	self model when: #purchaseHistoryArrived send: #createNewWindowForPurchaseHistory to: self.
+	
+	self openInWorld.! !
+!TusLibrosClientErrorWindow methodsFor: 'as yet unclassified' stamp: 'LNB 11/28/2021 00:00:02'!
+logOut
+
+	TusLibrosClientMainWindow open.
+	self delete.! !
+!TusLibrosClientErrorWindow class methodsFor: 'as yet unclassified' stamp: 'LNB 11/28/2021 00:00:02'!
+openWithModel: aModel
+
+	^self new initializeNamed: 'TusLibros - Client Window' modeledBy: aModel.! !
+!TusLibrosClientMainWindow methodsFor: 'as yet unclassified' stamp: 'LNB 11/28/2021 00:00:13' prior: 50986804!
+displayWrongUsernameOrPasswordError
+
+	TusLibrosClientErrorWindow openWithErrorMessage: self wrongUsernameOrPasswordErrorDescription.! !
+!TusLibrosClientErrorWindow class methodsFor: 'as yet unclassified' stamp: 'LNB 11/28/2021 00:01:41'!
+openWithErrorMessage: anErrorDescription
+
+	^self new initializeNamed: 'TusLibros - ', anErrorDescription withMessageText: anErrorDescription.! !
+
+!methodRemoval: TusLibrosClientErrorWindow class #openWithModel: stamp: 'LNB 11/28/2021 00:01:47'!
+openWithModel: aModel
+
+	^self new initializeNamed: 'TusLibros - Client Window' modeledBy: aModel.!
+!TusLibrosClientErrorWindow class methodsFor: 'as yet unclassified' stamp: 'LNB 11/28/2021 00:02:20' prior: 50986919!
+openWithErrorMessage: anErrorDescription
+
+	^self new initializeNamed: 'TusLibros - Error' withMessageText: anErrorDescription.! !
+
+!classDefinition: #TusLibrosClientErrorWindow category: 'TusLibros-Views' stamp: 'LNB 11/28/2021 00:03:13'!
+TusLibrosClientWindow subclass: #TusLibrosClientErrorWindow
+	instanceVariableNames: 'errorDescription'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros-Views'!
+!TusLibrosClientErrorWindow methodsFor: 'as yet unclassified' stamp: 'LNB 11/28/2021 00:03:11'!
+initializeNamed: aTitle withMessageText: anErrorDescription
+
+	"self titleMorph showButtonsNamed: #( close collapse )."
+	self setLabel: aTitle.
+	errorDescription _ anErrorDescription.
+	self morphExtent: (self defaultExtent).
+	self buildMorphicWindow.
+	
+	self model when: #cartCreationSuccesful send: #displayCatalogAndCartContents to: self.
+	self model when: #succesfullyLoggedOut send: #logOut to: self.
+	self model when: #purchaseHistoryArrived send: #createNewWindowForPurchaseHistory to: self.
+	
+	self openInWorld.! !
+!TusLibrosClientErrorWindow methodsFor: 'as yet unclassified' stamp: 'LNB 11/28/2021 00:04:40' prior: 50986869!
+defaultExtent
+
+	^ 500@200.
+! !
+
+!methodRemoval: TusLibrosClientErrorWindow #initializeNamed:modeledBy: stamp: 'LNB 11/28/2021 00:04:57'!
+initializeNamed: aTitle modeledBy: aModel
+
+	"self titleMorph showButtonsNamed: #( close collapse )."
+	self setLabel: aTitle.
+	self model: aModel.
+	self morphExtent: (self defaultExtent).
+	self buildMorphicWindow.
+	
+	self model when: #cartCreationSuccesful send: #displayCatalogAndCartContents to: self.
+	self model when: #succesfullyLoggedOut send: #logOut to: self.
+	self model when: #purchaseHistoryArrived send: #createNewWindowForPurchaseHistory to: self.
+	
+	self openInWorld.!
+!TusLibrosClientErrorWindow methodsFor: 'as yet unclassified' stamp: 'LNB 11/28/2021 00:06:42' prior: 50986971!
+defaultExtent
+
+	^ 250@100.
+! !
+!TusLibrosClientErrorWindow methodsFor: 'as yet unclassified' stamp: 'LNB 11/28/2021 00:09:37' prior: 50986839!
+buildMorphicWindow
+
+	self layoutMorph beColumn;
+	color: Color red;
+	separation: 50;
+	axisEdgeWeight: 0;
+	addMorph: (LabelMorph contents: errorDescription) layoutSpec: (LayoutSpec fixedWidth: 1 fixedHeight: 1).! !
+!TusLibrosClientErrorWindow methodsFor: 'as yet unclassified' stamp: 'LNB 11/28/2021 00:09:56' prior: 50986999!
+buildMorphicWindow
+
+	self layoutMorph beColumn;
+	color: Color red;
+	separation: 50;
+	axisEdgeWeight: 0;
+	addMorph: (LabelMorph contents: errorDescription) layoutSpec: (LayoutSpec fixedWidth: 1 fixedHeight: 1).! !
+
+TusLibrosClientMainWindow open.!
+!TusLibrosClientErrorWindow methodsFor: 'as yet unclassified' stamp: 'LNB 11/28/2021 00:10:53' prior: 50986994!
+defaultExtent
+
+	^ 500@200.
+! !
+!TusLibrosClientErrorWindow methodsFor: 'as yet unclassified' stamp: 'LNB 11/28/2021 00:10:56' prior: 50987022!
+defaultExtent
+
+	^ 500@400.
+! !
+!TusLibrosClientErrorWindow methodsFor: 'as yet unclassified' stamp: 'LNB 11/28/2021 00:11:17' prior: 50987027!
+defaultExtent
+
+	^500@300.
+	"^ 250@100."! !
+
+TusLibrosClientMainWindow open.!
+!TusLibrosLoginWindowModel methodsFor: 'as yet unclassified' stamp: 'LNB 11/28/2021 00:13:15' prior: 50986762!
+createCart
+
+	[cartId _ restInterface createCartRequestFor: username with: password.
+	self triggerEvent: #cartCreationSuccesful.] 
+		on: Error - MessageNotUnderstood
+		do: [:anError | self triggerEvent: #wrongUsernameOrPassword.].
+	
+	! !
+
+TusLibrosClientMainWindow open.!
+!TusLibrosClientErrorWindow methodsFor: 'as yet unclassified' stamp: 'LNB 11/28/2021 00:14:09' prior: 50987032!
+defaultExtent
+
+	^5000@3000.
+	"^ 250@100."! !
+
+TusLibrosClientMainWindow open.!
+!TusLibrosClientErrorWindow methodsFor: 'as yet unclassified' stamp: 'LNB 11/28/2021 00:14:38' prior: 50987050!
+defaultExtent
+
+	^ 250@100.! !
+!TusLibrosClientErrorWindow methodsFor: 'as yet unclassified' stamp: 'LNB 11/28/2021 00:14:52' prior: 50986951!
+initializeNamed: aTitle withMessageText: anErrorDescription
+
+	"self titleMorph showButtonsNamed: #( close collapse )."
+	self setLabel: aTitle.
+	errorDescription _ anErrorDescription.
+	self buildMorphicWindow.
+	
+	self model when: #cartCreationSuccesful send: #displayCatalogAndCartContents to: self.
+	self model when: #succesfullyLoggedOut send: #logOut to: self.
+	self model when: #purchaseHistoryArrived send: #createNewWindowForPurchaseHistory to: self.
+	
+	self openInWorld.
+	self morphExtent: (self defaultExtent).! !
+
+TusLibrosClientMainWindow open.!
+!TusLibrosClientErrorWindow methodsFor: 'as yet unclassified' stamp: 'LNB 11/28/2021 00:15:37' prior: 50987010!
+buildMorphicWindow
+
+	self layoutMorph beColumn;
+	separation: 50;
+	axisEdgeWeight: 0;
+	addMorph: (LabelMorph contents: errorDescription) layoutSpec: (LayoutSpec fixedWidth: 1 fixedHeight: 1).! !
+!TusLibrosClientErrorWindow methodsFor: 'as yet unclassified' stamp: 'LNB 11/28/2021 00:15:47' prior: 50987061!
+initializeNamed: aTitle withMessageText: anErrorDescription
+
+	"self titleMorph showButtonsNamed: #( close collapse )."
+	self setLabel: aTitle.
+	errorDescription _ anErrorDescription.
+	self buildMorphicWindow.
+	
+	self model when: #cartCreationSuccesful send: #displayCatalogAndCartContents to: self.
+	self model when: #succesfullyLoggedOut send: #logOut to: self.
+	self model when: #purchaseHistoryArrived send: #createNewWindowForPurchaseHistory to: self.
+	
+	self openInWorld.
+	self morphExtent: (self defaultExtent).
+	self layoutMorph color: Color red.! !
+
+TusLibrosClientMainWindow open.!
+!TusLibrosClientCatalogAndCartContentsWindow methodsFor: 'as yet unclassified' stamp: 'LNB 11/28/2021 00:16:58' prior: 50985096!
+initializeNamed: aTitle modeledBy: aModel
+
+	"self titleMorph showButtonsNamed: #( close collapse )."
+	self setLabel: aTitle.
+	self model: aModel.
+	
+	self buildMorphicWindow.
+	
+	self model when: #cartContentsModified send: #updateCartContents to: self.
+	self model when: #checkoutCartSuccess send: #displaySaleTicketWindow to: self.
+	
+	self openInWorld.
+	self morphExtent: (self defaultExtent).! !
+!TusLibrosClientMainWindow methodsFor: 'as yet unclassified' stamp: 'LNB 11/28/2021 00:17:11' prior: 50986773!
+initializeWith: aTitle
+
+	"self titleMorph showButtonsNamed: #( close collapse )."
+	self setLabel: aTitle.
+	self model: (TusLibrosLoginWindowModel new).
+	
+	self buildMorphicWindow.
+	
+	self model when: #cartCreationSuccesful send: #displayCatalogAndCartContents to: self.
+	self model when: #wrongUsernameOrPassword send: #displayWrongUsernameOrPasswordError to: self.
+	
+	self openInWorld.
+	self morphExtent: (self defaultExtent).! !
+!TusLibrosClientMainWindow methodsFor: 'as yet unclassified' stamp: 'LNB 11/28/2021 00:17:14' prior: 50987131!
+initializeWith: aTitle
+
+	self setLabel: aTitle.
+	self model: (TusLibrosLoginWindowModel new).
+	
+	self buildMorphicWindow.
+	
+	self model when: #cartCreationSuccesful send: #displayCatalogAndCartContents to: self.
+	self model when: #wrongUsernameOrPassword send: #displayWrongUsernameOrPasswordError to: self.
+	
+	self openInWorld.
+	self morphExtent: (self defaultExtent).! !
+!TusLibrosClientPurchaseHistoryWindow methodsFor: 'as yet unclassified' stamp: 'LNB 11/28/2021 00:17:22' prior: 50986350!
+initializeNamed: aTitle modeledBy: aModel
+
+	self setLabel: aTitle.
+	self model: aModel.
+	self morphExtent: (self defaultExtent).
+	self buildMorphicWindow.
+	
+	self model when: #cartCreationSuccesful send: #displayCatalogAndCartContents to: self.
+	self model when: #succesfullyLoggedOut send: #logOut to: self.
+	self model when: #purchaseHistoryArrived send: #createNewWindowForPurchaseHistory to: self.
+	
+	self openInWorld.! !
+!TusLibrosClientCatalogAndCartContentsWindow methodsFor: 'as yet unclassified' stamp: 'LNB 11/28/2021 00:17:27' prior: 50987115!
+initializeNamed: aTitle modeledBy: aModel
+
+	self setLabel: aTitle.
+	self model: aModel.
+	
+	self buildMorphicWindow.
+	
+	self model when: #cartContentsModified send: #updateCartContents to: self.
+	self model when: #checkoutCartSuccess send: #displaySaleTicketWindow to: self.
+	
+	self openInWorld.
+	self morphExtent: (self defaultExtent).! !
+!TusLibrosClientPurchaseHistoryWindow methodsFor: 'as yet unclassified' stamp: 'LNB 11/28/2021 00:17:37' prior: 50987164!
+initializeNamed: aTitle modeledBy: aModel
+
+	self setLabel: aTitle.
+	self model: aModel.
+	
+	self buildMorphicWindow.
+	
+	self model when: #cartCreationSuccesful send: #displayCatalogAndCartContents to: self.
+	self model when: #succesfullyLoggedOut send: #logOut to: self.
+	self model when: #purchaseHistoryArrived send: #createNewWindowForPurchaseHistory to: self.
+	
+	self openInWorld.
+	self morphExtent: (self defaultExtent).! !
+!TusLibrosClientTicketDisplayWindow methodsFor: 'as yet unclassified' stamp: 'LNB 11/28/2021 00:17:45' prior: 50986210!
+initializeNamed: aTitle modeledBy: aModel
+
+	"self titleMorph showButtonsNamed: #( close collapse )."
+	self setLabel: aTitle.
+	self model: aModel.
+	
+	self buildMorphicWindow.
+	
+	self model when: #cartCreationSuccesful send: #displayCatalogAndCartContents to: self.
+	self model when: #succesfullyLoggedOut send: #logOut to: self.
+	self model when: #purchaseHistoryArrived send: #createNewWindowForPurchaseHistory to: self.
+	
+	self openInWorld.
+	self morphExtent: (self defaultExtent).! !
+
+TusLibrosClientMainWindow open.!
+!TusLibrosClientTicketDisplayWindow methodsFor: 'as yet unclassified' stamp: 'LNB 11/28/2021 00:17:57' prior: 50987215!
+initializeNamed: aTitle modeledBy: aModel
+
+	self setLabel: aTitle.
+	self model: aModel.
+	
+	self buildMorphicWindow.
+	
+	self model when: #cartCreationSuccesful send: #displayCatalogAndCartContents to: self.
+	self model when: #succesfullyLoggedOut send: #logOut to: self.
+	self model when: #purchaseHistoryArrived send: #createNewWindowForPurchaseHistory to: self.
+	
+	self openInWorld.
+	self morphExtent: (self defaultExtent).! !
+!TusLibrosClientErrorWindow methodsFor: 'as yet unclassified' stamp: 'LNB 11/28/2021 00:18:10' prior: 50987092!
+initializeNamed: aTitle withMessageText: anErrorDescription
+
+	self setLabel: aTitle.
+	errorDescription _ anErrorDescription.
+	self buildMorphicWindow.
+	
+	self model when: #cartCreationSuccesful send: #displayCatalogAndCartContents to: self.
+	self model when: #succesfullyLoggedOut send: #logOut to: self.
+	self model when: #purchaseHistoryArrived send: #createNewWindowForPurchaseHistory to: self.
+	
+	self openInWorld.
+	self morphExtent: (self defaultExtent).
+	self layoutMorph color: Color red.! !
+
+TusLibrosClientMainWindow open.!
+
+TusLibrosClientMainWindow open.!
+!TusLibrosLoginWindowModel methodsFor: 'as yet unclassified' stamp: 'LNB 11/28/2021 00:21:06' prior: 50985073!
+checkoutCart
+
+	[ticket _ restInterface checkoutCartRequestFor: cartId withCCN: ccn withCCME: ccme withCCYE: ccye withCCO: 'admin'.
+	self triggerEvent: #checkoutCartSuccess.]
+		on: Error - MessageNotUnderstood
+		do: [:anError | self triggerEvent: #checkoutCouldNotBePerformed.].! !
+!TusLibrosClientCatalogAndCartContentsWindow methodsFor: 'as yet unclassified' stamp: 'LNB 11/28/2021 00:21:41' prior: 50987182!
+initializeNamed: aTitle modeledBy: aModel
+
+	self setLabel: aTitle.
+	self model: aModel.
+	
+	self buildMorphicWindow.
+	
+	self model when: #cartContentsModified send: #updateCartContents to: self.
+	self model when: #checkoutCartSuccess send: #displaySaleTicketWindow to: self.
+	self model when: #checkoutCouldNotBePerformed send: #displaySaleTicketWindow to: self.
+	
+	self openInWorld.
+	self morphExtent: (self defaultExtent).! !
+!TusLibrosLoginWindowModel methodsFor: 'as yet unclassified' stamp: 'LNB 11/28/2021 00:23:16' prior: 50987274!
+checkoutCart
+
+	[ticket _ restInterface checkoutCartRequestFor: cartId withCCN: ccn withCCME: ccme withCCYE: ccye withCCO: 'admin'.
+	self triggerEvent: #checkoutCartSuccess.]
+		on: Error - MessageNotUnderstood
+		do: [:anError | self triggerEvent: #checkoutCouldNotBePerformed.].! !
+!TusLibrosClientCatalogAndCartContentsWindow methodsFor: 'as yet unclassified' stamp: 'LNB 11/28/2021 00:23:18' prior: 50987287!
+initializeNamed: aTitle modeledBy: aModel
+
+	self setLabel: aTitle.
+	self model: aModel.
+	
+	self buildMorphicWindow.
+	
+	self model when: #cartContentsModified send: #updateCartContents to: self.
+	self model when: #checkoutCartSuccess send: #displaySaleTicketWindow to: self.
+	self model when: #checkoutCouldNotBePerformed send: #displayCheckoutError to: self.
+	
+	self openInWorld.
+	self morphExtent: (self defaultExtent).! !
+!TusLibrosClientCatalogAndCartContentsWindow methodsFor: 'as yet unclassified' stamp: 'LNB 11/28/2021 00:23:26'!
+displayCheckoutError
+	
+	! !
+!TusLibrosClientCatalogAndCartContentsWindow methodsFor: 'as yet unclassified' stamp: 'LNB 11/28/2021 00:24:02' prior: 50987334!
+displayCheckoutError
+	
+	TusLibrosClientErrorWindow openWithErrorMessage: self checkoutErrorDescription.! !
+!TusLibrosClientCatalogAndCartContentsWindow methodsFor: 'as yet unclassified' stamp: 'LNB 11/28/2021 00:24:52'!
+checkoutErrorDescription
+
+	^'Could not perform checkout.'.! !
+!TusLibrosClientCatalogAndCartContentsWindow methodsFor: 'as yet unclassified' stamp: 'LNB 11/28/2021 00:24:54' prior: 50987346!
+checkoutErrorDescription
+
+	^'Could not perform checkout'.! !
+
+TusLibrosClientMainWindow open.!
+!TusLibrosLoginWindowModel methodsFor: 'as yet unclassified' stamp: 'LNB 11/28/2021 00:27:28' prior: 50984272!
+removeFromCart
+
+	| bookISBN |
+	[bookISBN _ (restInterface listCatalog keys at: catalogueSelectionIndex).
+
+	restInterface removeFromCartRequest: cartId for: bookISBN of: quantityToTransferTextBoxContents asNumber.
+	
+	self triggerEvent: #cartContentsModified.]
+		on: Error - MessageNotUnderstood
+		do: [:anError | self triggerEvent: #triedToRemoveTooManyItems.].! !
+!TusLibrosClientCatalogAndCartContentsWindow methodsFor: 'as yet unclassified' stamp: 'LNB 11/28/2021 00:27:52' prior: 50987317!
+initializeNamed: aTitle modeledBy: aModel
+
+	self setLabel: aTitle.
+	self model: aModel.
+	
+	self buildMorphicWindow.
+	
+	self model when: #cartContentsModified send: #updateCartContents to: self.
+	self model when: #checkoutCartSuccess send: #displaySaleTicketWindow to: self.
+	self model when: #checkoutCouldNotBePerformed send: #displayCheckoutError to: self.
+	self model when: #triedToRemoveTooManyItems send: #displayRemoveError to: self.
+	
+	self openInWorld.
+	self morphExtent: (self defaultExtent).! !
+!TusLibrosClientCatalogAndCartContentsWindow methodsFor: 'as yet unclassified' stamp: 'LNB 11/28/2021 00:28:09'!
+displayRemoveError
+	
+	TusLibrosClientErrorWindow openWithErrorMessage: self removeErrorDescription.! !
+!TusLibrosClientCatalogAndCartContentsWindow methodsFor: 'as yet unclassified' stamp: 'LNB 11/28/2021 00:28:31'!
+removeErrorDescription
+
+	^'Tried to remove more items than currently found in cart'! !
+
+TusLibrosClientMainWindow open.!
+!TusLibrosLoginWindowModel methodsFor: 'as yet unclassified' stamp: 'LNB 11/28/2021 00:31:02' prior: 50984145!
+addToCart
+
+	| bookISBN |
+	[bookISBN _ (restInterface listCatalog keys at: catalogueSelectionIndex).
+
+	restInterface addToCartRequest: cartId for: bookISBN of: quantityToTransferTextBoxContents asNumber.
+	
+	self triggerEvent: #cartContentsModified.]
+		on: Error - MessageNotUnderstood
+		do: [:anError | self triggerEvent: #mustInputAValidQuantity.].! !
+!TusLibrosLoginWindowModel methodsFor: 'as yet unclassified' stamp: 'LNB 11/28/2021 00:31:41' prior: 50986684 overrides: 16896425!
+initialize
+
+	username _ ''.
+	password _ ''.
+	restInterface _ TusLibrosClientInterface new.
+	
+	catalogueSelectionIndex _ 1.
+	cartSelectionIndex _ 1.
+	
+	quantityToTransferTextBoxContents _ '1'.
+	
+	ticketSelectedIndex _ 0.
+	
+	purchaseHistorySelectionIndex _ 0.
+	
+	"Cargamos un archivo encriptado con la tarjeta de credito del usuario"
+	
+	ccn _ '1234567890123456'.
+	ccme _ GregorianMonth current number asString.
+	ccye _ GregorianYear current number asString.! !
+!TusLibrosLoginWindowModel methodsFor: 'as yet unclassified' stamp: 'LNB 11/28/2021 00:31:52' prior: 50987426 overrides: 16896425!
+initialize
+
+	username _ ''.
+	password _ ''.
+	restInterface _ TusLibrosClientInterface new.
+	
+	catalogueSelectionIndex _ 1.
+	cartSelectionIndex _ 1.
+	
+	quantityToTransferTextBoxContents _ '1'.
+	
+	ticketSelectedIndex _ 0.
+	
+	purchaseHistorySelectionIndex _ 0.
+	
+	"Cargamos un archivo encriptado con la tarjeta de credito del usuario"
+	
+	ccn _ '1234567890123456'.
+	ccme _ GregorianMonth current number asString.
+	ccye _ GregorianYear current number asString.! !
+!TusLibrosClientCatalogAndCartContentsWindow methodsFor: 'as yet unclassified' stamp: 'LNB 11/28/2021 00:32:43' prior: 50987375!
+initializeNamed: aTitle modeledBy: aModel
+
+	self setLabel: aTitle.
+	self model: aModel.
+	
+	self buildMorphicWindow.
+	
+	self model when: #cartContentsModified send: #updateCartContents to: self.
+	self model when: #checkoutCartSuccess send: #displaySaleTicketWindow to: self.
+	self model when: #checkoutCouldNotBePerformed send: #displayCheckoutError to: self.
+	self model when: #triedToRemoveTooManyItems send: #displayRemoveError to: self.
+	self model when: #mustInputAValidQuantity send: #displayInvalidQuantityError to: self.
+	
+	self openInWorld.
+	self morphExtent: (self defaultExtent).! !
+!TusLibrosClientCatalogAndCartContentsWindow methodsFor: 'as yet unclassified' stamp: 'LNB 11/28/2021 00:32:48'!
+displayInvalidQuantityError! !
+!TusLibrosClientCatalogAndCartContentsWindow methodsFor: 'as yet unclassified' stamp: 'LNB 11/28/2021 00:33:09' prior: 50987487!
+displayInvalidQuantityError
+
+	TusLibrosClientErrorWindow openWithErrorMessage: self invalidQuantityErrorDescription.! !
+!TusLibrosClientCatalogAndCartContentsWindow methodsFor: 'as yet unclassified' stamp: 'LNB 11/28/2021 00:33:31'!
+invalidQuantityErrorDescription
+
+	^'Quantity must be a valid number.'! !
+
+TusLibrosClientMainWindow open.!
+
+!methodRemoval: TusLibrosClientErrorWindow #createNewWindowForPurchaseHistory stamp: 'LNB 11/28/2021 00:37:42'!
+createNewWindowForPurchaseHistory
+	
+	TusLibrosClientCatalogAndCartContentsWindow openWithModel: self model.!
+
+!methodRemoval: TusLibrosClientErrorWindow #displayCatalogAndCartContents stamp: 'LNB 11/28/2021 00:37:46'!
+displayCatalogAndCartContents
+
+	TusLibrosClientCatalogAndCartContentsWindow openWithModel: self model.
+	self delete.!
+
+!methodRemoval: TusLibrosClientErrorWindow #logOut stamp: 'LNB 11/28/2021 00:37:49'!
+logOut
+
+	TusLibrosClientMainWindow open.
+	self delete.!
+
+!methodRemoval: TusLibrosClientPurchaseHistoryWindow #logOut stamp: 'LNB 11/28/2021 00:38:43'!
+logOut
+
+	TusLibrosClientMainWindow open.
+	self delete.!
+!TusLibrosClientPurchaseHistoryWindow methodsFor: 'as yet unclassified' stamp: 'LNB 11/28/2021 00:39:00' prior: 50987197!
+initializeNamed: aTitle modeledBy: aModel
+
+	self setLabel: aTitle.
+	self model: aModel.
+	
+	self buildMorphicWindow.
+	
+	self openInWorld.
+	self morphExtent: (self defaultExtent).! !
+
+!methodRemoval: TusLibrosClientPurchaseHistoryWindow #displayCatalogAndCartContents stamp: 'LNB 11/28/2021 00:39:07'!
+displayCatalogAndCartContents
+
+	TusLibrosClientCatalogAndCartContentsWindow openWithModel: self model.
+	self delete.!
+
+!methodRemoval: TusLibrosClientPurchaseHistoryWindow #createNewWindowForPurchaseHistory stamp: 'LNB 11/28/2021 00:39:23'!
+createNewWindowForPurchaseHistory
+	
+	TusLibrosClientCatalogAndCartContentsWindow openWithModel: self model.!
+
+----SNAPSHOT----(28 November 2021 00:39:34) CuisUniversity-4972.image priorSource: 20906505!
+
+----SNAPSHOT----(28 November 2021 01:07:19) CuisUniversity-4972.image priorSource: 20988905!

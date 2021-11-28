@@ -209,8 +209,7 @@ checkOutCartWithCreditCardNumbered: aCreditCartNumber ownedBy: anOwner expiringO
 		on: self today
 		registeringOn: systemFacade salesBook) checkOut ! !
 
-
-!CartSession methodsFor: 'as yet unclassified' stamp: 'MF 11/15/2021 20:52:43'!
+!CartSession methodsFor: 'cart' stamp: 'MF 11/15/2021 20:52:43'!
 removeFromCart: anAmount of: aBook 
 	
 	^cart remove: anAmount of: aBook.! !
@@ -421,27 +420,36 @@ Object subclass: #CustomerPurchaseHistory
 	poolDictionaries: ''
 	category: 'TusLibros-Model'!
 
-!CustomerPurchaseHistory methodsFor: 'as yet unclassified' stamp: 'MF 11/15/2021 20:10:03'!
+!CustomerPurchaseHistory methodsFor: 'accessing' stamp: 'MF 11/15/2021 20:10:03'!
 at: anItem
 
 	^purchases at: anItem.! !
 
-!CustomerPurchaseHistory methodsFor: 'as yet unclassified' stamp: 'MF 11/15/2021 19:57:54'!
+!CustomerPurchaseHistory methodsFor: 'accessing' stamp: 'MF 11/15/2021 20:35:52'!
+total
+
+	^purchases sum: [ :aLineItem | aLineItem total ] ifEmpty: [ 0 ].! !
+
+
+!CustomerPurchaseHistory methodsFor: 'initialization' stamp: 'MF 11/15/2021 19:57:54'!
 initialize
 
 	purchases _ Dictionary new.! !
 
-!CustomerPurchaseHistory methodsFor: 'as yet unclassified' stamp: 'MF 11/15/2021 20:11:52'!
+
+!CustomerPurchaseHistory methodsFor: 'testing' stamp: 'MF 11/15/2021 20:11:52'!
 isEmpty
 
 	^purchases isEmpty.! !
 
-!CustomerPurchaseHistory methodsFor: 'as yet unclassified' stamp: 'MF 11/15/2021 20:26:16'!
+
+!CustomerPurchaseHistory methodsFor: 'enumerating' stamp: 'MF 11/15/2021 20:26:16'!
 itemsDo: aBlock
 
 	purchases keysDo: aBlock.! !
 
-!CustomerPurchaseHistory methodsFor: 'as yet unclassified' stamp: 'MF 11/15/2021 20:08:58'!
+
+!CustomerPurchaseHistory methodsFor: 'adding' stamp: 'MF 11/15/2021 20:08:58'!
 registerSale: aSale
 
 	aSale lineItemsDo: [ :newLineItem | | item |
@@ -453,18 +461,13 @@ registerSale: aSale
 										total: (oldLineItem total + newLineItem total))]
 			ifAbsent: [ purchases at: item put: newLineItem ] ].! !
 
-!CustomerPurchaseHistory methodsFor: 'as yet unclassified' stamp: 'MF 11/15/2021 20:35:52'!
-total
-
-	^purchases sum: [ :aLineItem | aLineItem total ] ifEmpty: [ 0 ].! !
-
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
 !classDefinition: 'CustomerPurchaseHistory class' category: #'TusLibros-Model'!
 CustomerPurchaseHistory class
 	instanceVariableNames: ''!
 
-!CustomerPurchaseHistory class methodsFor: 'as yet unclassified' stamp: 'MF 11/15/2021 20:16:35'!
+!CustomerPurchaseHistory class methodsFor: 'instance creation' stamp: 'MF 11/15/2021 20:16:35'!
 forSales: salesOfUser
 
 	| customerPurchaseHistory |
@@ -587,42 +590,44 @@ Object subclass: #SalesBook
 	poolDictionaries: ''
 	category: 'TusLibros-Model'!
 
-!SalesBook methodsFor: 'as yet unclassified' stamp: 'MF 11/15/2021 19:50:37'!
+!SalesBook methodsFor: 'accessing' stamp: 'MF 11/15/2021 19:50:37'!
 add: aSale
 
 	sales add: aSale.! !
 
-!SalesBook methodsFor: 'as yet unclassified' stamp: 'MF 11/15/2021 19:54:55'!
+!SalesBook methodsFor: 'accessing' stamp: 'MF 11/15/2021 19:54:55'!
 first
 
 	^sales first.! !
 
-!SalesBook methodsFor: 'as yet unclassified' stamp: 'MF 11/15/2021 19:50:52'!
-initialize
-
-	sales _ OrderedCollection new.! !
-
-!SalesBook methodsFor: 'as yet unclassified' stamp: 'MF 11/15/2021 19:54:05'!
-isEmpty
-
-	^sales isEmpty.! !
-
-!SalesBook methodsFor: 'as yet unclassified' stamp: 'MF 11/15/2021 20:15:24'!
+!SalesBook methodsFor: 'accessing' stamp: 'MF 11/15/2021 20:15:24'!
 purchaseHistoryOf: aUser
 
 	| salesOfUser |
 	salesOfUser _ self salesDoneBy: aUser.
 	^CustomerPurchaseHistory forSales: salesOfUser.! !
 
-!SalesBook methodsFor: 'as yet unclassified' stamp: 'MF 11/15/2021 19:49:15'!
+!SalesBook methodsFor: 'accessing' stamp: 'MF 11/15/2021 19:49:15'!
 salesDoneBy: aUser
 
 	^sales select: [ :aSale | aSale wasDoneBy: aUser ]! !
 
-!SalesBook methodsFor: 'as yet unclassified' stamp: 'MF 11/15/2021 19:54:43'!
+!SalesBook methodsFor: 'accessing' stamp: 'MF 11/15/2021 19:54:43'!
 size
 
 	^sales size.! !
+
+
+!SalesBook methodsFor: 'initialization' stamp: 'MF 11/15/2021 19:50:52'!
+initialize
+
+	sales _ OrderedCollection new.! !
+
+
+!SalesBook methodsFor: 'testing' stamp: 'MF 11/15/2021 19:54:05'!
+isEmpty
+
+	^sales isEmpty.! !
 
 
 !classDefinition: #Ticket category: #'TusLibros-Model'!
@@ -668,7 +673,13 @@ Object subclass: #TusLibrosServerInterface
 	poolDictionaries: ''
 	category: 'TusLibros-Model'!
 
-!TusLibrosServerInterface methodsFor: 'as yet unclassified' stamp: 'MF 11/14/2021 17:37:37'!
+!TusLibrosServerInterface methodsFor: 'enabling services' stamp: 'MF 11/14/2021 16:57:24'!
+destroy
+	
+	webServer ifNotNil:[webServer destroy].! !
+
+
+!TusLibrosServerInterface methodsFor: 'initialization' stamp: 'MF 11/14/2021 17:37:37'!
 addService: anEndpoint action: anActionBlock
 
 	webServer 
@@ -679,7 +690,34 @@ addService: anEndpoint action: anActionBlock
 			do: [ :anError |
 				request send400Response: anError messageText.]]! !
 
-!TusLibrosServerInterface methodsFor: 'as yet unclassified' stamp: 'MF 11/14/2021 23:47:37'!
+!TusLibrosServerInterface methodsFor: 'initialization' stamp: 'MF 11/15/2021 20:45:41'!
+initializeWith: aPortNumber interactingWith: aTusLibrosSystemFacade
+	
+	systemFacade := aTusLibrosSystemFacade.
+	
+	port:= aPortNumber.
+	
+	webServer := WebServer new listenOn: self port.
+	
+	self addService: '/createCart' action: [ :request | self createCart: request ].
+	self addService: '/listCatalog' action: [ :request | self listCatalog: request ].
+	self addService: '/addToCart' action: [ :request | self addToCart: request ].
+	self addService: '/removeFromCart' action: [ :request | self removeFromCart: request ].
+	self addService: '/listCart' action: [ :request | self listCart: request ].
+	self addService: '/checkoutCart' action: [ :request | self checkoutCart: request ].
+	self addService: '/listPurchases' action: [ :request | self listPurchases: request ].
+	! !
+
+!TusLibrosServerInterface methodsFor: 'initialization' stamp: 'LNB 11/11/2021 22:01:25'!
+port
+	"Use a random port to minimise chances of concurrently running test suites clashing."
+	"^ port
+		ifNil: [port := (10000 to: 50000) atRandom]"
+	
+	^port ifNil: [port:=8080].! !
+
+
+!TusLibrosServerInterface methodsFor: 'request handlers' stamp: 'MF 11/14/2021 23:47:37'!
 addToCart: aRequest
 
 	| bookISBN bookQuantity cartId |
@@ -689,7 +727,7 @@ addToCart: aRequest
 	systemFacade add: bookQuantity asNumber of: bookISBN toCartIdentifiedAs: cartId asNumber.
 	aRequest send200Response: 'OK'.! !
 
-!TusLibrosServerInterface methodsFor: 'as yet unclassified' stamp: 'LNB 11/27/2021 19:27:34'!
+!TusLibrosServerInterface methodsFor: 'request handlers' stamp: 'LNB 11/27/2021 19:27:34'!
 checkoutCart: aRequest
 
 	| cartId creditCardNumber monthExpiration yearExpiration creditCardOwner ticket ticketAsJson |
@@ -709,7 +747,7 @@ checkoutCart: aRequest
 	ticketAsJson _ self serializeTicket: ticket.
 	aRequest send200Response: ticketAsJson.! !
 
-!TusLibrosServerInterface methodsFor: 'as yet unclassified' stamp: 'MF 11/14/2021 17:43:42'!
+!TusLibrosServerInterface methodsFor: 'request handlers' stamp: 'MF 11/14/2021 17:43:42'!
 createCart: aRequest
 
 	| cartId cartIdAsJson clientId password |
@@ -719,30 +757,7 @@ createCart: aRequest
 	cartIdAsJson _ WebUtils jsonEncode: (cartId asString).
 	aRequest send200Response: cartIdAsJson.! !
 
-!TusLibrosServerInterface methodsFor: 'as yet unclassified' stamp: 'MF 11/14/2021 16:57:24'!
-destroy
-	
-	webServer ifNotNil:[webServer destroy].! !
-
-!TusLibrosServerInterface methodsFor: 'as yet unclassified' stamp: 'MF 11/15/2021 20:45:41'!
-initializeWith: aPortNumber interactingWith: aTusLibrosSystemFacade
-	
-	systemFacade := aTusLibrosSystemFacade.
-	
-	port:= aPortNumber.
-	
-	webServer := WebServer new listenOn: self port.
-	
-	self addService: '/createCart' action: [ :request | self createCart: request ].
-	self addService: '/listCatalog' action: [ :request | self listCatalog: request ].
-	self addService: '/addToCart' action: [ :request | self addToCart: request ].
-	self addService: '/removeFromCart' action: [ :request | self removeFromCart: request ].
-	self addService: '/listCart' action: [ :request | self listCart: request ].
-	self addService: '/checkoutCart' action: [ :request | self checkoutCart: request ].
-	self addService: '/listPurchases' action: [ :request | self listPurchases: request ].
-	! !
-
-!TusLibrosServerInterface methodsFor: 'as yet unclassified' stamp: 'MF 11/14/2021 23:56:05'!
+!TusLibrosServerInterface methodsFor: 'request handlers' stamp: 'MF 11/14/2021 23:56:05'!
 listCart: aRequest
 
 	| cartId cartContents contentsAsJson |
@@ -751,7 +766,7 @@ listCart: aRequest
 	contentsAsJson _ WebUtils jsonEncode: cartContents contents.
 	aRequest send200Response: contentsAsJson.! !
 
-!TusLibrosServerInterface methodsFor: 'as yet unclassified' stamp: 'MF 11/14/2021 17:53:27'!
+!TusLibrosServerInterface methodsFor: 'request handlers' stamp: 'MF 11/14/2021 17:53:27'!
 listCatalog: aRequest
 
 	| catalog catalogAsJson |
@@ -759,7 +774,7 @@ listCatalog: aRequest
 	catalogAsJson _ WebUtils jsonEncode: catalog.
 	aRequest send200Response: catalogAsJson.! !
 
-!TusLibrosServerInterface methodsFor: 'as yet unclassified' stamp: 'MF 11/15/2021 20:36:19'!
+!TusLibrosServerInterface methodsFor: 'request handlers' stamp: 'MF 11/15/2021 20:36:19'!
 listPurchases: aRequest
 
 	| clientId password purchases purchasesAsJson |
@@ -769,15 +784,7 @@ listPurchases: aRequest
 	purchasesAsJson _ self serializePurchases: purchases.
 	aRequest send200Response: purchasesAsJson.! !
 
-!TusLibrosServerInterface methodsFor: 'as yet unclassified' stamp: 'LNB 11/11/2021 22:01:25'!
-port
-	"Use a random port to minimise chances of concurrently running test suites clashing."
-	"^ port
-		ifNil: [port := (10000 to: 50000) atRandom]"
-	
-	^port ifNil: [port:=8080].! !
-
-!TusLibrosServerInterface methodsFor: 'as yet unclassified' stamp: 'MF 11/15/2021 20:49:10'!
+!TusLibrosServerInterface methodsFor: 'request handlers' stamp: 'MF 11/15/2021 20:49:10'!
 removeFromCart: aRequest
 
 	| bookISBN bookQuantity cartId |
@@ -789,7 +796,8 @@ removeFromCart: aRequest
 
 	! !
 
-!TusLibrosServerInterface methodsFor: 'as yet unclassified' stamp: 'MF 11/15/2021 20:29:17'!
+
+!TusLibrosServerInterface methodsFor: 'request handlers - private' stamp: 'MF 11/15/2021 20:29:17'!
 serializePurchases: purchases
 
 	| purchasesDictionary |
@@ -805,7 +813,7 @@ serializePurchases: purchases
 	
 	^ WebUtils jsonEncode: purchasesDictionary.! !
 
-!TusLibrosServerInterface methodsFor: 'as yet unclassified' stamp: 'MF 11/15/2021 20:24:11'!
+!TusLibrosServerInterface methodsFor: 'request handlers - private' stamp: 'MF 11/15/2021 20:24:11'!
 serializeTicket: aTicket
 
 	| ticketDictionary |
@@ -822,7 +830,7 @@ serializeTicket: aTicket
 TusLibrosServerInterface class
 	instanceVariableNames: ''!
 
-!TusLibrosServerInterface class methodsFor: 'as yet unclassified' stamp: 'MF 11/14/2021 18:06:18'!
+!TusLibrosServerInterface class methodsFor: 'instance creation' stamp: 'MF 11/14/2021 18:06:18'!
 listeningOn: aPortNumber interactingWith: aTusLibrosSystemFacade
 
 	^self new initializeWith: aPortNumber interactingWith: aTusLibrosSystemFacade.! !
@@ -964,6 +972,11 @@ listCartIdentifiedAs: aCartId
 
 	^ self withCartSessionIdentifiedAs: aCartId do: [ :cartSession | cartSession cartContent ]! !
 
+!TusLibrosSystemFacade methodsFor: 'facade protocol' stamp: 'MF 11/14/2021 17:51:28'!
+listCatalog
+	
+	^ catalog copy.! !
+
 !TusLibrosSystemFacade methodsFor: 'facade protocol' stamp: 'MF 11/15/2021 19:56:18'!
 listPurchasesOf: aUser authenticatingWith: aPassword
 
@@ -976,6 +989,11 @@ listPurchasesOf: aUser authenticatingWith: aPassword
 			into: [ :salesOrderedByBook :aSale |
 				self list: aSale on: salesOrderedByBook.
 				salesOrderedByBook ] ]"! !
+
+!TusLibrosSystemFacade methodsFor: 'facade protocol' stamp: 'MF 11/15/2021 20:51:30'!
+remove: anAmount of: aBook toCartIdentifiedAs: aCartId 
+	
+	self withCartSessionIdentifiedAs: aCartId do: [ :cartSession | cartSession removeFromCart: anAmount of: aBook ]! !
 
 
 !TusLibrosSystemFacade methodsFor: 'checkout support' stamp: 'HernanWilkinson 6/17/2015 20:49'!
@@ -1019,17 +1037,6 @@ initializeAuthenticatingWith: aValidUsersAndPasswords
 
 	cartSessions := Dictionary new.
 	lastId := 0.! !
-
-
-!TusLibrosSystemFacade methodsFor: 'as yet unclassified' stamp: 'MF 11/14/2021 17:51:28'!
-listCatalog
-	
-	^ catalog copy.! !
-
-!TusLibrosSystemFacade methodsFor: 'as yet unclassified' stamp: 'MF 11/15/2021 20:51:30'!
-remove: anAmount of: aBook toCartIdentifiedAs: aCartId 
-	
-	self withCartSessionIdentifiedAs: aCartId do: [ :cartSession | cartSession removeFromCart: anAmount of: aBook ]! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 

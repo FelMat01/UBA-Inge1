@@ -803,12 +803,12 @@ createSalesBook
 	^SalesBook new! !
 
 
-!InterfaceTestObjectsFactory methodsFor: 'as yet unclassified' stamp: 'LNB 11/14/2021 20:59:53'!
+!InterfaceTestObjectsFactory methodsFor: 'model creation auxiliaries' stamp: 'LNB 11/14/2021 20:59:53'!
 clock
 
 	^RealClock new! !
 
-!InterfaceTestObjectsFactory methodsFor: 'as yet unclassified' stamp: 'MF 11/14/2021 17:17:18'!
+!InterfaceTestObjectsFactory methodsFor: 'model creation auxiliaries' stamp: 'MF 11/14/2021 17:17:18'!
 createSystemFacade
 
 	^TusLibrosSystemFacade authenticatingWith: self validUsersAndPasswords 
