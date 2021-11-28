@@ -122,6 +122,38 @@ test10CannotRemoveMoreItemsThanContainedInCart
 			self assert: 2 equals: (cart occurrencesOf: testObjectsFactory itemSellByTheStore).
 			].! !
 
+!CartTest methodsFor: 'tests' stamp: 'LNB 11/28/2021 13:26:02'!
+test11CannotAddNonIntegerAmountOfProducts
+
+	| cart |
+
+	cart := testObjectsFactory createCart.
+
+	self 
+		should: [cart add: 3.2 of: testObjectsFactory itemSellByTheStore]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [:anError |
+			self assert: Cart invalidQuantityErrorMessage equals: anError messageText.
+			self assert: 0 equals: (cart occurrencesOf: testObjectsFactory itemSellByTheStore).
+			].! !
+
+!CartTest methodsFor: 'tests' stamp: 'LNB 11/28/2021 13:23:44'!
+test12CannotRemoveNonIntegerAmountOfProducts
+
+	| cart |
+
+	cart := testObjectsFactory createCart.
+
+	cart add: 2 of: testObjectsFactory itemSellByTheStore.
+	
+	self 
+		should: [cart remove: 1.2 of: testObjectsFactory itemSellByTheStore]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [:anError |
+			self assert: Cart invalidQuantityErrorMessage equals: anError messageText.
+			self assert: 2 equals: (cart occurrencesOf: testObjectsFactory itemSellByTheStore).
+			].! !
+
 
 !CartTest methodsFor: 'setup' stamp: 'HernanWilkinson 6/17/2013 18:09'!
 setUp

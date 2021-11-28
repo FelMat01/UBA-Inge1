@@ -21,10 +21,11 @@ assertIsValidItem: anItem
 
 	(catalog includesKey: anItem) ifFalse: [ self signalInvalidItem ]! !
 
-!Cart methodsFor: 'assertions' stamp: 'HernanWilkinson 6/22/2013 14:18'!
+!Cart methodsFor: 'assertions' stamp: 'LNB 11/28/2021 13:25:35'!
 assertIsValidQuantity: aQuantity
 
-	aQuantity strictlyPositive ifFalse: [self signalInvalidQuantity ]! !
+	aQuantity strictlyPositive ifFalse: [self signalInvalidQuantity ].
+	aQuantity isInteger ifFalse: [self signalInvalidQuantity ].! !
 
 
 !Cart methodsFor: 'content' stamp: 'HernanWilkinson 6/22/2013 12:17'!

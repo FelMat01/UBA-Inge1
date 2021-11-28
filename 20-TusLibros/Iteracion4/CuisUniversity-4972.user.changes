@@ -11938,3 +11938,135 @@ createNewWindowForPurchaseHistory
 ----SNAPSHOT----(28 November 2021 00:39:34) CuisUniversity-4972.image priorSource: 20906505!
 
 ----SNAPSHOT----(28 November 2021 01:07:19) CuisUniversity-4972.image priorSource: 20988905!
+
+TusLibrosClientMainWindow open.!
+
+TusLibrosClientMainWindow open.!
+!TusLibrosClientMainWindow methodsFor: 'error description' stamp: 'LNB 11/28/2021 01:34:38' prior: 50986812!
+wrongUsernameOrPasswordErrorDescription
+
+	^'Username or password is incorrect.
+	Sos tremendo Gil!!'! !
+
+TusLibrosClientMainWindow open.!
+!TusLibrosClientMainWindow methodsFor: 'error description' stamp: 'LNB 11/28/2021 01:35:04' prior: 50987563!
+wrongUsernameOrPasswordErrorDescription
+
+	^'Username or password is incorrect.'! !
+
+----STARTUP---- (28 November 2021 13:21:56) as E:\Cursada Actual IS1\Ejercicios para entregar\20-TusLibros\Iteracion4\CuisUniversity-4972.image!
+
+!CartTest methodsFor: 'tests' stamp: 'LNB 11/28/2021 13:23:15'!
+test11CannotAddNonIntegerAmountOfProducts
+
+	| cart |
+
+	cart := testObjectsFactory createCart.
+
+	self 
+		should: [cart add: 3.2 of: testObjectsFactory itemSellByTheStore]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [:anError |
+			self assert: Cart invalidQuantityErrorMessage equals: anError messageText.
+			self assert: 2 equals: (cart occurrencesOf: testObjectsFactory itemSellByTheStore).
+			].! !
+!CartTest methodsFor: 'tests' stamp: 'LNB 11/28/2021 13:23:44'!
+test12CannotRemoveNonIntegerAmountOfProducts
+
+	| cart |
+
+	cart := testObjectsFactory createCart.
+
+	cart add: 2 of: testObjectsFactory itemSellByTheStore.
+	
+	self 
+		should: [cart remove: 1.2 of: testObjectsFactory itemSellByTheStore]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [:anError |
+			self assert: Cart invalidQuantityErrorMessage equals: anError messageText.
+			self assert: 2 equals: (cart occurrencesOf: testObjectsFactory itemSellByTheStore).
+			].! !
+
+!testRun: #CartTest #test11CannotAddNonIntegerAmountOfProducts stamp: 'LNB 11/28/2021 13:24:15'!
+FAILURE!
+
+!testRun: #CartTest #test11CannotAddNonIntegerAmountOfProducts stamp: 'LNB 11/28/2021 13:24:15'!
+FAILURE!
+!Cart methodsFor: 'assertions' stamp: 'LNB 11/28/2021 13:25:35' prior: 50925487!
+assertIsValidQuantity: aQuantity
+
+	aQuantity strictlyPositive ifFalse: [self signalInvalidQuantity ].
+	aQuantity isInteger ifFalse: [self signalInvalidQuantity ].! !
+
+!testRun: #CartTest #test11CannotAddNonIntegerAmountOfProducts stamp: 'LNB 11/28/2021 13:25:47'!
+FAILURE!
+!CartTest methodsFor: 'tests' stamp: 'LNB 11/28/2021 13:26:02' prior: 50987564!
+test11CannotAddNonIntegerAmountOfProducts
+
+	| cart |
+
+	cart := testObjectsFactory createCart.
+
+	self 
+		should: [cart add: 3.2 of: testObjectsFactory itemSellByTheStore]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [:anError |
+			self assert: Cart invalidQuantityErrorMessage equals: anError messageText.
+			self assert: 0 equals: (cart occurrencesOf: testObjectsFactory itemSellByTheStore).
+			].! !
+
+!testRun: #CartTest #test11CannotAddNonIntegerAmountOfProducts stamp: 'LNB 11/28/2021 13:26:09'!
+PASSED!
+
+!testRun: #CartTest #test12CannotRemoveNonIntegerAmountOfProducts stamp: 'LNB 11/28/2021 13:26:10'!
+PASSED!
+!TusLibrosClientInterface methodsFor: 'sending requests' stamp: 'LNB 11/28/2021 13:26:49' prior: 50983876!
+addToCartRequest: aCartId for: aBookISBN of: anAmount
+
+	| fieldDict resp |
+	fieldDict _ Dictionary newFromPairs: { 'cartId'. aCartId. 'bookISBN'. aBookISBN. 'bookQuantity'. anAmount }.
+	
+	resp _ WebClient htmlSubmit: (self url, '/addToCart') fields: fieldDict method: 'PUT'.
+	
+	resp isSuccess 
+        		ifFalse:[^self error: resp content].! !
+!TusLibrosClientInterface methodsFor: 'sending requests' stamp: 'LNB 11/28/2021 13:27:10' prior: 50984258!
+listCartRequestFor: aCartId
+
+	| fieldDict resp |
+	fieldDict _ Dictionary newFromPairs: { 'cartId'. aCartId }.
+	
+	resp _ WebClient htmlSubmit: (self url, '/listCart') fields: fieldDict method: 'GET'.
+	
+	resp isSuccess 
+		ifTrue:[^(WebUtils jsonDecode: ((resp content) readStream)).]
+        		ifFalse:[^self error: resp content].! !
+!TusLibrosClientInterface methodsFor: 'sending requests' stamp: 'LNB 11/28/2021 13:27:31' prior: 50986191!
+listPurchasesRequestFor: aUsername authenticatingWith: aPassword
+
+	" un username no deberia tener espacios, todo: chequear que eso no suceda"
+	| fieldDict resp |
+	fieldDict _ Dictionary newFromPairs: { 'clientId'. aUsername. 'password'. aPassword }.
+	
+	resp _ WebClient htmlSubmit: (self url, '/listPurchases') fields: fieldDict method: 'GET'.
+	
+	resp isSuccess 
+        		ifTrue:[^(WebUtils jsonDecode: ((resp content) readStream)).] 
+        		ifFalse:[^self error: resp content].! !
+!TusLibrosClientInterface methodsFor: 'sending requests' stamp: 'LNB 11/28/2021 13:27:40' prior: 50984284!
+removeFromCartRequest: aCartId for: aBookISBN of: anAmount
+
+	| fieldDict resp |
+	fieldDict _ Dictionary newFromPairs: { 'cartId'. aCartId. 'bookISBN'. aBookISBN. 'bookQuantity'. anAmount }.
+	
+	resp _ WebClient htmlSubmit: (self url, '/removeFromCart') fields: fieldDict method: 'DELETE'.
+	
+	resp isSuccess 
+        		ifFalse:[^self error: resp content].! !
+
+----QUIT----(28 November 2021 13:28:06) CuisUniversity-4972.image priorSource: 20988999!
+
+----STARTUP---- (28 November 2021 13:28:11) as E:\Cursada Actual IS1\Ejercicios para entregar\20-TusLibros\Iteracion4\CuisUniversity-4972.image!
+
+
+----QUIT----(28 November 2021 13:28:33) CuisUniversity-4972.image priorSource: 20993604!

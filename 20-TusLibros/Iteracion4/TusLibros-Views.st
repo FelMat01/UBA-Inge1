@@ -502,13 +502,13 @@ Object subclass: #TusLibrosClientInterface
 	poolDictionaries: ''
 	category: 'TusLibros-Views'!
 
-!TusLibrosClientInterface methodsFor: 'sending requests' stamp: 'LNB 11/27/2021 17:48:13'!
+!TusLibrosClientInterface methodsFor: 'sending requests' stamp: 'LNB 11/28/2021 13:26:49'!
 addToCartRequest: aCartId for: aBookISBN of: anAmount
 
 	| fieldDict resp |
 	fieldDict _ Dictionary newFromPairs: { 'cartId'. aCartId. 'bookISBN'. aBookISBN. 'bookQuantity'. anAmount }.
 	
-	resp _ WebClient htmlSubmit: (self url, '/addToCart') fields: fieldDict method: 'POST'.
+	resp _ WebClient htmlSubmit: (self url, '/addToCart') fields: fieldDict method: 'PUT'.
 	
 	resp isSuccess 
         		ifFalse:[^self error: resp content].! !
@@ -538,13 +538,13 @@ createCartRequestFor: aUsername with: aPassword
         		ifTrue:[^(WebUtils jsonDecode: ((resp content) readStream)).] 
         		ifFalse:[^self error: resp content].! !
 
-!TusLibrosClientInterface methodsFor: 'sending requests' stamp: 'LNB 11/27/2021 18:19:17'!
+!TusLibrosClientInterface methodsFor: 'sending requests' stamp: 'LNB 11/28/2021 13:27:10'!
 listCartRequestFor: aCartId
 
 	| fieldDict resp |
 	fieldDict _ Dictionary newFromPairs: { 'cartId'. aCartId }.
 	
-	resp _ WebClient htmlSubmit: (self url, '/listCart') fields: fieldDict method: 'POST'.
+	resp _ WebClient htmlSubmit: (self url, '/listCart') fields: fieldDict method: 'GET'.
 	
 	resp isSuccess 
 		ifTrue:[^(WebUtils jsonDecode: ((resp content) readStream)).]
@@ -561,26 +561,26 @@ listCatalog
         		ifTrue:[^WebUtils jsonDecode: ((resp content) readStream).] 
         		ifFalse:[^self error: resp content].! !
 
-!TusLibrosClientInterface methodsFor: 'sending requests' stamp: 'LNB 11/27/2021 23:21:36'!
+!TusLibrosClientInterface methodsFor: 'sending requests' stamp: 'LNB 11/28/2021 13:27:31'!
 listPurchasesRequestFor: aUsername authenticatingWith: aPassword
 
 	" un username no deberia tener espacios, todo: chequear que eso no suceda"
 	| fieldDict resp |
 	fieldDict _ Dictionary newFromPairs: { 'clientId'. aUsername. 'password'. aPassword }.
 	
-	resp _ WebClient htmlSubmit: (self url, '/listPurchases') fields: fieldDict method: 'POST'.
+	resp _ WebClient htmlSubmit: (self url, '/listPurchases') fields: fieldDict method: 'GET'.
 	
 	resp isSuccess 
         		ifTrue:[^(WebUtils jsonDecode: ((resp content) readStream)).] 
         		ifFalse:[^self error: resp content].! !
 
-!TusLibrosClientInterface methodsFor: 'sending requests' stamp: 'LNB 11/27/2021 18:24:42'!
+!TusLibrosClientInterface methodsFor: 'sending requests' stamp: 'LNB 11/28/2021 13:27:40'!
 removeFromCartRequest: aCartId for: aBookISBN of: anAmount
 
 	| fieldDict resp |
 	fieldDict _ Dictionary newFromPairs: { 'cartId'. aCartId. 'bookISBN'. aBookISBN. 'bookQuantity'. anAmount }.
 	
-	resp _ WebClient htmlSubmit: (self url, '/removeFromCart') fields: fieldDict method: 'POST'.
+	resp _ WebClient htmlSubmit: (self url, '/removeFromCart') fields: fieldDict method: 'DELETE'.
 	
 	resp isSuccess 
         		ifFalse:[^self error: resp content].! !
