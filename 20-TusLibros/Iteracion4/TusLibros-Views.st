@@ -180,7 +180,7 @@ defaultExtent
 
 	^ 250@100.! !
 
-!TusLibrosClientErrorWindow methodsFor: 'initialization' stamp: 'LNB 11/28/2021 00:18:10'!
+!TusLibrosClientErrorWindow methodsFor: 'initialization' stamp: 'LNB 11/28/2021 17:05:18'!
 initializeNamed: aTitle withMessageText: anErrorDescription
 
 	self setLabel: aTitle.
@@ -192,6 +192,7 @@ initializeNamed: aTitle withMessageText: anErrorDescription
 	self model when: #purchaseHistoryArrived send: #createNewWindowForPurchaseHistory to: self.
 	
 	self openInWorld.
+	Beeper beepPrimitive.
 	self morphExtent: (self defaultExtent).
 	self layoutMorph color: Color red.! !
 
@@ -502,13 +503,13 @@ Object subclass: #TusLibrosClientInterface
 	poolDictionaries: ''
 	category: 'TusLibros-Views'!
 
-!TusLibrosClientInterface methodsFor: 'sending requests' stamp: 'LNB 11/28/2021 13:26:49'!
+!TusLibrosClientInterface methodsFor: 'sending requests' stamp: 'LNB 11/27/2021 17:48:13'!
 addToCartRequest: aCartId for: aBookISBN of: anAmount
 
 	| fieldDict resp |
 	fieldDict _ Dictionary newFromPairs: { 'cartId'. aCartId. 'bookISBN'. aBookISBN. 'bookQuantity'. anAmount }.
 	
-	resp _ WebClient htmlSubmit: (self url, '/addToCart') fields: fieldDict method: 'PUT'.
+	resp _ WebClient htmlSubmit: (self url, '/addToCart') fields: fieldDict method: 'POST'.
 	
 	resp isSuccess 
         		ifFalse:[^self error: resp content].! !
@@ -525,7 +526,7 @@ checkoutCartRequestFor: aCartId withCCN: aCCN withCCME: aCCME withCCYE: aCCYE wi
 		ifTrue:[^WebUtils jsonDecode: ((resp content) readStream).] 
         		ifFalse:[^self error: resp content].! !
 
-!TusLibrosClientInterface methodsFor: 'sending requests' stamp: 'LNB 11/27/2021 17:35:33'!
+!TusLibrosClientInterface methodsFor: 'sending requests' stamp: 'LNB 11/28/2021 19:41:09'!
 createCartRequestFor: aUsername with: aPassword
 
 	" un username no deberia tener espacios, todo: chequear que eso no suceda"
@@ -574,13 +575,13 @@ listPurchasesRequestFor: aUsername authenticatingWith: aPassword
         		ifTrue:[^(WebUtils jsonDecode: ((resp content) readStream)).] 
         		ifFalse:[^self error: resp content].! !
 
-!TusLibrosClientInterface methodsFor: 'sending requests' stamp: 'LNB 11/28/2021 13:27:40'!
+!TusLibrosClientInterface methodsFor: 'sending requests' stamp: 'LNB 11/27/2021 18:24:42'!
 removeFromCartRequest: aCartId for: aBookISBN of: anAmount
 
 	| fieldDict resp |
 	fieldDict _ Dictionary newFromPairs: { 'cartId'. aCartId. 'bookISBN'. aBookISBN. 'bookQuantity'. anAmount }.
 	
-	resp _ WebClient htmlSubmit: (self url, '/removeFromCart') fields: fieldDict method: 'DELETE'.
+	resp _ WebClient htmlSubmit: (self url, '/removeFromCart') fields: fieldDict method: 'POST'.
 	
 	resp isSuccess 
         		ifFalse:[^self error: resp content].! !

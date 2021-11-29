@@ -1,17 +1,32 @@
-Workspace:
+Workspace Sincrónico:
 
 factory _ InterfaceTestObjectsFactory new.
 
-server _ TusLibrosServerInterface listeningOn: 8080 interactingWith: factory createSystemFacade.
+server _ TusLibrosSynchronousServerInterface listeningOn: 8080 interactingWith: factory createSystemFacade.
 
 server destroy
 
-TusLibrosServerInterface allInstances.
+TusLibrosSynchronousServerInterface allInstances.
 
-TusLibrosServerInterface allInstances do: [ :aServer | aServer destroy ].
+Utilities garbageCollectAndReport.
+
+TusLibrosSynchronousServerInterface allInstances do: [ :aServer | aServer destroy ].
 
 TusLibrosClientMainWindow open.
 
+Workspace Asincrónico:
+
+asynchronousServer _ TusLibrosAsynchronousServer new.
+
+asynchronousServer forkNewRequestHandler.
+
+TusLibrosClientMainWindow open.
+
+TusLibrosAsynchronousServer allInstances.
+
+Utilities garbageCollectAndReport
+
+TusLibrosAsynchronousServer allInstances do: [ :aServer | aServer destroy ].
 
 Instrucciones:
 

@@ -12070,3 +12070,2968 @@ removeFromCartRequest: aCartId for: aBookISBN of: anAmount
 
 
 ----QUIT----(28 November 2021 13:28:33) CuisUniversity-4972.image priorSource: 20993604!
+
+----STARTUP---- (28 November 2021 13:36:38) as E:\Cursada Actual IS1\Ejercicios para entregar\20-TusLibros\Iteracion4\CuisUniversity-4972.image!
+
+
+Object subclass: #TusLibrosServerQueueingInterface
+	instanceVariableNames: 'webServer port systemFacade'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros-Model'!
+
+!classDefinition: #TusLibrosServerQueueingInterface category: #'TusLibros-Model' stamp: 'LNB 11/28/2021 16:22:51'!
+Object subclass: #TusLibrosServerQueueingInterface
+	instanceVariableNames: 'webServer port systemFacade'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros-Model'!
+
+TusLibrosServerQueueingInterface class
+	instanceVariableNames: ''!
+
+!classDefinition: 'TusLibrosServerQueueingInterface class' category: #'TusLibros-Model' stamp: 'LNB 11/28/2021 16:22:51'!
+TusLibrosServerQueueingInterface class
+	instanceVariableNames: ''!
+!TusLibrosServerQueueingInterface methodsFor: 'enabling services' stamp: 'LNB 11/28/2021 16:22:51'!
+destroy
+	
+	webServer ifNotNil:[webServer destroy].! !
+!TusLibrosServerQueueingInterface methodsFor: 'initialization' stamp: 'LNB 11/28/2021 16:22:51'!
+addService: anEndpoint action: anActionBlock
+
+	webServer 
+		addService: anEndpoint 
+		action: [ :request |
+			[ anActionBlock value: request ] 
+			on: Error
+			do: [ :anError |
+				request send400Response: anError messageText.]]! !
+!TusLibrosServerQueueingInterface methodsFor: 'initialization' stamp: 'LNB 11/28/2021 16:22:51'!
+initializeWith: aPortNumber interactingWith: aTusLibrosSystemFacade
+	
+	systemFacade := aTusLibrosSystemFacade.
+	
+	port:= aPortNumber.
+	
+	webServer := WebServer new listenOn: self port.
+	
+	self addService: '/createCart' action: [ :request | self createCart: request ].
+	self addService: '/listCatalog' action: [ :request | self listCatalog: request ].
+	self addService: '/addToCart' action: [ :request | self addToCart: request ].
+	self addService: '/removeFromCart' action: [ :request | self removeFromCart: request ].
+	self addService: '/listCart' action: [ :request | self listCart: request ].
+	self addService: '/checkoutCart' action: [ :request | self checkoutCart: request ].
+	self addService: '/listPurchases' action: [ :request | self listPurchases: request ].
+	! !
+!TusLibrosServerQueueingInterface methodsFor: 'initialization' stamp: 'LNB 11/28/2021 16:22:52'!
+port
+	"Use a random port to minimise chances of concurrently running test suites clashing."
+	"^ port
+		ifNil: [port := (10000 to: 50000) atRandom]"
+	
+	^port ifNil: [port:=8080].! !
+!TusLibrosServerQueueingInterface methodsFor: 'request handlers' stamp: 'LNB 11/28/2021 16:22:52'!
+addToCart: aRequest
+
+	| bookISBN bookQuantity cartId |
+	cartId _ aRequest fields at: 'cartId'.
+	bookISBN _ aRequest fields at: 'bookISBN'.
+	bookQuantity _ aRequest fields at: 'bookQuantity'.
+	systemFacade add: bookQuantity asNumber of: bookISBN toCartIdentifiedAs: cartId asNumber.
+	aRequest send200Response: 'OK'.! !
+!TusLibrosServerQueueingInterface methodsFor: 'request handlers' stamp: 'LNB 11/28/2021 16:22:52'!
+checkoutCart: aRequest
+
+	| cartId creditCardNumber monthExpiration yearExpiration creditCardOwner ticket ticketAsJson |
+	cartId _ aRequest fields at: 'cartId'.
+	creditCardNumber _ aRequest fields at: 'ccn'.
+	monthExpiration _ aRequest fields at: 'ccme'.
+	yearExpiration _ aRequest fields at: 'ccye'.
+	creditCardOwner _ aRequest fields at: 'cco'.
+	
+	ticket _ systemFacade checkOutCartIdentifiedAs: cartId asNumber
+					    withCreditCardNumbered: creditCardNumber 
+					    ownedBy: creditCardOwner 
+					    expiringOn: (GregorianMonthOfYear 
+									yearNumber: yearExpiration asNumber 
+									monthNumber: monthExpiration asNumber).
+	
+	ticketAsJson _ self serializeTicket: ticket.
+	aRequest send200Response: ticketAsJson.! !
+!TusLibrosServerQueueingInterface methodsFor: 'request handlers' stamp: 'LNB 11/28/2021 16:22:52'!
+createCart: aRequest
+
+	| cartId cartIdAsJson clientId password |
+	clientId _ aRequest fields at: 'clientId'.
+	password _ aRequest fields at: 'password'.
+	cartId _ systemFacade createCartFor: clientId authenticatedWith: password.
+	cartIdAsJson _ WebUtils jsonEncode: (cartId asString).
+	aRequest send200Response: cartIdAsJson.! !
+!TusLibrosServerQueueingInterface methodsFor: 'request handlers' stamp: 'LNB 11/28/2021 16:22:52'!
+listCart: aRequest
+
+	| cartId cartContents contentsAsJson |
+	cartId _ aRequest fields at: 'cartId'.
+	cartContents _ systemFacade listCartIdentifiedAs: cartId asNumber.
+	contentsAsJson _ WebUtils jsonEncode: cartContents contents.
+	aRequest send200Response: contentsAsJson.! !
+!TusLibrosServerQueueingInterface methodsFor: 'request handlers' stamp: 'LNB 11/28/2021 16:22:52'!
+listCatalog: aRequest
+
+	| catalog catalogAsJson |
+	catalog _ systemFacade listCatalog.
+	catalogAsJson _ WebUtils jsonEncode: catalog.
+	aRequest send200Response: catalogAsJson.! !
+!TusLibrosServerQueueingInterface methodsFor: 'request handlers' stamp: 'LNB 11/28/2021 16:22:52'!
+listPurchases: aRequest
+
+	| clientId password purchases purchasesAsJson |
+	clientId _ aRequest fields at: 'clientId'.
+	password _ aRequest fields at: 'password'.
+	purchases _ systemFacade listPurchasesOf: clientId authenticatingWith: password.
+	purchasesAsJson _ self serializePurchases: purchases.
+	aRequest send200Response: purchasesAsJson.! !
+!TusLibrosServerQueueingInterface methodsFor: 'request handlers' stamp: 'LNB 11/28/2021 16:22:52'!
+removeFromCart: aRequest
+
+	| bookISBN bookQuantity cartId |
+	cartId _ aRequest fields at: 'cartId'.
+	bookISBN _ aRequest fields at: 'bookISBN'.
+	bookQuantity _ aRequest fields at: 'bookQuantity'.
+	systemFacade remove: bookQuantity asNumber of: bookISBN toCartIdentifiedAs: cartId asNumber.
+	aRequest send200Response: 'OK'.
+
+	! !
+!TusLibrosServerQueueingInterface methodsFor: 'request handlers - private' stamp: 'LNB 11/28/2021 16:22:52'!
+serializePurchases: purchases
+
+	| purchasesDictionary |
+	purchasesDictionary _ Dictionary new.
+	
+	purchases itemsDo: [ :anItem | | lineItem |
+		lineItem _ purchases at: anItem.
+		purchasesDictionary 
+			at: anItem 
+			put: (Dictionary newFromPairs: { 'total'. lineItem total. 'quantity'. lineItem quantity. }).].
+	
+	purchasesDictionary at: 'total' put: purchases total.
+	
+	^ WebUtils jsonEncode: purchasesDictionary.! !
+!TusLibrosServerQueueingInterface methodsFor: 'request handlers - private' stamp: 'LNB 11/28/2021 16:22:52'!
+serializeTicket: aTicket
+
+	| ticketDictionary |
+	ticketDictionary _ Dictionary new.
+	
+	aTicket lineItemsDo: [ :aLineItem | ticketDictionary at: aLineItem item put: aLineItem total ].
+	ticketDictionary at: 'total' put: aTicket total.
+	
+	^ WebUtils jsonEncode: ticketDictionary.! !
+!TusLibrosServerQueueingInterface class methodsFor: 'instance creation' stamp: 'LNB 11/28/2021 16:22:52'!
+listeningOn: aPortNumber interactingWith: aTusLibrosSystemFacade
+
+	^self new initializeWith: aPortNumber interactingWith: aTusLibrosSystemFacade.! !
+
+Object subclass: #TusLibrosServerRequestHandler
+	instanceVariableNames: 'webServer port systemFacade'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros-Model'!
+
+!classDefinition: #TusLibrosServerRequestHandler category: #'TusLibros-Model' stamp: 'LNB 11/28/2021 16:23:50'!
+Object subclass: #TusLibrosServerRequestHandler
+	instanceVariableNames: 'webServer port systemFacade'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros-Model'!
+
+TusLibrosServerRequestHandler class
+	instanceVariableNames: ''!
+
+!classDefinition: 'TusLibrosServerRequestHandler class' category: #'TusLibros-Model' stamp: 'LNB 11/28/2021 16:23:50'!
+TusLibrosServerRequestHandler class
+	instanceVariableNames: ''!
+!TusLibrosServerRequestHandler methodsFor: 'enabling services' stamp: 'LNB 11/28/2021 16:23:50'!
+destroy
+	
+	webServer ifNotNil:[webServer destroy].! !
+!TusLibrosServerRequestHandler methodsFor: 'initialization' stamp: 'LNB 11/28/2021 16:23:50'!
+addService: anEndpoint action: anActionBlock
+
+	webServer 
+		addService: anEndpoint 
+		action: [ :request |
+			[ anActionBlock value: request ] 
+			on: Error
+			do: [ :anError |
+				request send400Response: anError messageText.]]! !
+!TusLibrosServerRequestHandler methodsFor: 'initialization' stamp: 'LNB 11/28/2021 16:23:50'!
+initializeWith: aPortNumber interactingWith: aTusLibrosSystemFacade
+	
+	systemFacade := aTusLibrosSystemFacade.
+	
+	port:= aPortNumber.
+	
+	webServer := WebServer new listenOn: self port.
+	
+	self addService: '/createCart' action: [ :request | self createCart: request ].
+	self addService: '/listCatalog' action: [ :request | self listCatalog: request ].
+	self addService: '/addToCart' action: [ :request | self addToCart: request ].
+	self addService: '/removeFromCart' action: [ :request | self removeFromCart: request ].
+	self addService: '/listCart' action: [ :request | self listCart: request ].
+	self addService: '/checkoutCart' action: [ :request | self checkoutCart: request ].
+	self addService: '/listPurchases' action: [ :request | self listPurchases: request ].
+	! !
+!TusLibrosServerRequestHandler methodsFor: 'initialization' stamp: 'LNB 11/28/2021 16:23:50'!
+port
+	"Use a random port to minimise chances of concurrently running test suites clashing."
+	"^ port
+		ifNil: [port := (10000 to: 50000) atRandom]"
+	
+	^port ifNil: [port:=8080].! !
+!TusLibrosServerRequestHandler methodsFor: 'request handlers' stamp: 'LNB 11/28/2021 16:23:50'!
+addToCart: aRequest
+
+	| bookISBN bookQuantity cartId |
+	cartId _ aRequest fields at: 'cartId'.
+	bookISBN _ aRequest fields at: 'bookISBN'.
+	bookQuantity _ aRequest fields at: 'bookQuantity'.
+	systemFacade add: bookQuantity asNumber of: bookISBN toCartIdentifiedAs: cartId asNumber.
+	aRequest send200Response: 'OK'.! !
+!TusLibrosServerRequestHandler methodsFor: 'request handlers' stamp: 'LNB 11/28/2021 16:23:50'!
+checkoutCart: aRequest
+
+	| cartId creditCardNumber monthExpiration yearExpiration creditCardOwner ticket ticketAsJson |
+	cartId _ aRequest fields at: 'cartId'.
+	creditCardNumber _ aRequest fields at: 'ccn'.
+	monthExpiration _ aRequest fields at: 'ccme'.
+	yearExpiration _ aRequest fields at: 'ccye'.
+	creditCardOwner _ aRequest fields at: 'cco'.
+	
+	ticket _ systemFacade checkOutCartIdentifiedAs: cartId asNumber
+					    withCreditCardNumbered: creditCardNumber 
+					    ownedBy: creditCardOwner 
+					    expiringOn: (GregorianMonthOfYear 
+									yearNumber: yearExpiration asNumber 
+									monthNumber: monthExpiration asNumber).
+	
+	ticketAsJson _ self serializeTicket: ticket.
+	aRequest send200Response: ticketAsJson.! !
+!TusLibrosServerRequestHandler methodsFor: 'request handlers' stamp: 'LNB 11/28/2021 16:23:50'!
+createCart: aRequest
+
+	| cartId cartIdAsJson clientId password |
+	clientId _ aRequest fields at: 'clientId'.
+	password _ aRequest fields at: 'password'.
+	cartId _ systemFacade createCartFor: clientId authenticatedWith: password.
+	cartIdAsJson _ WebUtils jsonEncode: (cartId asString).
+	aRequest send200Response: cartIdAsJson.! !
+!TusLibrosServerRequestHandler methodsFor: 'request handlers' stamp: 'LNB 11/28/2021 16:23:51'!
+listCart: aRequest
+
+	| cartId cartContents contentsAsJson |
+	cartId _ aRequest fields at: 'cartId'.
+	cartContents _ systemFacade listCartIdentifiedAs: cartId asNumber.
+	contentsAsJson _ WebUtils jsonEncode: cartContents contents.
+	aRequest send200Response: contentsAsJson.! !
+!TusLibrosServerRequestHandler methodsFor: 'request handlers' stamp: 'LNB 11/28/2021 16:23:51'!
+listCatalog: aRequest
+
+	| catalog catalogAsJson |
+	catalog _ systemFacade listCatalog.
+	catalogAsJson _ WebUtils jsonEncode: catalog.
+	aRequest send200Response: catalogAsJson.! !
+!TusLibrosServerRequestHandler methodsFor: 'request handlers' stamp: 'LNB 11/28/2021 16:23:51'!
+listPurchases: aRequest
+
+	| clientId password purchases purchasesAsJson |
+	clientId _ aRequest fields at: 'clientId'.
+	password _ aRequest fields at: 'password'.
+	purchases _ systemFacade listPurchasesOf: clientId authenticatingWith: password.
+	purchasesAsJson _ self serializePurchases: purchases.
+	aRequest send200Response: purchasesAsJson.! !
+!TusLibrosServerRequestHandler methodsFor: 'request handlers' stamp: 'LNB 11/28/2021 16:23:51'!
+removeFromCart: aRequest
+
+	| bookISBN bookQuantity cartId |
+	cartId _ aRequest fields at: 'cartId'.
+	bookISBN _ aRequest fields at: 'bookISBN'.
+	bookQuantity _ aRequest fields at: 'bookQuantity'.
+	systemFacade remove: bookQuantity asNumber of: bookISBN toCartIdentifiedAs: cartId asNumber.
+	aRequest send200Response: 'OK'.
+
+	! !
+!TusLibrosServerRequestHandler methodsFor: 'request handlers - private' stamp: 'LNB 11/28/2021 16:23:51'!
+serializePurchases: purchases
+
+	| purchasesDictionary |
+	purchasesDictionary _ Dictionary new.
+	
+	purchases itemsDo: [ :anItem | | lineItem |
+		lineItem _ purchases at: anItem.
+		purchasesDictionary 
+			at: anItem 
+			put: (Dictionary newFromPairs: { 'total'. lineItem total. 'quantity'. lineItem quantity. }).].
+	
+	purchasesDictionary at: 'total' put: purchases total.
+	
+	^ WebUtils jsonEncode: purchasesDictionary.! !
+!TusLibrosServerRequestHandler methodsFor: 'request handlers - private' stamp: 'LNB 11/28/2021 16:23:51'!
+serializeTicket: aTicket
+
+	| ticketDictionary |
+	ticketDictionary _ Dictionary new.
+	
+	aTicket lineItemsDo: [ :aLineItem | ticketDictionary at: aLineItem item put: aLineItem total ].
+	ticketDictionary at: 'total' put: aTicket total.
+	
+	^ WebUtils jsonEncode: ticketDictionary.! !
+!TusLibrosServerRequestHandler class methodsFor: 'instance creation' stamp: 'LNB 11/28/2021 16:23:51'!
+listeningOn: aPortNumber interactingWith: aTusLibrosSystemFacade
+
+	^self new initializeWith: aPortNumber interactingWith: aTusLibrosSystemFacade.! !
+
+!classRenamed: #TusLibrosServerInterface as: #TusLibrosServerSynchronousInterface stamp: 'LNB 11/28/2021 16:24:09'!
+Smalltalk renameClassNamed: #TusLibrosServerInterface as: #TusLibrosServerSynchronousInterface!
+
+Object subclass: #TusLibrosServerAsynchronousInterface
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros-Model'!
+
+!classDefinition: #TusLibrosServerAsynchronousInterface category: #'TusLibros-Model' stamp: 'LNB 11/28/2021 16:25:55'!
+Object subclass: #TusLibrosServerAsynchronousInterface
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros-Model'!
+
+!classRenamed: #TusLibrosServerAsynchronousInterface as: #TusLibrosAsynchronousServer stamp: 'LNB 11/28/2021 16:26:24'!
+Smalltalk renameClassNamed: #TusLibrosServerAsynchronousInterface as: #TusLibrosAsynchronousServer!
+
+!classRenamed: #TusLibrosServerSynchronousInterface as: #TusLibrosSynchronousServerInterface stamp: 'LNB 11/28/2021 16:26:41'!
+Smalltalk renameClassNamed: #TusLibrosServerSynchronousInterface as: #TusLibrosSynchronousServerInterface!
+
+!classDefinition: #TusLibrosAsynchronousServer category: #'TusLibros-Model' stamp: 'LNB 11/28/2021 16:29:52'!
+Object subclass: #TusLibrosAsynchronousServer
+	instanceVariableNames: 'facade'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros-Model'!
+
+!classDefinition: #TusLibrosAsynchronousServer category: #'TusLibros-Model' stamp: 'LNB 11/28/2021 16:29:53'!
+Object subclass: #TusLibrosAsynchronousServer
+	instanceVariableNames: 'facade queueingInterface'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros-Model'!
+
+!classDefinition: #TusLibrosAsynchronousServer category: #'TusLibros-Model' stamp: 'LNB 11/28/2021 16:29:55'!
+Object subclass: #TusLibrosAsynchronousServer
+	instanceVariableNames: 'facade queueingInterface requestHandlers'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros-Model'!
+!TusLibrosAsynchronousServer methodsFor: 'nil' stamp: 'LNB 11/28/2021 16:29:44' overrides: 16896425!
+initialize
+	
+	| factory |
+	factory _ InterfaceTestObjectsFactory new.
+	
+	facade _ factory createSystemFacade.
+	queueingInterface _ TusLibrosServerQueueingInterface listeningOn: 8080 interactingWith: facade.
+	requestHandlers _ OrderedCollection new.! !
+
+!classDefinition: #TusLibrosAsynchronousServer category: #'TusLibros-Model' stamp: 'LNB 11/28/2021 16:31:23'!
+Object subclass: #TusLibrosAsynchronousServer
+	instanceVariableNames: 'facade queueingInterface requestHandlers queue'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros-Model'!
+!TusLibrosAsynchronousServer methodsFor: 'as yet unclassified' stamp: 'LNB 11/28/2021 16:31:04' prior: 50988210 overrides: 16896425!
+initialize
+	
+	| factory |
+	factory _ InterfaceTestObjectsFactory new.
+	
+	queue _ OrderedCollection new.
+	
+	facade _ factory createSystemFacade.
+	queueingInterface _ TusLibrosServerQueueingInterface listeningOn: 8080 interactingWith: facade.
+	requestHandlers _ OrderedCollection new.! !
+!TusLibrosAsynchronousServer methodsFor: 'as yet unclassified' stamp: 'LNB 11/28/2021 16:31:41' prior: 50988232 overrides: 16896425!
+initialize
+	
+	| factory |
+	factory _ InterfaceTestObjectsFactory new.
+	
+	queue _ OrderedCollection new.
+	
+	facade _ factory createSystemFacade.
+	queueingInterface _ TusLibrosServerQueueingInterface listeningOn: 8080 interactingWith: queue.
+	requestHandlers _ OrderedCollection new.! !
+!TusLibrosAsynchronousServer methodsFor: 'as yet unclassified' stamp: 'LNB 11/28/2021 16:34:10'!
+forkNewRequestHandler
+
+	requestHandlers _ OrderedCollection new.! !
+!TusLibrosAsynchronousServer methodsFor: 'as yet unclassified' stamp: 'LNB 11/28/2021 16:35:14' prior: 50988258!
+forkNewRequestHandler
+
+	requestHandlers add: (TusLibrosServerRequestHandler listeningOn: queue interactingWith: facade).! !
+!TusLibrosServerQueueingInterface class methodsFor: 'instance creation' stamp: 'LNB 11/28/2021 16:36:06' prior: 50987926!
+listeningOn: aPortNumber interactingWith: aQueue
+
+	^self new initializeWith: aPortNumber interactingWith: aQueue.! !
+!TusLibrosServerQueueingInterface methodsFor: 'initialization' stamp: 'LNB 11/28/2021 16:36:36' prior: 50987756!
+initializeWith: aPortNumber interactingWith: aQueue
+	
+	systemFacade := aQueue.
+	
+	port:= aPortNumber.
+	
+	webServer := WebServer new listenOn: self port.
+	
+	self addService: '/createCart' action: [ :request | self createCart: request ].
+	self addService: '/listCatalog' action: [ :request | self listCatalog: request ].
+	self addService: '/addToCart' action: [ :request | self addToCart: request ].
+	self addService: '/removeFromCart' action: [ :request | self removeFromCart: request ].
+	self addService: '/listCart' action: [ :request | self listCart: request ].
+	self addService: '/checkoutCart' action: [ :request | self checkoutCart: request ].
+	self addService: '/listPurchases' action: [ :request | self listPurchases: request ].
+	! !
+
+!classDefinition: #TusLibrosServerQueueingInterface category: #'TusLibros-Model' stamp: 'LNB 11/28/2021 16:36:40'!
+Object subclass: #TusLibrosServerQueueingInterface
+	instanceVariableNames: 'webServer port queue'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros-Model'!
+!TusLibrosServerQueueingInterface methodsFor: 'as yet unclassified' stamp: 'LNB 11/28/2021 16:36:40' prior: 50987868!
+listPurchases: aRequest
+
+	| clientId password purchases purchasesAsJson |
+	clientId _ aRequest fields at: 'clientId'.
+	password _ aRequest fields at: 'password'.
+	purchases _ queue listPurchasesOf: clientId authenticatingWith: password.
+	purchasesAsJson _ self serializePurchases: purchases.
+	aRequest send200Response: purchasesAsJson.! !
+!TusLibrosServerQueueingInterface methodsFor: 'as yet unclassified' stamp: 'LNB 11/28/2021 16:36:40' prior: 50987859!
+listCatalog: aRequest
+
+	| catalog catalogAsJson |
+	catalog _ queue listCatalog.
+	catalogAsJson _ WebUtils jsonEncode: catalog.
+	aRequest send200Response: catalogAsJson.! !
+!TusLibrosServerQueueingInterface methodsFor: 'as yet unclassified' stamp: 'LNB 11/28/2021 16:36:40' prior: 50987847!
+listCart: aRequest
+
+	| cartId cartContents contentsAsJson |
+	cartId _ aRequest fields at: 'cartId'.
+	cartContents _ queue listCartIdentifiedAs: cartId asNumber.
+	contentsAsJson _ WebUtils jsonEncode: cartContents contents.
+	aRequest send200Response: contentsAsJson.! !
+!TusLibrosServerQueueingInterface methodsFor: 'as yet unclassified' stamp: 'LNB 11/28/2021 16:36:40' prior: 50987833!
+createCart: aRequest
+
+	| cartId cartIdAsJson clientId password |
+	clientId _ aRequest fields at: 'clientId'.
+	password _ aRequest fields at: 'password'.
+	cartId _ queue createCartFor: clientId authenticatedWith: password.
+	cartIdAsJson _ WebUtils jsonEncode: (cartId asString).
+	aRequest send200Response: cartIdAsJson.! !
+!TusLibrosServerQueueingInterface methodsFor: 'as yet unclassified' stamp: 'LNB 11/28/2021 16:36:40' prior: 50987882!
+removeFromCart: aRequest
+
+	| bookISBN bookQuantity cartId |
+	cartId _ aRequest fields at: 'cartId'.
+	bookISBN _ aRequest fields at: 'bookISBN'.
+	bookQuantity _ aRequest fields at: 'bookQuantity'.
+	queue remove: bookQuantity asNumber of: bookISBN toCartIdentifiedAs: cartId asNumber.
+	aRequest send200Response: 'OK'.
+
+	! !
+!TusLibrosServerQueueingInterface methodsFor: 'as yet unclassified' stamp: 'LNB 11/28/2021 16:36:40' prior: 50987793!
+addToCart: aRequest
+
+	| bookISBN bookQuantity cartId |
+	cartId _ aRequest fields at: 'cartId'.
+	bookISBN _ aRequest fields at: 'bookISBN'.
+	bookQuantity _ aRequest fields at: 'bookQuantity'.
+	queue add: bookQuantity asNumber of: bookISBN toCartIdentifiedAs: cartId asNumber.
+	aRequest send200Response: 'OK'.! !
+!TusLibrosServerQueueingInterface methodsFor: 'as yet unclassified' stamp: 'LNB 11/28/2021 16:36:40' prior: 50987807!
+checkoutCart: aRequest
+
+	| cartId creditCardNumber monthExpiration yearExpiration creditCardOwner ticket ticketAsJson |
+	cartId _ aRequest fields at: 'cartId'.
+	creditCardNumber _ aRequest fields at: 'ccn'.
+	monthExpiration _ aRequest fields at: 'ccme'.
+	yearExpiration _ aRequest fields at: 'ccye'.
+	creditCardOwner _ aRequest fields at: 'cco'.
+	
+	ticket _ queue checkOutCartIdentifiedAs: cartId asNumber
+					    withCreditCardNumbered: creditCardNumber 
+					    ownedBy: creditCardOwner 
+					    expiringOn: (GregorianMonthOfYear 
+									yearNumber: yearExpiration asNumber 
+									monthNumber: monthExpiration asNumber).
+	
+	ticketAsJson _ self serializeTicket: ticket.
+	aRequest send200Response: ticketAsJson.! !
+!TusLibrosServerQueueingInterface methodsFor: 'as yet unclassified' stamp: 'LNB 11/28/2021 16:36:40' prior: 50988280!
+initializeWith: aPortNumber interactingWith: aQueue
+	
+	queue := aQueue.
+	
+	port:= aPortNumber.
+	
+	webServer := WebServer new listenOn: self port.
+	
+	self addService: '/createCart' action: [ :request | self createCart: request ].
+	self addService: '/listCatalog' action: [ :request | self listCatalog: request ].
+	self addService: '/addToCart' action: [ :request | self addToCart: request ].
+	self addService: '/removeFromCart' action: [ :request | self removeFromCart: request ].
+	self addService: '/listCart' action: [ :request | self listCart: request ].
+	self addService: '/checkoutCart' action: [ :request | self checkoutCart: request ].
+	self addService: '/listPurchases' action: [ :request | self listPurchases: request ].
+	! !
+!TusLibrosServerQueueingInterface methodsFor: 'request handlers' stamp: 'LNB 11/28/2021 17:00:12' prior: 50988382!
+addToCart: aRequest
+
+	| bookISBN bookQuantity cartId argArray requestDictionary |
+	
+	cartId _ aRequest fields at: 'cartId'.
+	bookISBN _ aRequest fields at: 'bookISBN'.
+	bookQuantity _ aRequest fields at: 'bookQuantity'.
+	"queue add: bookQuantity asNumber of: bookISBN toCartIdentifiedAs: cartId asNumber."
+	aRequest send200Response: 'OK'.
+	
+	argArray _ {bookQuantity asNumber . bookISBN . cartId asNumber}. 
+	
+	requestDictionary _ 
+	Dictionary 
+		newFromPairs: {
+			'message'. #add:of:toCartIdentifiedAs: . 
+			'args'. argArray.}.
+			
+	queue addLast: requestDictionary.
+	! !
+
+Beeper beepPrimitive!
+!TusLibrosClientErrorWindow methodsFor: 'initialization' stamp: 'LNB 11/28/2021 17:05:18' prior: 50987252!
+initializeNamed: aTitle withMessageText: anErrorDescription
+
+	self setLabel: aTitle.
+	errorDescription _ anErrorDescription.
+	self buildMorphicWindow.
+	
+	self model when: #cartCreationSuccesful send: #displayCatalogAndCartContents to: self.
+	self model when: #succesfullyLoggedOut send: #logOut to: self.
+	self model when: #purchaseHistoryArrived send: #createNewWindowForPurchaseHistory to: self.
+	
+	self openInWorld.
+	Beeper beepPrimitive.
+	self morphExtent: (self defaultExtent).
+	self layoutMorph color: Color red.! !
+
+	Beeper beepPrimitive.!
+!TusLibrosServerQueueingInterface methodsFor: 'request handlers' stamp: 'LNB 11/28/2021 17:10:48' prior: 50988450!
+addToCart: aRequest
+
+	| bookISBN bookQuantity cartId argArray requestDictionary semaphoreWaitUntilDone |
+	
+	cartId _ aRequest fields at: 'cartId'.
+	bookISBN _ aRequest fields at: 'bookISBN'.
+	bookQuantity _ aRequest fields at: 'bookQuantity'.
+	"queue add: bookQuantity asNumber of: bookISBN toCartIdentifiedAs: cartId asNumber."
+	aRequest send200Response: 'OK'.
+	
+	argArray _ {bookQuantity asNumber . bookISBN . cartId asNumber}. 
+	semaphoreWaitUntilDone _ Semaphore.
+	
+	requestDictionary _ 
+	Dictionary 
+		newFromPairs: {
+			'message'. #add:of:toCartIdentifiedAs: . 
+			'args'. argArray.
+			'semaphore'. Semaphore}.
+			
+	queue addLast: requestDictionary.
+	! !
+!TusLibrosServerQueueingInterface methodsFor: 'initialization' stamp: 'LNB 11/28/2021 17:34:50' prior: 50988423!
+initializeWith: aPortNumber interactingWith: aQueue
+	
+	queue := aQueue.
+	
+	port:= aPortNumber.
+	
+	webServer := WebServer new listenOn: self port.
+	
+	self addService: '/createCart' action: [[ :request | self createCart: request ] fork ].
+	self addService: '/listCatalog' action: [[ :request | self listCatalog: request ] fork ].
+	self addService: '/addToCart' action: [[ :request | self addToCart: request ] fork ].
+	self addService: '/removeFromCart' action: [[ :request | self removeFromCart: request ] fork ].
+	self addService: '/listCart' action: [[ :request | self listCart: request ] fork ].
+	self addService: '/checkoutCart' action: [[ :request | self checkoutCart: request ] fork ].
+	self addService: '/listPurchases' action: [[ :request | self listPurchases: request ] fork ].
+	! !
+
+!classDefinition: #TusLibrosAsynchronousServer category: #'TusLibros-Model' stamp: 'LNB 11/28/2021 17:37:59'!
+Object subclass: #TusLibrosAsynchronousServer
+	instanceVariableNames: 'facade queueingInterface requestHandlers queue queueSemaphore'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros-Model'!
+!TusLibrosAsynchronousServer methodsFor: 'as yet unclassified' stamp: 'LNB 11/28/2021 17:37:54' prior: 50988246 overrides: 16896425!
+initialize
+	
+	| factory |
+	factory _ InterfaceTestObjectsFactory new.
+	
+	queue _ OrderedCollection new.
+	queueSemaphore _ Semaphore forMutualExclusion.
+	
+	facade _ factory createSystemFacade.
+	queueingInterface _ TusLibrosServerQueueingInterface listeningOn: 8080 interactingWith: queue.
+	requestHandlers _ OrderedCollection new.! !
+!TusLibrosAsynchronousServer methodsFor: 'as yet unclassified' stamp: 'LNB 11/28/2021 17:38:25' prior: 50988558 overrides: 16896425!
+initialize
+	
+	| factory |
+	factory _ InterfaceTestObjectsFactory new.
+	
+	queue _ OrderedCollection new.
+	queueSemaphore _ Semaphore forMutualExclusion.
+	
+	facade _ factory createSystemFacade.
+	queueingInterface _ TusLibrosServerQueueingInterface listeningOn: 8080 interactingWith: queue waitingOn: queueSemaphore.
+	requestHandlers _ OrderedCollection new.! !
+!TusLibrosServerQueueingInterface class methodsFor: 'instance creation' stamp: 'LNB 11/28/2021 17:38:50'!
+listeningOn: aPortNumber interactingWith: aQueue waitingOn: aQueueSemaphore
+
+	^self new initializeWith: aPortNumber interactingWith: aQueue waitingOn: aQueueSemaphore.! !
+
+!classDefinition: #TusLibrosServerQueueingInterface category: #'TusLibros-Model' stamp: 'LNB 11/28/2021 17:39:29'!
+Object subclass: #TusLibrosServerQueueingInterface
+	instanceVariableNames: 'webServer port queue queueSemaphore'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros-Model'!
+!TusLibrosServerQueueingInterface methodsFor: 'initialization' stamp: 'LNB 11/28/2021 17:39:26'!
+initializeWith: aPortNumber interactingWith: aQueue waitingOn: aQueueSemaphore
+	
+	queue := aQueue.
+	queueSemaphore _ aQueueSemaphore.
+	
+	port:= aPortNumber.
+	
+	webServer := WebServer new listenOn: self port.
+	
+	self addService: '/createCart' action: [[ :request | self createCart: request ] fork ].
+	self addService: '/listCatalog' action: [[ :request | self listCatalog: request ] fork ].
+	self addService: '/addToCart' action: [[ :request | self addToCart: request ] fork ].
+	self addService: '/removeFromCart' action: [[ :request | self removeFromCart: request ] fork ].
+	self addService: '/listCart' action: [[ :request | self listCart: request ] fork ].
+	self addService: '/checkoutCart' action: [[ :request | self checkoutCart: request ] fork ].
+	self addService: '/listPurchases' action: [[ :request | self listPurchases: request ] fork ].
+	! !
+
+!methodRemoval: TusLibrosServerQueueingInterface #initializeWith:interactingWith: stamp: 'LNB 11/28/2021 17:39:35'!
+initializeWith: aPortNumber interactingWith: aQueue
+	
+	queue := aQueue.
+	
+	port:= aPortNumber.
+	
+	webServer := WebServer new listenOn: self port.
+	
+	self addService: '/createCart' action: [[ :request | self createCart: request ] fork ].
+	self addService: '/listCatalog' action: [[ :request | self listCatalog: request ] fork ].
+	self addService: '/addToCart' action: [[ :request | self addToCart: request ] fork ].
+	self addService: '/removeFromCart' action: [[ :request | self removeFromCart: request ] fork ].
+	self addService: '/listCart' action: [[ :request | self listCart: request ] fork ].
+	self addService: '/checkoutCart' action: [[ :request | self checkoutCart: request ] fork ].
+	self addService: '/listPurchases' action: [[ :request | self listPurchases: request ] fork ].
+	!
+
+!classDefinition: #TusLibrosAsynchronousServer category: #'TusLibros-Model' stamp: 'LNB 11/28/2021 17:50:01'!
+Object subclass: #TusLibrosAsynchronousServer
+	instanceVariableNames: 'facade queueingInterface requestHandlers queue queueSemaphore requestQueue'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros-Model'!
+
+!classDefinition: #TusLibrosAsynchronousServer category: #'TusLibros-Model' stamp: 'LNB 11/28/2021 17:50:02'!
+Object subclass: #TusLibrosAsynchronousServer
+	instanceVariableNames: 'facade queueingInterface requestHandlers queue queueSemaphore requestQueue handlerQueue'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros-Model'!
+
+!classDefinition: #TusLibrosAsynchronousServer category: #'TusLibros-Model' stamp: 'LNB 11/28/2021 17:50:03'!
+Object subclass: #TusLibrosAsynchronousServer
+	instanceVariableNames: 'facade queueingInterface requestHandlers queue queueSemaphore requestQueue handlerQueue waitForHandlerSemaphore'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros-Model'!
+!TusLibrosAsynchronousServer methodsFor: 'as yet unclassified' stamp: 'LNB 11/28/2021 17:49:57' prior: 50988573 overrides: 16896425!
+initialize
+	
+	| factory |
+	factory _ InterfaceTestObjectsFactory new.
+	
+	requestQueue _ SharedQueue new.
+	handlerQueue _ SharedQueue new. 
+	waitForHandlerSemaphore _ Semaphore forMutualExclusion.
+	
+	facade _ factory createSystemFacade.
+	queueingInterface _ TusLibrosServerQueueingInterface listeningOn: 8080 addingRequestsTo: requestQueue gettingResponseQueuesFrom: handlerQueue withMutexSemaphore: waitForHandlerSemaphore.
+	requestHandlers _ OrderedCollection new.! !
+
+Object subclass: #TusLibrosAsynchronousServer
+	instanceVariableNames: 'facade queueingInterface requestHandlers requestQueue handlerQueue waitForHandlerSemaphore'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros-Model'!
+
+!classDefinition: #TusLibrosAsynchronousServer category: #'TusLibros-Model' stamp: 'LNB 11/28/2021 17:51:09'!
+Object subclass: #TusLibrosAsynchronousServer
+	instanceVariableNames: 'facade queueingInterface requestHandlers requestQueue handlerQueue waitForHandlerSemaphore'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros-Model'!
+
+!classDefinition: #TusLibrosAsynchronousServer category: #'TusLibros-Model' stamp: 'LNB 11/28/2021 17:51:25'!
+Object subclass: #TusLibrosAsynchronousServer
+	instanceVariableNames: 'facade queueingInterface requestHandlers requestsQueue handlerQueue waitForHandlerSemaphore'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros-Model'!
+!TusLibrosAsynchronousServer methodsFor: 'as yet unclassified' stamp: 'LNB 11/28/2021 17:51:26' prior: 50988698 overrides: 16896425!
+initialize
+	
+	| factory |
+	factory _ InterfaceTestObjectsFactory new.
+	
+	requestsQueue _ SharedQueue new.
+	handlerQueue _ SharedQueue new. 
+	waitForHandlerSemaphore _ Semaphore forMutualExclusion.
+	
+	facade _ factory createSystemFacade.
+	queueingInterface _ TusLibrosServerQueueingInterface listeningOn: 8080 addingRequestsTo: requestsQueue gettingResponseQueuesFrom: handlerQueue withMutexSemaphore: waitForHandlerSemaphore.
+	requestHandlers _ OrderedCollection new.! !
+
+!classDefinition: #TusLibrosAsynchronousServer category: #'TusLibros-Model' stamp: 'LNB 11/28/2021 17:51:32'!
+Object subclass: #TusLibrosAsynchronousServer
+	instanceVariableNames: 'facade queueingInterface requestHandlers requestsQueue handlersQueue waitForHandlerSemaphore'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros-Model'!
+!TusLibrosAsynchronousServer methodsFor: 'as yet unclassified' stamp: 'LNB 11/28/2021 17:51:32' prior: 50988747 overrides: 16896425!
+initialize
+	
+	| factory |
+	factory _ InterfaceTestObjectsFactory new.
+	
+	requestsQueue _ SharedQueue new.
+	handlersQueue _ SharedQueue new. 
+	waitForHandlerSemaphore _ Semaphore forMutualExclusion.
+	
+	facade _ factory createSystemFacade.
+	queueingInterface _ TusLibrosServerQueueingInterface listeningOn: 8080 addingRequestsTo: requestsQueue gettingResponseQueuesFrom: handlersQueue withMutexSemaphore: waitForHandlerSemaphore.
+	requestHandlers _ OrderedCollection new.! !
+
+!classDefinition: #TusLibrosAsynchronousServer category: #'TusLibros-Model' stamp: 'LNB 11/28/2021 17:53:10'!
+Object subclass: #TusLibrosAsynchronousServer
+	instanceVariableNames: 'facade queueingInterface requestHandlers requestsQueue handlersQueue waitForHandlerSemaphore waitForQueuerSemaphore'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros-Model'!
+!TusLibrosAsynchronousServer methodsFor: 'as yet unclassified' stamp: 'LNB 11/28/2021 17:52:59' prior: 50988777 overrides: 16896425!
+initialize
+	
+	| factory |
+	factory _ InterfaceTestObjectsFactory new.
+	
+	requestsQueue _ SharedQueue new.
+	handlersQueue _ SharedQueue new. 
+	waitForHandlerSemaphore _ Semaphore forMutualExclusion.
+	waitForQueuerSemaphore _ Semaphore forMutualExclusion.
+	
+	facade _ factory createSystemFacade.
+	queueingInterface _ TusLibrosServerQueueingInterface listeningOn: 8080 addingRequestsTo: requestsQueue gettingResponseQueuesFrom: handlersQueue withMutexSemaphore: waitForHandlerSemaphore.
+	requestHandlers _ OrderedCollection new.! !
+
+!methodRemoval: TusLibrosServerQueueingInterface class #listeningOn:interactingWith: stamp: 'LNB 11/28/2021 17:54:04'!
+listeningOn: aPortNumber interactingWith: aQueue
+
+	^self new initializeWith: aPortNumber interactingWith: aQueue.!
+!TusLibrosServerQueueingInterface class methodsFor: 'instance creation' stamp: 'LNB 11/28/2021 17:55:29'!
+listeningOn: aPortNumber addingRequestsTo: aRequestsQueue gettingResponseQueuesFrom: aHandlerQueue withMutexSemaphore: waitForHandlerSemaphore
+
+	^self new initializeWith: aPortNumber addingRequestsTo: aRequestsQueue gettingResponseQueuesFrom: aHandlerQueue withMutexSemaphore: waitForHandlerSemaphore.! !
+!TusLibrosServerQueueingInterface methodsFor: 'initialization' stamp: 'LNB 11/28/2021 17:55:57'!
+initializeWith: aPortNumber addingRequestsTo: aRequestsQueue gettingResponseQueuesFrom: aHandlerQueue withMutexSemaphore: waitForHandlerSemaphore
+	
+	queue := aRequestsQueue.
+	queueSemaphore _ waitForHandlerSemaphore.
+	
+	port:= aPortNumber.
+	
+	webServer := WebServer new listenOn: self port.
+	
+	self addService: '/createCart' action: [[ :request | self createCart: request ] fork ].
+	self addService: '/listCatalog' action: [[ :request | self listCatalog: request ] fork ].
+	self addService: '/addToCart' action: [[ :request | self addToCart: request ] fork ].
+	self addService: '/removeFromCart' action: [[ :request | self removeFromCart: request ] fork ].
+	self addService: '/listCart' action: [[ :request | self listCart: request ] fork ].
+	self addService: '/checkoutCart' action: [[ :request | self checkoutCart: request ] fork ].
+	self addService: '/listPurchases' action: [[ :request | self listPurchases: request ] fork ].
+	! !
+
+!classDefinition: #TusLibrosServerQueueingInterface category: #'TusLibros-Model' stamp: 'LNB 11/28/2021 17:56:06'!
+Object subclass: #TusLibrosServerQueueingInterface
+	instanceVariableNames: 'webServer port requestsQueue queueSemaphore'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros-Model'!
+!TusLibrosServerQueueingInterface methodsFor: 'as yet unclassified' stamp: 'LNB 11/28/2021 17:56:06' prior: 50988331!
+listCatalog: aRequest
+
+	| catalog catalogAsJson |
+	catalog _ requestsQueue listCatalog.
+	catalogAsJson _ WebUtils jsonEncode: catalog.
+	aRequest send200Response: catalogAsJson.! !
+!TusLibrosServerQueueingInterface methodsFor: 'as yet unclassified' stamp: 'LNB 11/28/2021 17:56:06' prior: 50988606!
+initializeWith: aPortNumber interactingWith: aQueue waitingOn: aQueueSemaphore
+	
+	requestsQueue := aQueue.
+	queueSemaphore _ aQueueSemaphore.
+	
+	port:= aPortNumber.
+	
+	webServer := WebServer new listenOn: self port.
+	
+	self addService: '/createCart' action: [[ :request | self createCart: request ] fork ].
+	self addService: '/listCatalog' action: [[ :request | self listCatalog: request ] fork ].
+	self addService: '/addToCart' action: [[ :request | self addToCart: request ] fork ].
+	self addService: '/removeFromCart' action: [[ :request | self removeFromCart: request ] fork ].
+	self addService: '/listCart' action: [[ :request | self listCart: request ] fork ].
+	self addService: '/checkoutCart' action: [[ :request | self checkoutCart: request ] fork ].
+	self addService: '/listPurchases' action: [[ :request | self listPurchases: request ] fork ].
+	! !
+!TusLibrosServerQueueingInterface methodsFor: 'as yet unclassified' stamp: 'LNB 11/28/2021 17:56:06' prior: 50988849!
+initializeWith: aPortNumber addingRequestsTo: aRequestsQueue gettingResponseQueuesFrom: aHandlerQueue withMutexSemaphore: waitForHandlerSemaphore
+	
+	requestsQueue := aRequestsQueue.
+	queueSemaphore _ waitForHandlerSemaphore.
+	
+	port:= aPortNumber.
+	
+	webServer := WebServer new listenOn: self port.
+	
+	self addService: '/createCart' action: [[ :request | self createCart: request ] fork ].
+	self addService: '/listCatalog' action: [[ :request | self listCatalog: request ] fork ].
+	self addService: '/addToCart' action: [[ :request | self addToCart: request ] fork ].
+	self addService: '/removeFromCart' action: [[ :request | self removeFromCart: request ] fork ].
+	self addService: '/listCart' action: [[ :request | self listCart: request ] fork ].
+	self addService: '/checkoutCart' action: [[ :request | self checkoutCart: request ] fork ].
+	self addService: '/listPurchases' action: [[ :request | self listPurchases: request ] fork ].
+	! !
+!TusLibrosServerQueueingInterface methodsFor: 'as yet unclassified' stamp: 'LNB 11/28/2021 17:56:06' prior: 50988341!
+listCart: aRequest
+
+	| cartId cartContents contentsAsJson |
+	cartId _ aRequest fields at: 'cartId'.
+	cartContents _ requestsQueue listCartIdentifiedAs: cartId asNumber.
+	contentsAsJson _ WebUtils jsonEncode: cartContents contents.
+	aRequest send200Response: contentsAsJson.! !
+!TusLibrosServerQueueingInterface methodsFor: 'as yet unclassified' stamp: 'LNB 11/28/2021 17:56:06' prior: 50988368!
+removeFromCart: aRequest
+
+	| bookISBN bookQuantity cartId |
+	cartId _ aRequest fields at: 'cartId'.
+	bookISBN _ aRequest fields at: 'bookISBN'.
+	bookQuantity _ aRequest fields at: 'bookQuantity'.
+	requestsQueue remove: bookQuantity asNumber of: bookISBN toCartIdentifiedAs: cartId asNumber.
+	aRequest send200Response: 'OK'.
+
+	! !
+!TusLibrosServerQueueingInterface methodsFor: 'as yet unclassified' stamp: 'LNB 11/28/2021 17:56:07' prior: 50988354!
+createCart: aRequest
+
+	| cartId cartIdAsJson clientId password |
+	clientId _ aRequest fields at: 'clientId'.
+	password _ aRequest fields at: 'password'.
+	cartId _ requestsQueue createCartFor: clientId authenticatedWith: password.
+	cartIdAsJson _ WebUtils jsonEncode: (cartId asString).
+	aRequest send200Response: cartIdAsJson.! !
+!TusLibrosServerQueueingInterface methodsFor: 'as yet unclassified' stamp: 'LNB 11/28/2021 17:56:07' prior: 50988494!
+addToCart: aRequest
+
+	| bookISBN bookQuantity cartId argArray requestDictionary semaphoreWaitUntilDone |
+	
+	cartId _ aRequest fields at: 'cartId'.
+	bookISBN _ aRequest fields at: 'bookISBN'.
+	bookQuantity _ aRequest fields at: 'bookQuantity'.
+	"queue add: bookQuantity asNumber of: bookISBN toCartIdentifiedAs: cartId asNumber."
+	aRequest send200Response: 'OK'.
+	
+	argArray _ {bookQuantity asNumber . bookISBN . cartId asNumber}. 
+	semaphoreWaitUntilDone _ Semaphore.
+	
+	requestDictionary _ 
+	Dictionary 
+		newFromPairs: {
+			'message'. #add:of:toCartIdentifiedAs: . 
+			'args'. argArray.
+			'semaphore'. Semaphore}.
+			
+	requestsQueue addLast: requestDictionary.
+	! !
+!TusLibrosServerQueueingInterface methodsFor: 'as yet unclassified' stamp: 'LNB 11/28/2021 17:56:07' prior: 50988396!
+checkoutCart: aRequest
+
+	| cartId creditCardNumber monthExpiration yearExpiration creditCardOwner ticket ticketAsJson |
+	cartId _ aRequest fields at: 'cartId'.
+	creditCardNumber _ aRequest fields at: 'ccn'.
+	monthExpiration _ aRequest fields at: 'ccme'.
+	yearExpiration _ aRequest fields at: 'ccye'.
+	creditCardOwner _ aRequest fields at: 'cco'.
+	
+	ticket _ requestsQueue checkOutCartIdentifiedAs: cartId asNumber
+					    withCreditCardNumbered: creditCardNumber 
+					    ownedBy: creditCardOwner 
+					    expiringOn: (GregorianMonthOfYear 
+									yearNumber: yearExpiration asNumber 
+									monthNumber: monthExpiration asNumber).
+	
+	ticketAsJson _ self serializeTicket: ticket.
+	aRequest send200Response: ticketAsJson.! !
+!TusLibrosServerQueueingInterface methodsFor: 'as yet unclassified' stamp: 'LNB 11/28/2021 17:56:07' prior: 50988316!
+listPurchases: aRequest
+
+	| clientId password purchases purchasesAsJson |
+	clientId _ aRequest fields at: 'clientId'.
+	password _ aRequest fields at: 'password'.
+	purchases _ requestsQueue listPurchasesOf: clientId authenticatingWith: password.
+	purchasesAsJson _ self serializePurchases: purchases.
+	aRequest send200Response: purchasesAsJson.! !
+
+!classDefinition: #TusLibrosServerQueueingInterface category: #'TusLibros-Model' stamp: 'LNB 11/28/2021 17:56:20'!
+Object subclass: #TusLibrosServerQueueingInterface
+	instanceVariableNames: 'webServer port requestsQueue queueSemaphore handlersQueue'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros-Model'!
+!TusLibrosServerQueueingInterface methodsFor: 'initialization' stamp: 'LNB 11/28/2021 17:56:18' prior: 50988933!
+initializeWith: aPortNumber addingRequestsTo: aRequestsQueue gettingResponseQueuesFrom: aHandlerQueue withMutexSemaphore: waitForHandlerSemaphore
+	
+	requestsQueue := aRequestsQueue.
+	handlersQueue _ aHandlerQueue.
+	queueSemaphore _ waitForHandlerSemaphore.
+	
+	port:= aPortNumber.
+	
+	webServer := WebServer new listenOn: self port.
+	
+	self addService: '/createCart' action: [[ :request | self createCart: request ] fork ].
+	self addService: '/listCatalog' action: [[ :request | self listCatalog: request ] fork ].
+	self addService: '/addToCart' action: [[ :request | self addToCart: request ] fork ].
+	self addService: '/removeFromCart' action: [[ :request | self removeFromCart: request ] fork ].
+	self addService: '/listCart' action: [[ :request | self listCart: request ] fork ].
+	self addService: '/checkoutCart' action: [[ :request | self checkoutCart: request ] fork ].
+	self addService: '/listPurchases' action: [[ :request | self listPurchases: request ] fork ].
+	! !
+
+!classDefinition: #TusLibrosServerQueueingInterface category: #'TusLibros-Model' stamp: 'LNB 11/28/2021 17:56:48'!
+Object subclass: #TusLibrosServerQueueingInterface
+	instanceVariableNames: 'webServer port requestsQueue handlerSemaphore handlersQueue'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros-Model'!
+!TusLibrosServerQueueingInterface methodsFor: 'as yet unclassified' stamp: 'LNB 11/28/2021 17:56:48' prior: 50988902!
+initializeWith: aPortNumber interactingWith: aQueue waitingOn: aQueueSemaphore
+	
+	requestsQueue := aQueue.
+	handlerSemaphore _ aQueueSemaphore.
+	
+	port:= aPortNumber.
+	
+	webServer := WebServer new listenOn: self port.
+	
+	self addService: '/createCart' action: [[ :request | self createCart: request ] fork ].
+	self addService: '/listCatalog' action: [[ :request | self listCatalog: request ] fork ].
+	self addService: '/addToCart' action: [[ :request | self addToCart: request ] fork ].
+	self addService: '/removeFromCart' action: [[ :request | self removeFromCart: request ] fork ].
+	self addService: '/listCart' action: [[ :request | self listCart: request ] fork ].
+	self addService: '/checkoutCart' action: [[ :request | self checkoutCart: request ] fork ].
+	self addService: '/listPurchases' action: [[ :request | self listPurchases: request ] fork ].
+	! !
+!TusLibrosServerQueueingInterface methodsFor: 'as yet unclassified' stamp: 'LNB 11/28/2021 17:56:48' prior: 50989085!
+initializeWith: aPortNumber addingRequestsTo: aRequestsQueue gettingResponseQueuesFrom: aHandlerQueue withMutexSemaphore: waitForHandlerSemaphore
+	
+	requestsQueue := aRequestsQueue.
+	handlersQueue _ aHandlerQueue.
+	handlerSemaphore _ waitForHandlerSemaphore.
+	
+	port:= aPortNumber.
+	
+	webServer := WebServer new listenOn: self port.
+	
+	self addService: '/createCart' action: [[ :request | self createCart: request ] fork ].
+	self addService: '/listCatalog' action: [[ :request | self listCatalog: request ] fork ].
+	self addService: '/addToCart' action: [[ :request | self addToCart: request ] fork ].
+	self addService: '/removeFromCart' action: [[ :request | self removeFromCart: request ] fork ].
+	self addService: '/listCart' action: [[ :request | self listCart: request ] fork ].
+	self addService: '/checkoutCart' action: [[ :request | self checkoutCart: request ] fork ].
+	self addService: '/listPurchases' action: [[ :request | self listPurchases: request ] fork ].
+	! !
+
+!classDefinition: #TusLibrosServerQueueingInterface category: #'TusLibros-Model' stamp: 'LNB 11/28/2021 17:57:06'!
+Object subclass: #TusLibrosServerQueueingInterface
+	instanceVariableNames: 'webServer port requestsQueue queuerSemaphore handlersQueue'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros-Model'!
+!TusLibrosServerQueueingInterface methodsFor: 'as yet unclassified' stamp: 'LNB 11/28/2021 17:57:06' prior: 50989130!
+initializeWith: aPortNumber interactingWith: aQueue waitingOn: aQueueSemaphore
+	
+	requestsQueue := aQueue.
+	queuerSemaphore _ aQueueSemaphore.
+	
+	port:= aPortNumber.
+	
+	webServer := WebServer new listenOn: self port.
+	
+	self addService: '/createCart' action: [[ :request | self createCart: request ] fork ].
+	self addService: '/listCatalog' action: [[ :request | self listCatalog: request ] fork ].
+	self addService: '/addToCart' action: [[ :request | self addToCart: request ] fork ].
+	self addService: '/removeFromCart' action: [[ :request | self removeFromCart: request ] fork ].
+	self addService: '/listCart' action: [[ :request | self listCart: request ] fork ].
+	self addService: '/checkoutCart' action: [[ :request | self checkoutCart: request ] fork ].
+	self addService: '/listPurchases' action: [[ :request | self listPurchases: request ] fork ].
+	! !
+!TusLibrosServerQueueingInterface methodsFor: 'as yet unclassified' stamp: 'LNB 11/28/2021 17:57:06' prior: 50989161!
+initializeWith: aPortNumber addingRequestsTo: aRequestsQueue gettingResponseQueuesFrom: aHandlerQueue withMutexSemaphore: waitForHandlerSemaphore
+	
+	requestsQueue := aRequestsQueue.
+	handlersQueue _ aHandlerQueue.
+	queuerSemaphore _ waitForHandlerSemaphore.
+	
+	port:= aPortNumber.
+	
+	webServer := WebServer new listenOn: self port.
+	
+	self addService: '/createCart' action: [[ :request | self createCart: request ] fork ].
+	self addService: '/listCatalog' action: [[ :request | self listCatalog: request ] fork ].
+	self addService: '/addToCart' action: [[ :request | self addToCart: request ] fork ].
+	self addService: '/removeFromCart' action: [[ :request | self removeFromCart: request ] fork ].
+	self addService: '/listCart' action: [[ :request | self listCart: request ] fork ].
+	self addService: '/checkoutCart' action: [[ :request | self checkoutCart: request ] fork ].
+	self addService: '/listPurchases' action: [[ :request | self listPurchases: request ] fork ].
+	! !
+
+!methodRemoval: TusLibrosServerQueueingInterface #initializeWith:interactingWith:waitingOn: stamp: 'LNB 11/28/2021 17:57:21'!
+initializeWith: aPortNumber interactingWith: aQueue waitingOn: aQueueSemaphore
+	
+	requestsQueue := aQueue.
+	queuerSemaphore _ aQueueSemaphore.
+	
+	port:= aPortNumber.
+	
+	webServer := WebServer new listenOn: self port.
+	
+	self addService: '/createCart' action: [[ :request | self createCart: request ] fork ].
+	self addService: '/listCatalog' action: [[ :request | self listCatalog: request ] fork ].
+	self addService: '/addToCart' action: [[ :request | self addToCart: request ] fork ].
+	self addService: '/removeFromCart' action: [[ :request | self removeFromCart: request ] fork ].
+	self addService: '/listCart' action: [[ :request | self listCart: request ] fork ].
+	self addService: '/checkoutCart' action: [[ :request | self checkoutCart: request ] fork ].
+	self addService: '/listPurchases' action: [[ :request | self listPurchases: request ] fork ].
+	!
+!TusLibrosServerQueueingInterface methodsFor: 'request handlers' stamp: 'LNB 11/28/2021 17:57:41' prior: 50989008!
+addToCart: aRequest
+
+	| bookISBN bookQuantity cartId argArray requestDictionary semaphoreWaitUntilDone |
+	
+	cartId _ aRequest fields at: 'cartId'.
+	bookISBN _ aRequest fields at: 'bookISBN'.
+	bookQuantity _ aRequest fields at: 'bookQuantity'.
+	"queue add: bookQuantity asNumber of: bookISBN toCartIdentifiedAs: cartId asNumber."
+	aRequest send200Response: 'OK'.
+	
+	argArray _ {bookQuantity asNumber . bookISBN . cartId asNumber}. 
+	semaphoreWaitUntilDone _ Semaphore.
+	
+	requestDictionary _ 
+	Dictionary 
+		newFromPairs: {
+			'message'. #add:of:toCartIdentifiedAs: . 
+			'args'. argArray.
+			}.
+			
+	requestsQueue addLast: requestDictionary.
+	! !
+!TusLibrosServerQueueingInterface methodsFor: 'request handlers' stamp: 'LNB 11/28/2021 17:58:08' prior: 50989302!
+addToCart: aRequest
+
+	| bookISBN bookQuantity cartId argArray requestDictionary |
+	
+	cartId _ aRequest fields at: 'cartId'.
+	bookISBN _ aRequest fields at: 'bookISBN'.
+	bookQuantity _ aRequest fields at: 'bookQuantity'.
+	"queue add: bookQuantity asNumber of: bookISBN toCartIdentifiedAs: cartId asNumber."
+	aRequest send200Response: 'OK'.
+	
+	argArray _ {bookQuantity asNumber . bookISBN . cartId asNumber}.
+	
+	requestDictionary _ 
+	Dictionary 
+		newFromPairs: {
+			'message'. #add:of:toCartIdentifiedAs: . 
+			'args'. argArray.
+			}.
+	
+	requestsQueue addLast: requestDictionary.
+	! !
+!TusLibrosServerQueueingInterface methodsFor: 'request handlers' stamp: 'LNB 11/28/2021 18:01:56' prior: 50989326!
+addToCart: aRequest
+
+	| bookISBN bookQuantity cartId argArray requestDictionary handlersResponseQueue response |
+	
+	cartId _ aRequest fields at: 'cartId'.
+	bookISBN _ aRequest fields at: 'bookISBN'.
+	bookQuantity _ aRequest fields at: 'bookQuantity'.
+	"queue add: bookQuantity asNumber of: bookISBN toCartIdentifiedAs: cartId asNumber."
+	
+	
+	argArray _ {bookQuantity asNumber . bookISBN . cartId asNumber}.
+	
+	requestDictionary _ 
+	Dictionary 
+		newFromPairs: {
+			'message'. #add:of:toCartIdentifiedAs: . 
+			'args'. argArray.
+			}.
+			
+	queuerSemaphore wait.
+	requestsQueue nextPut: requestDictionary.
+	handlersResponseQueue _ handlersQueue next.
+	queuerSemaphore signal.
+	response _ handlersResponseQueue next.
+	
+	aRequest send200Response: 'OK'.
+	! !
+!TusLibrosServerQueueingInterface methodsFor: 'request handlers' stamp: 'LNB 11/28/2021 18:03:08' prior: 50989033!
+checkoutCart: aRequest
+
+	| cartId creditCardNumber monthExpiration yearExpiration creditCardOwner ticket ticketAsJson |
+	cartId _ aRequest fields at: 'cartId'.
+	creditCardNumber _ aRequest fields at: 'ccn'.
+	monthExpiration _ aRequest fields at: 'ccme'.
+	yearExpiration _ aRequest fields at: 'ccye'.
+	creditCardOwner _ aRequest fields at: 'cco'.
+	
+	"ticket _ requestsQueue checkOutCartIdentifiedAs: cartId asNumber
+					    withCreditCardNumbered: creditCardNumber 
+					    ownedBy: creditCardOwner 
+					    expiringOn: (GregorianMonthOfYear 
+									yearNumber: yearExpiration asNumber 
+									monthNumber: monthExpiration asNumber)."
+									
+	
+	
+	ticketAsJson _ self serializeTicket: ticket.
+	aRequest send200Response: ticketAsJson.! !
+!TusLibrosServerQueueingInterface methodsFor: 'request handlers' stamp: 'LNB 11/28/2021 18:05:53' prior: 50989376!
+checkoutCart: aRequest
+
+	| cartId creditCardNumber monthExpiration yearExpiration creditCardOwner ticket ticketAsJson argArray handlersResponseQueue requestDictionary response |
+	cartId _ aRequest fields at: 'cartId'.
+	creditCardNumber _ aRequest fields at: 'ccn'.
+	monthExpiration _ aRequest fields at: 'ccme'.
+	yearExpiration _ aRequest fields at: 'ccye'.
+	creditCardOwner _ aRequest fields at: 'cco'.
+	
+	"ticket _ requestsQueue checkOutCartIdentifiedAs: cartId asNumber
+					    withCreditCardNumbered: creditCardNumber 
+					    ownedBy: creditCardOwner 
+					    expiringOn: (GregorianMonthOfYear 
+									yearNumber: yearExpiration asNumber 
+									monthNumber: monthExpiration asNumber)."
+									
+	argArray _ 
+		{cartId asNumber . 
+		creditCardNumber . 
+		creditCardOwner . 
+		(GregorianMonthOfYear 
+			yearNumber: yearExpiration asNumber 
+			monthNumber: monthExpiration asNumber)}.
+	
+	requestDictionary _ 
+	Dictionary 
+		newFromPairs: {
+			'message'. #checkOutCartIdentifiedAs:withCreditCardNumbered:ownedBy:expiringOn: . 
+			'args'. argArray.
+			}.
+			
+	queuerSemaphore wait.
+	requestsQueue nextPut: requestDictionary.
+	handlersResponseQueue _ handlersQueue next.
+	queuerSemaphore signal.
+	response _ handlersResponseQueue next.
+	ticket _ response.
+	
+	ticketAsJson _ self serializeTicket: ticket.
+	aRequest send200Response: ticketAsJson.! !
+!TusLibrosServerQueueingInterface methodsFor: 'request handlers' stamp: 'LNB 11/28/2021 18:08:42' prior: 50988994!
+createCart: aRequest
+
+	| cartId cartIdAsJson clientId password argArray handlersResponseQueue requestDictionary response |
+	clientId _ aRequest fields at: 'clientId'.
+	password _ aRequest fields at: 'password'.
+	"cartId _ requestsQueue createCartFor: clientId authenticatedWith: password."
+	
+	argArray _ 
+		{clientId . 
+		password }.
+	
+	requestDictionary _ 
+	Dictionary 
+		newFromPairs: {
+			'message'. #createCartFor:authenticatedWith: . 
+			'args'. argArray.
+			}.
+			
+	queuerSemaphore wait.
+	requestsQueue nextPut: requestDictionary.
+	handlersResponseQueue _ handlersQueue next.
+	queuerSemaphore signal.
+	response _ handlersResponseQueue next.
+	cartId _ response.
+	
+	cartIdAsJson _ WebUtils jsonEncode: (cartId asString).
+	aRequest send200Response: cartIdAsJson.! !
+!TusLibrosServerQueueingInterface methodsFor: 'request handlers' stamp: 'LNB 11/28/2021 18:12:53' prior: 50989060!
+listPurchases: aRequest
+
+	| clientId password purchases purchasesAsJson argArray handlersResponseQueue requestDictionary response |
+	clientId _ aRequest fields at: 'clientId'.
+	password _ aRequest fields at: 'password'.
+	"purchases _ requestsQueue listPurchasesOf: clientId authenticatingWith: password."
+	
+	argArray _ 
+		{clientId . 
+		password }.
+	
+	requestDictionary _ 
+	Dictionary 
+		newFromPairs: {
+			'message'. #listPurchasesOf:authenticatingWith: . 
+			'args'. argArray.
+			}.
+			
+	queuerSemaphore wait.
+	requestsQueue nextPut: requestDictionary.
+	handlersResponseQueue _ handlersQueue next.
+	queuerSemaphore signal.
+	response _ handlersResponseQueue next.
+	purchases _ response.
+	
+	purchasesAsJson _ self serializePurchases: purchases.
+	aRequest send200Response: purchasesAsJson.! !
+!TusLibrosServerQueueingInterface methodsFor: 'request handlers' stamp: 'LNB 11/28/2021 18:14:47'!
+requestToHandlers: aRequestDictionary		
+	| handlersResponseQueue |
+	queuerSemaphore wait.
+	requestsQueue nextPut: aRequestDictionary.
+	handlersResponseQueue _ handlersQueue next.
+	queuerSemaphore signal.
+	^handlersResponseQueue next.
+	! !
+!TusLibrosServerQueueingInterface methodsFor: 'request handlers' stamp: 'LNB 11/28/2021 18:14:53' prior: 50989505!
+requestToHandlers: aRequestDictionary		
+
+	| handlersResponseQueue |
+	
+	queuerSemaphore wait.
+	requestsQueue nextPut: aRequestDictionary.
+	handlersResponseQueue _ handlersQueue next.
+	queuerSemaphore signal.
+	^handlersResponseQueue next.
+	! !
+!TusLibrosServerQueueingInterface methodsFor: 'request handlers' stamp: 'LNB 11/28/2021 18:15:28' prior: 50989348!
+addToCart: aRequest
+
+	| bookISBN bookQuantity cartId argArray requestDictionary |
+	
+	cartId _ aRequest fields at: 'cartId'.
+	bookISBN _ aRequest fields at: 'bookISBN'.
+	bookQuantity _ aRequest fields at: 'bookQuantity'.
+	"queue add: bookQuantity asNumber of: bookISBN toCartIdentifiedAs: cartId asNumber."
+	
+	
+	argArray _ {bookQuantity asNumber . bookISBN . cartId asNumber}.
+	
+	requestDictionary _ 
+	Dictionary 
+		newFromPairs: {
+			'message'. #add:of:toCartIdentifiedAs: . 
+			'args'. argArray.
+			}.
+			
+	self requestToHandlers: requestDictionary.
+	
+	aRequest send200Response: 'OK'.
+	! !
+!TusLibrosServerQueueingInterface methodsFor: 'request handlers' stamp: 'LNB 11/28/2021 18:15:53' prior: 50989403!
+checkoutCart: aRequest
+
+	| cartId creditCardNumber monthExpiration yearExpiration creditCardOwner ticket ticketAsJson argArray requestDictionary |
+	cartId _ aRequest fields at: 'cartId'.
+	creditCardNumber _ aRequest fields at: 'ccn'.
+	monthExpiration _ aRequest fields at: 'ccme'.
+	yearExpiration _ aRequest fields at: 'ccye'.
+	creditCardOwner _ aRequest fields at: 'cco'.
+	
+	"ticket _ requestsQueue checkOutCartIdentifiedAs: cartId asNumber
+					    withCreditCardNumbered: creditCardNumber 
+					    ownedBy: creditCardOwner 
+					    expiringOn: (GregorianMonthOfYear 
+									yearNumber: yearExpiration asNumber 
+									monthNumber: monthExpiration asNumber)."
+									
+	argArray _ 
+		{cartId asNumber . 
+		creditCardNumber . 
+		creditCardOwner . 
+		(GregorianMonthOfYear 
+			yearNumber: yearExpiration asNumber 
+			monthNumber: monthExpiration asNumber)}.
+	
+	requestDictionary _ 
+	Dictionary 
+		newFromPairs: {
+			'message'. #checkOutCartIdentifiedAs:withCreditCardNumbered:ownedBy:expiringOn: . 
+			'args'. argArray.
+			}.
+			
+	ticket _ self requestToHandlers: requestDictionary.
+	
+	ticketAsJson _ self serializeTicket: ticket.
+	aRequest send200Response: ticketAsJson.! !
+!TusLibrosServerQueueingInterface methodsFor: 'request handlers' stamp: 'LNB 11/28/2021 18:16:13' prior: 50989449!
+createCart: aRequest
+
+	| cartId cartIdAsJson clientId password argArray requestDictionary |
+	clientId _ aRequest fields at: 'clientId'.
+	password _ aRequest fields at: 'password'.
+	"cartId _ requestsQueue createCartFor: clientId authenticatedWith: password."
+	
+	argArray _ 
+		{clientId . 
+		password }.
+	
+	requestDictionary _ 
+	Dictionary 
+		newFromPairs: {
+			'message'. #createCartFor:authenticatedWith: . 
+			'args'. argArray.
+			}.
+			
+	cartId _ self requestToHandlers: requestDictionary..
+	
+	cartIdAsJson _ WebUtils jsonEncode: (cartId asString).
+	aRequest send200Response: cartIdAsJson.! !
+!TusLibrosServerQueueingInterface methodsFor: 'request handlers' stamp: 'LNB 11/28/2021 18:16:18' prior: 50989593!
+createCart: aRequest
+
+	| cartId cartIdAsJson clientId password argArray requestDictionary |
+	clientId _ aRequest fields at: 'clientId'.
+	password _ aRequest fields at: 'password'.
+	"cartId _ requestsQueue createCartFor: clientId authenticatedWith: password."
+	
+	argArray _ 
+		{clientId . 
+		password }.
+	
+	requestDictionary _ 
+	Dictionary 
+		newFromPairs: {
+			'message'. #createCartFor:authenticatedWith: . 
+			'args'. argArray.
+			}.
+			
+	cartId _ self requestToHandlers: requestDictionary.
+	
+	cartIdAsJson _ WebUtils jsonEncode: (cartId asString).
+	aRequest send200Response: cartIdAsJson.! !
+!TusLibrosServerQueueingInterface methodsFor: 'request handlers' stamp: 'LNB 11/28/2021 18:16:35' prior: 50989477!
+listPurchases: aRequest
+
+	| clientId password purchases purchasesAsJson argArray requestDictionary |
+	clientId _ aRequest fields at: 'clientId'.
+	password _ aRequest fields at: 'password'.
+	"purchases _ requestsQueue listPurchasesOf: clientId authenticatingWith: password."
+	
+	argArray _ 
+		{clientId . 
+		password }.
+	
+	requestDictionary _ 
+	Dictionary 
+		newFromPairs: {
+			'message'. #listPurchasesOf:authenticatingWith: . 
+			'args'. argArray.
+			}.
+			
+	purchases _ self requestToHandlers: requestDictionary.
+	
+	purchasesAsJson _ self serializePurchases: purchases.
+	aRequest send200Response: purchasesAsJson.! !
+!TusLibrosServerQueueingInterface methodsFor: 'request handlers' stamp: 'LNB 11/28/2021 18:18:48' prior: 50988967!
+listCart: aRequest
+
+	| cartId cartContents contentsAsJson argArray requestDictionary |
+	cartId _ aRequest fields at: 'cartId'.
+	"cartContents _ requestsQueue listCartIdentifiedAs: cartId asNumber."
+	
+	argArray _ {cartId asNumber}.
+	
+	requestDictionary _ 
+	Dictionary 
+		newFromPairs: {
+			'message'. #listCartIdentifiedAs: . 
+			'args'. argArray.
+			}.
+			
+	cartContents _ self requestToHandlers: requestDictionary.
+	
+	contentsAsJson _ WebUtils jsonEncode: cartContents contents.
+	aRequest send200Response: contentsAsJson.! !
+
+Object new perform: #print withArguments: {}!
+
+Object new perform: #print withArguments: {}!
+!TusLibrosServerQueueingInterface methodsFor: 'request handlers' stamp: 'LNB 11/28/2021 18:20:36' prior: 50988892!
+listCatalog: aRequest
+
+	| catalog catalogAsJson argArray requestDictionary |
+	"catalog _ requestsQueue listCatalog."
+	
+	argArray _ {}.
+	
+	requestDictionary _ 
+	Dictionary 
+		newFromPairs: {
+			'message'. #listCatalog . 
+			'args'. argArray.
+			}.
+			
+	catalog _ self requestToHandlers: requestDictionary.
+	
+	catalogAsJson _ WebUtils jsonEncode: catalog.
+	aRequest send200Response: catalogAsJson.! !
+!TusLibrosServerQueueingInterface methodsFor: 'request handlers' stamp: 'LNB 11/28/2021 18:21:51' prior: 50988980!
+removeFromCart: aRequest
+
+	| bookISBN bookQuantity cartId argArray requestDictionary |
+	cartId _ aRequest fields at: 'cartId'.
+	bookISBN _ aRequest fields at: 'bookISBN'.
+	bookQuantity _ aRequest fields at: 'bookQuantity'.
+	"requestsQueue remove: bookQuantity asNumber of: bookISBN toCartIdentifiedAs: cartId asNumber."
+	
+	argArray _ {bookQuantity asNumber . bookISBN . cartId asNumber}.
+	
+	requestDictionary _ 
+	Dictionary 
+		newFromPairs: {
+			'message'. #remove:of:toCartIdentifiedAs: . 
+			'args'. argArray.
+			}.
+			
+	self requestToHandlers: requestDictionary.
+	
+	aRequest send200Response: 'OK'.
+
+	! !
+!TusLibrosAsynchronousServer methodsFor: 'as yet unclassified' stamp: 'LNB 11/28/2021 18:28:28' prior: 50988264!
+forkNewRequestHandler
+
+	| newRequestHandler |
+	newRequestHandler _ requestHandlers 
+		add: (TusLibrosServerRequestHandler 
+			listeningRequestsFrom: requestsQueue 
+			answeringWithQueueOn: handlersQueue 
+			withMutexSemaphore: waitForQueuerSemaphore 
+			handlingRequestsWith: facade).
+			
+	[newRequestHandler startHandlingRequests] fork.! !
+!TusLibrosServerRequestHandler class methodsFor: 'instance creation' stamp: 'LNB 11/28/2021 18:31:05'!
+listeningRequestsFrom: aRequestsQueue answeringWithQueueOn: aHandlersQueue withMutexSemaphore: aHandlersSemaphore handlingRequestsWith: aFacade
+
+	^self new initializeWith: aFacade listeningRequestsFrom: aRequestsQueue answeringWithQueueOn: aHandlersQueue withMutexSemaphore: aHandlersSemaphore.! !
+
+!methodRemoval: TusLibrosServerRequestHandler class #listeningOn:interactingWith: stamp: 'LNB 11/28/2021 18:31:10'!
+listeningOn: aPortNumber interactingWith: aTusLibrosSystemFacade
+
+	^self new initializeWith: aPortNumber interactingWith: aTusLibrosSystemFacade.!
+
+!classDefinition: #TusLibrosServerRequestHandler category: #'TusLibros-Model' stamp: 'LNB 11/28/2021 18:32:55'!
+Object subclass: #TusLibrosServerRequestHandler
+	instanceVariableNames: 'webServer port systemFacade requestsQueue'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros-Model'!
+
+!classDefinition: #TusLibrosServerRequestHandler category: #'TusLibros-Model' stamp: 'LNB 11/28/2021 18:32:56'!
+Object subclass: #TusLibrosServerRequestHandler
+	instanceVariableNames: 'webServer port systemFacade requestsQueue handlersQueue'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros-Model'!
+
+!classDefinition: #TusLibrosServerRequestHandler category: #'TusLibros-Model' stamp: 'LNB 11/28/2021 18:32:57'!
+Object subclass: #TusLibrosServerRequestHandler
+	instanceVariableNames: 'webServer port systemFacade requestsQueue handlersQueue handlersSemaphore'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros-Model'!
+!TusLibrosServerRequestHandler methodsFor: 'initialization' stamp: 'LNB 11/28/2021 18:32:53'!
+initializeWith: aTusLibrosSystemFacade listeningRequestsFrom: aRequestsQueue answeringWithQueueOn: aHandlersQueue withMutexSemaphore: aHandlersSemaphore
+	
+	systemFacade := aTusLibrosSystemFacade.
+	
+	requestsQueue _ aRequestsQueue.
+	handlersQueue _ aHandlersQueue.
+	handlersSemaphore _ aHandlersSemaphore.
+	
+	! !
+
+Object subclass: #TusLibrosServerRequestHandler
+	instanceVariableNames: 'systemFacade requestsQueue handlersQueue handlersSemaphore'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros-Model'!
+
+!classDefinition: #TusLibrosServerRequestHandler category: #'TusLibros-Model' stamp: 'LNB 11/28/2021 18:33:06'!
+Object subclass: #TusLibrosServerRequestHandler
+	instanceVariableNames: 'systemFacade requestsQueue handlersQueue handlersSemaphore'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros-Model'!
+
+!methodRemoval: TusLibrosServerQueueingInterface class #listeningOn:interactingWith:waitingOn: stamp: 'LNB 11/28/2021 18:33:24'!
+listeningOn: aPortNumber interactingWith: aQueue waitingOn: aQueueSemaphore
+
+	^self new initializeWith: aPortNumber interactingWith: aQueue waitingOn: aQueueSemaphore.!
+
+!methodRemoval: TusLibrosServerRequestHandler #initializeWith:interactingWith: stamp: 'LNB 11/28/2021 18:33:33'!
+initializeWith: aPortNumber interactingWith: aTusLibrosSystemFacade
+	
+	systemFacade := aTusLibrosSystemFacade.
+	
+	port:= aPortNumber.
+	
+	webServer := WebServer new listenOn: self port.
+	
+	self addService: '/createCart' action: [ :request | self createCart: request ].
+	self addService: '/listCatalog' action: [ :request | self listCatalog: request ].
+	self addService: '/addToCart' action: [ :request | self addToCart: request ].
+	self addService: '/removeFromCart' action: [ :request | self removeFromCart: request ].
+	self addService: '/listCart' action: [ :request | self listCart: request ].
+	self addService: '/checkoutCart' action: [ :request | self checkoutCart: request ].
+	self addService: '/listPurchases' action: [ :request | self listPurchases: request ].
+	!
+
+!methodRemoval: TusLibrosServerRequestHandler #port stamp: 'LNB 11/28/2021 18:33:40'!
+port
+	"Use a random port to minimise chances of concurrently running test suites clashing."
+	"^ port
+		ifNil: [port := (10000 to: 50000) atRandom]"
+	
+	^port ifNil: [port:=8080].!
+
+!methodRemoval: TusLibrosServerRequestHandler #removeFromCart: stamp: 'LNB 11/28/2021 18:33:42'!
+removeFromCart: aRequest
+
+	| bookISBN bookQuantity cartId |
+	cartId _ aRequest fields at: 'cartId'.
+	bookISBN _ aRequest fields at: 'bookISBN'.
+	bookQuantity _ aRequest fields at: 'bookQuantity'.
+	systemFacade remove: bookQuantity asNumber of: bookISBN toCartIdentifiedAs: cartId asNumber.
+	aRequest send200Response: 'OK'.
+
+	!
+
+!methodRemoval: TusLibrosServerRequestHandler #serializePurchases: stamp: 'LNB 11/28/2021 18:33:43'!
+serializePurchases: purchases
+
+	| purchasesDictionary |
+	purchasesDictionary _ Dictionary new.
+	
+	purchases itemsDo: [ :anItem | | lineItem |
+		lineItem _ purchases at: anItem.
+		purchasesDictionary 
+			at: anItem 
+			put: (Dictionary newFromPairs: { 'total'. lineItem total. 'quantity'. lineItem quantity. }).].
+	
+	purchasesDictionary at: 'total' put: purchases total.
+	
+	^ WebUtils jsonEncode: purchasesDictionary.!
+
+!methodRemoval: TusLibrosServerRequestHandler #serializeTicket: stamp: 'LNB 11/28/2021 18:33:45'!
+serializeTicket: aTicket
+
+	| ticketDictionary |
+	ticketDictionary _ Dictionary new.
+	
+	aTicket lineItemsDo: [ :aLineItem | ticketDictionary at: aLineItem item put: aLineItem total ].
+	ticketDictionary at: 'total' put: aTicket total.
+	
+	^ WebUtils jsonEncode: ticketDictionary.!
+
+!methodRemoval: TusLibrosServerRequestHandler #listPurchases: stamp: 'LNB 11/28/2021 18:33:46'!
+listPurchases: aRequest
+
+	| clientId password purchases purchasesAsJson |
+	clientId _ aRequest fields at: 'clientId'.
+	password _ aRequest fields at: 'password'.
+	purchases _ systemFacade listPurchasesOf: clientId authenticatingWith: password.
+	purchasesAsJson _ self serializePurchases: purchases.
+	aRequest send200Response: purchasesAsJson.!
+
+!methodRemoval: TusLibrosServerRequestHandler #listCatalog: stamp: 'LNB 11/28/2021 18:33:48'!
+listCatalog: aRequest
+
+	| catalog catalogAsJson |
+	catalog _ systemFacade listCatalog.
+	catalogAsJson _ WebUtils jsonEncode: catalog.
+	aRequest send200Response: catalogAsJson.!
+
+!methodRemoval: TusLibrosServerRequestHandler #listCart: stamp: 'LNB 11/28/2021 18:33:50'!
+listCart: aRequest
+
+	| cartId cartContents contentsAsJson |
+	cartId _ aRequest fields at: 'cartId'.
+	cartContents _ systemFacade listCartIdentifiedAs: cartId asNumber.
+	contentsAsJson _ WebUtils jsonEncode: cartContents contents.
+	aRequest send200Response: contentsAsJson.!
+
+!methodRemoval: TusLibrosServerRequestHandler #destroy stamp: 'LNB 11/28/2021 18:33:51'!
+destroy
+	
+	webServer ifNotNil:[webServer destroy].!
+
+!methodRemoval: TusLibrosServerRequestHandler #createCart: stamp: 'LNB 11/28/2021 18:33:53'!
+createCart: aRequest
+
+	| cartId cartIdAsJson clientId password |
+	clientId _ aRequest fields at: 'clientId'.
+	password _ aRequest fields at: 'password'.
+	cartId _ systemFacade createCartFor: clientId authenticatedWith: password.
+	cartIdAsJson _ WebUtils jsonEncode: (cartId asString).
+	aRequest send200Response: cartIdAsJson.!
+
+!methodRemoval: TusLibrosServerRequestHandler #checkoutCart: stamp: 'LNB 11/28/2021 18:33:54'!
+checkoutCart: aRequest
+
+	| cartId creditCardNumber monthExpiration yearExpiration creditCardOwner ticket ticketAsJson |
+	cartId _ aRequest fields at: 'cartId'.
+	creditCardNumber _ aRequest fields at: 'ccn'.
+	monthExpiration _ aRequest fields at: 'ccme'.
+	yearExpiration _ aRequest fields at: 'ccye'.
+	creditCardOwner _ aRequest fields at: 'cco'.
+	
+	ticket _ systemFacade checkOutCartIdentifiedAs: cartId asNumber
+					    withCreditCardNumbered: creditCardNumber 
+					    ownedBy: creditCardOwner 
+					    expiringOn: (GregorianMonthOfYear 
+									yearNumber: yearExpiration asNumber 
+									monthNumber: monthExpiration asNumber).
+	
+	ticketAsJson _ self serializeTicket: ticket.
+	aRequest send200Response: ticketAsJson.!
+
+!methodRemoval: TusLibrosServerRequestHandler #addToCart: stamp: 'LNB 11/28/2021 18:33:56'!
+addToCart: aRequest
+
+	| bookISBN bookQuantity cartId |
+	cartId _ aRequest fields at: 'cartId'.
+	bookISBN _ aRequest fields at: 'bookISBN'.
+	bookQuantity _ aRequest fields at: 'bookQuantity'.
+	systemFacade add: bookQuantity asNumber of: bookISBN toCartIdentifiedAs: cartId asNumber.
+	aRequest send200Response: 'OK'.!
+
+!methodRemoval: TusLibrosServerRequestHandler #addService:action: stamp: 'LNB 11/28/2021 18:33:57'!
+addService: anEndpoint action: anActionBlock
+
+	webServer 
+		addService: anEndpoint 
+		action: [ :request |
+			[ anActionBlock value: request ] 
+			on: Error
+			do: [ :anError |
+				request send400Response: anError messageText.]]!
+!TusLibrosServerRequestHandler methodsFor: 'initialization' stamp: 'LNB 11/28/2021 18:35:31'!
+startHandlingRequests
+
+	true whileTrue: [
+		self handleOneRequest.
+		].! !
+!TusLibrosServerRequestHandler methodsFor: 'initialization' stamp: 'LNB 11/28/2021 18:36:48'!
+handleOneRequest
+
+	| requestDictionary |
+	handlersSemaphore wait.
+	requestDictionary _ requestsQueue next.
+	systemFacade re.
+	
+	"systemFacade := aTusLibrosSystemFacade.
+	
+	requestsQueue _ aRequestsQueue.
+	handlersQueue _ aHandlersQueue.
+	handlersSemaphore _ aHandlersSemaphore."
+	
+	! !
+!TusLibrosServerRequestHandler methodsFor: 'initialization' stamp: 'LNB 11/28/2021 18:37:40' prior: 50990013!
+handleOneRequest
+
+	| requestDictionary |
+	handlersSemaphore wait.
+	requestDictionary _ requestsQueue next.
+	systemFacade perform: (requestDictionary at: 1) withArguments: (requestDictionary at: 2).
+	
+	"systemFacade := aTusLibrosSystemFacade.
+	
+	requestsQueue _ aRequestsQueue.
+	handlersQueue _ aHandlersQueue.
+	handlersSemaphore _ aHandlersSemaphore."
+	
+	! !
+!TusLibrosServerQueueingInterface methodsFor: 'request handlers' stamp: 'LNB 11/28/2021 18:38:53' prior: 50989529!
+addToCart: aRequest
+
+	| bookISBN bookQuantity cartId argArray requestDictionary messageSymbol |
+	
+	cartId _ aRequest fields at: 'cartId'.
+	bookISBN _ aRequest fields at: 'bookISBN'.
+	bookQuantity _ aRequest fields at: 'bookQuantity'.
+	"queue add: bookQuantity asNumber of: bookISBN toCartIdentifiedAs: cartId asNumber."
+	
+	messageSymbol _ #add:of:toCartIdentifiedAs:.
+	argArray _ {bookQuantity asNumber . bookISBN . cartId asNumber}.
+	
+	requestDictionary _ 
+	Dictionary 
+		newFromPairs: {
+			'message'. #add:of:toCartIdentifiedAs: . 
+			'args'. argArray.
+			}.
+			
+	self requestToHandlers: requestDictionary.
+	
+	aRequest send200Response: 'OK'.
+	! !
+!TusLibrosServerQueueingInterface methodsFor: 'request handlers' stamp: 'LNB 11/28/2021 18:39:05' prior: 50990041!
+addToCart: aRequest
+
+	| bookISBN bookQuantity cartId argArray requestDictionary messageSymbol |
+	
+	cartId _ aRequest fields at: 'cartId'.
+	bookISBN _ aRequest fields at: 'bookISBN'.
+	bookQuantity _ aRequest fields at: 'bookQuantity'.
+	"queue add: bookQuantity asNumber of: bookISBN toCartIdentifiedAs: cartId asNumber."
+	
+	messageSymbol _ #add:of:toCartIdentifiedAs:.
+	argArray _ {bookQuantity asNumber . bookISBN . cartId asNumber}.
+	
+	requestDictionary _ 
+	Dictionary 
+		newFromPairs: {
+			'message'. messageSymbol . 
+			'args'. argArray.
+			}.
+			
+	self requestToHandlers: requestDictionary.
+	
+	aRequest send200Response: 'OK'.
+	! !
+!TusLibrosServerQueueingInterface methodsFor: 'request handlers' stamp: 'LNB 11/28/2021 18:39:50'!
+createRequestDictionaryFor: messageSymbol andArgumentIn: argArray
+
+	^ Dictionary 
+		newFromPairs: {
+			'message'. messageSymbol . 
+			'args'. argArray.
+			}! !
+!TusLibrosServerQueueingInterface methodsFor: 'request handlers' stamp: 'LNB 11/28/2021 18:39:50' prior: 50990065!
+addToCart: aRequest
+
+	| bookISBN bookQuantity cartId argArray requestDictionary messageSymbol |
+	
+	cartId _ aRequest fields at: 'cartId'.
+	bookISBN _ aRequest fields at: 'bookISBN'.
+	bookQuantity _ aRequest fields at: 'bookQuantity'.
+	"queue add: bookQuantity asNumber of: bookISBN toCartIdentifiedAs: cartId asNumber."
+	
+	messageSymbol _ #add:of:toCartIdentifiedAs:.
+	argArray _ {bookQuantity asNumber . bookISBN . cartId asNumber}.
+	
+	requestDictionary _ 
+	self createRequestDictionaryFor: messageSymbol andArgumentIn: argArray.
+			
+	self requestToHandlers: requestDictionary.
+	
+	aRequest send200Response: 'OK'.
+	! !
+!TusLibrosServerQueueingInterface methodsFor: 'request handlers' stamp: 'LNB 11/28/2021 18:40:18' prior: 50989552!
+checkoutCart: aRequest
+
+	| cartId creditCardNumber monthExpiration yearExpiration creditCardOwner ticket ticketAsJson argArray requestDictionary messageSymbol |
+	cartId _ aRequest fields at: 'cartId'.
+	creditCardNumber _ aRequest fields at: 'ccn'.
+	monthExpiration _ aRequest fields at: 'ccme'.
+	yearExpiration _ aRequest fields at: 'ccye'.
+	creditCardOwner _ aRequest fields at: 'cco'.
+	
+	"ticket _ requestsQueue checkOutCartIdentifiedAs: cartId asNumber
+					    withCreditCardNumbered: creditCardNumber 
+					    ownedBy: creditCardOwner 
+					    expiringOn: (GregorianMonthOfYear 
+									yearNumber: yearExpiration asNumber 
+									monthNumber: monthExpiration asNumber)."
+		
+	messageSymbol _ #checkOutCartIdentifiedAs:withCreditCardNumbered:ownedBy:expiringOn: .
+	argArray _ 
+		{cartId asNumber . 
+		creditCardNumber . 
+		creditCardOwner . 
+		(GregorianMonthOfYear 
+			yearNumber: yearExpiration asNumber 
+			monthNumber: monthExpiration asNumber)}.
+	
+	requestDictionary _ 
+	Dictionary 
+		newFromPairs: {
+			'message'. #checkOutCartIdentifiedAs:withCreditCardNumbered:ownedBy:expiringOn: . 
+			'args'. argArray.
+			}.
+			
+	ticket _ self requestToHandlers: requestDictionary.
+	
+	ticketAsJson _ self serializeTicket: ticket.
+	aRequest send200Response: ticketAsJson.! !
+!TusLibrosServerQueueingInterface methodsFor: 'request handlers' stamp: 'LNB 11/28/2021 18:40:40' prior: 50989616!
+createCart: aRequest
+
+	| cartId cartIdAsJson clientId password argArray requestDictionary messageSymbol |
+	clientId _ aRequest fields at: 'clientId'.
+	password _ aRequest fields at: 'password'.
+	"cartId _ requestsQueue createCartFor: clientId authenticatedWith: password."
+	
+	messageSymbol _ #createCartFor:authenticatedWith:.
+	argArray _ 
+		{clientId . 
+		password }.
+	
+	requestDictionary _ 
+	Dictionary 
+		newFromPairs: {
+			'message'. #createCartFor:authenticatedWith: . 
+			'args'. argArray.
+			}.
+			
+	cartId _ self requestToHandlers: requestDictionary.
+	
+	cartIdAsJson _ WebUtils jsonEncode: (cartId asString).
+	aRequest send200Response: cartIdAsJson.! !
+!TusLibrosServerQueueingInterface methodsFor: 'request handlers' stamp: 'LNB 11/28/2021 18:40:56' prior: 50989662!
+listCart: aRequest
+
+	| cartId cartContents contentsAsJson argArray requestDictionary messageSymbol |
+	cartId _ aRequest fields at: 'cartId'.
+	"cartContents _ requestsQueue listCartIdentifiedAs: cartId asNumber."
+	
+	messageSymbol _ #listCartIdentifiedAs: .
+	argArray _ {cartId asNumber}.
+	
+	requestDictionary _ 
+	Dictionary 
+		newFromPairs: {
+			'message'. #listCartIdentifiedAs: . 
+			'args'. argArray.
+			}.
+			
+	cartContents _ self requestToHandlers: requestDictionary.
+	
+	contentsAsJson _ WebUtils jsonEncode: cartContents contents.
+	aRequest send200Response: contentsAsJson.! !
+!TusLibrosServerQueueingInterface methodsFor: 'request handlers' stamp: 'LNB 11/28/2021 18:41:12' prior: 50989685!
+listCatalog: aRequest
+
+	| catalog catalogAsJson argArray requestDictionary messageSymbol |
+	"catalog _ requestsQueue listCatalog."
+	
+	messageSymbol _ #listCatalog.
+	argArray _ {}.
+	
+	requestDictionary _ 
+	Dictionary 
+		newFromPairs: {
+			'message'. #listCatalog . 
+			'args'. argArray.
+			}.
+			
+	catalog _ self requestToHandlers: requestDictionary.
+	
+	catalogAsJson _ WebUtils jsonEncode: catalog.
+	aRequest send200Response: catalogAsJson.! !
+!TusLibrosServerQueueingInterface methodsFor: 'request handlers' stamp: 'LNB 11/28/2021 18:41:45' prior: 50989639!
+listPurchases: aRequest
+
+	| clientId password purchases purchasesAsJson argArray requestDictionary messageSymbol |
+	clientId _ aRequest fields at: 'clientId'.
+	password _ aRequest fields at: 'password'.
+	"purchases _ requestsQueue listPurchasesOf: clientId authenticatingWith: password."
+	
+	messageSymbol _ #listPurchasesOf:authenticatingWith:.
+	argArray _ 
+		{clientId . 
+		password }.
+	
+	requestDictionary _ 
+	Dictionary 
+		newFromPairs: {
+			'message'. #listPurchasesOf:authenticatingWith: . 
+			'args'. argArray.
+			}.
+			
+	purchases _ self requestToHandlers: requestDictionary.
+	
+	purchasesAsJson _ self serializePurchases: purchases.
+	aRequest send200Response: purchasesAsJson.! !
+!TusLibrosServerQueueingInterface methodsFor: 'request handlers' stamp: 'LNB 11/28/2021 18:41:59' prior: 50989702!
+removeFromCart: aRequest
+
+	| bookISBN bookQuantity cartId argArray requestDictionary messageSymbol |
+	cartId _ aRequest fields at: 'cartId'.
+	bookISBN _ aRequest fields at: 'bookISBN'.
+	bookQuantity _ aRequest fields at: 'bookQuantity'.
+	"requestsQueue remove: bookQuantity asNumber of: bookISBN toCartIdentifiedAs: cartId asNumber."
+	
+	messageSymbol _ #remove:of:toCartIdentifiedAs: .
+	argArray _ {bookQuantity asNumber . bookISBN . cartId asNumber}.
+	
+	requestDictionary _ 
+	Dictionary 
+		newFromPairs: {
+			'message'. #remove:of:toCartIdentifiedAs: . 
+			'args'. argArray.
+			}.
+			
+	self requestToHandlers: requestDictionary.
+	
+	aRequest send200Response: 'OK'.
+
+	! !
+!TusLibrosServerQueueingInterface methodsFor: 'request handlers' stamp: 'LNB 11/28/2021 18:42:22' prior: 50990120!
+checkoutCart: aRequest
+
+	| cartId creditCardNumber monthExpiration yearExpiration creditCardOwner ticket ticketAsJson argArray requestDictionary messageSymbol |
+	cartId _ aRequest fields at: 'cartId'.
+	creditCardNumber _ aRequest fields at: 'ccn'.
+	monthExpiration _ aRequest fields at: 'ccme'.
+	yearExpiration _ aRequest fields at: 'ccye'.
+	creditCardOwner _ aRequest fields at: 'cco'.
+	
+	"ticket _ requestsQueue checkOutCartIdentifiedAs: cartId asNumber
+					    withCreditCardNumbered: creditCardNumber 
+					    ownedBy: creditCardOwner 
+					    expiringOn: (GregorianMonthOfYear 
+									yearNumber: yearExpiration asNumber 
+									monthNumber: monthExpiration asNumber)."
+		
+	messageSymbol _ #checkOutCartIdentifiedAs:withCreditCardNumbered:ownedBy:expiringOn: .
+	argArray _ 
+		{cartId asNumber . 
+		creditCardNumber . 
+		creditCardOwner . 
+		(GregorianMonthOfYear 
+			yearNumber: yearExpiration asNumber 
+			monthNumber: monthExpiration asNumber)}.
+	
+	requestDictionary _ 
+	self createRequestDictionaryFor: messageSymbol andArgumentIn: argArray.
+			
+	ticket _ self requestToHandlers: requestDictionary.
+	
+	ticketAsJson _ self serializeTicket: ticket.
+	aRequest send200Response: ticketAsJson.! !
+!TusLibrosServerQueueingInterface methodsFor: 'request handlers' stamp: 'LNB 11/28/2021 18:42:27' prior: 50990164!
+createCart: aRequest
+
+	| cartId cartIdAsJson clientId password argArray requestDictionary messageSymbol |
+	clientId _ aRequest fields at: 'clientId'.
+	password _ aRequest fields at: 'password'.
+	"cartId _ requestsQueue createCartFor: clientId authenticatedWith: password."
+	
+	messageSymbol _ #createCartFor:authenticatedWith:.
+	argArray _ 
+		{clientId . 
+		password }.
+	
+	requestDictionary _ 
+	self createRequestDictionaryFor: messageSymbol andArgumentIn: argArray.
+			
+	cartId _ self requestToHandlers: requestDictionary.
+	
+	cartIdAsJson _ WebUtils jsonEncode: (cartId asString).
+	aRequest send200Response: cartIdAsJson.! !
+!TusLibrosServerQueueingInterface methodsFor: 'request handlers' stamp: 'LNB 11/28/2021 18:42:43' prior: 50990088!
+createRequestDictionaryFor: aMessageSymbol andArgumentIn: argArray
+
+	^ Dictionary 
+		newFromPairs: {
+			'message'. aMessageSymbol . 
+			'args'. argArray.
+			}! !
+!TusLibrosServerQueueingInterface methodsFor: 'request handlers' stamp: 'LNB 11/28/2021 18:42:47' prior: 50990346!
+createRequestDictionaryFor: aMessageSymbol andArgumentIn: anArgArray
+
+	^ Dictionary 
+		newFromPairs: {
+			'message'. aMessageSymbol . 
+			'args'. anArgArray.
+			}! !
+!TusLibrosServerQueueingInterface methodsFor: 'request handlers' stamp: 'LNB 11/28/2021 18:42:57' prior: 50990189!
+listCart: aRequest
+
+	| cartId cartContents contentsAsJson argArray requestDictionary messageSymbol |
+	cartId _ aRequest fields at: 'cartId'.
+	"cartContents _ requestsQueue listCartIdentifiedAs: cartId asNumber."
+	
+	messageSymbol _ #listCartIdentifiedAs: .
+	argArray _ {cartId asNumber}.
+	
+	requestDictionary _ 
+	self createRequestDictionaryFor: messageSymbol andArgumentIn: argArray.
+			
+	cartContents _ self requestToHandlers: requestDictionary.
+	
+	contentsAsJson _ WebUtils jsonEncode: cartContents contents.
+	aRequest send200Response: contentsAsJson.! !
+!TusLibrosServerQueueingInterface methodsFor: 'request handlers' stamp: 'LNB 11/28/2021 18:43:04' prior: 50990211!
+listCatalog: aRequest
+
+	| catalog catalogAsJson argArray requestDictionary messageSymbol |
+	"catalog _ requestsQueue listCatalog."
+	
+	messageSymbol _ #listCatalog.
+	argArray _ {}.
+	
+	requestDictionary _ 
+	self createRequestDictionaryFor: messageSymbol andArgumentIn: argArray.
+			
+	catalog _ self requestToHandlers: requestDictionary.
+	
+	catalogAsJson _ WebUtils jsonEncode: catalog.
+	aRequest send200Response: catalogAsJson.! !
+!TusLibrosServerQueueingInterface methodsFor: 'request handlers' stamp: 'LNB 11/28/2021 18:43:10' prior: 50990229!
+listPurchases: aRequest
+
+	| clientId password purchases purchasesAsJson argArray requestDictionary messageSymbol |
+	clientId _ aRequest fields at: 'clientId'.
+	password _ aRequest fields at: 'password'.
+	"purchases _ requestsQueue listPurchasesOf: clientId authenticatingWith: password."
+	
+	messageSymbol _ #listPurchasesOf:authenticatingWith:.
+	argArray _ 
+		{clientId . 
+		password }.
+	
+	requestDictionary _ 
+	self createRequestDictionaryFor: messageSymbol andArgumentIn: argArray.
+			
+	purchases _ self requestToHandlers: requestDictionary.
+	
+	purchasesAsJson _ self serializePurchases: purchases.
+	aRequest send200Response: purchasesAsJson.! !
+!TusLibrosServerQueueingInterface methodsFor: 'request handlers' stamp: 'LNB 11/28/2021 18:43:16' prior: 50990255!
+removeFromCart: aRequest
+
+	| bookISBN bookQuantity cartId argArray requestDictionary messageSymbol |
+	cartId _ aRequest fields at: 'cartId'.
+	bookISBN _ aRequest fields at: 'bookISBN'.
+	bookQuantity _ aRequest fields at: 'bookQuantity'.
+	"requestsQueue remove: bookQuantity asNumber of: bookISBN toCartIdentifiedAs: cartId asNumber."
+	
+	messageSymbol _ #remove:of:toCartIdentifiedAs: .
+	argArray _ {bookQuantity asNumber . bookISBN . cartId asNumber}.
+	
+	requestDictionary _ 
+	self createRequestDictionaryFor: messageSymbol andArgumentIn: argArray.
+			
+	self requestToHandlers: requestDictionary.
+	
+	aRequest send200Response: 'OK'.
+
+	! !
+!TusLibrosServerRequestHandler methodsFor: 'initialization' stamp: 'LNB 11/28/2021 18:43:36'!
+handleARequest
+
+	| requestDictionary |
+	handlersSemaphore wait.
+	requestDictionary _ requestsQueue next.
+	systemFacade perform: (requestDictionary at: 1) withArguments: (requestDictionary at: 2).
+	
+	"systemFacade := aTusLibrosSystemFacade.
+	
+	requestsQueue _ aRequestsQueue.
+	handlersQueue _ aHandlersQueue.
+	handlersSemaphore _ aHandlersSemaphore."
+	
+	! !
+!TusLibrosServerRequestHandler methodsFor: 'as yet unclassified' stamp: 'LNB 11/28/2021 18:43:36' prior: 50990007!
+startHandlingRequests
+
+	true whileTrue: [
+		self handleARequest.
+		].! !
+
+!methodRemoval: TusLibrosServerRequestHandler #handleOneRequest stamp: 'LNB 11/28/2021 18:43:36'!
+handleOneRequest
+
+	| requestDictionary |
+	handlersSemaphore wait.
+	requestDictionary _ requestsQueue next.
+	systemFacade perform: (requestDictionary at: 1) withArguments: (requestDictionary at: 2).
+	
+	"systemFacade := aTusLibrosSystemFacade.
+	
+	requestsQueue _ aRequestsQueue.
+	handlersQueue _ aHandlersQueue.
+	handlersSemaphore _ aHandlersSemaphore."
+	
+	!
+!TusLibrosServerRequestHandler methodsFor: 'initialization' stamp: 'LNB 11/28/2021 18:43:59' prior: 50990449!
+handleARequest
+
+	| requestDictionary |
+	handlersSemaphore wait.
+	requestDictionary _ requestsQueue next.
+	systemFacade perform: (requestDictionary at: 'message') withArguments: (requestDictionary at: 'args').
+	
+	"systemFacade := aTusLibrosSystemFacade.
+	
+	requestsQueue _ aRequestsQueue.
+	handlersQueue _ aHandlersQueue.
+	handlersSemaphore _ aHandlersSemaphore."
+	
+	! !
+!TusLibrosServerRequestHandler methodsFor: 'enable services' stamp: 'LNB 11/28/2021 18:47:25' prior: 50990484!
+handleARequest
+
+	| requestDictionary response |
+	handlersSemaphore wait.
+	requestDictionary _ requestsQueue next.
+	handlersQueue _ self privateResponsesQueue.
+	response _ systemFacade perform: (requestDictionary at: 'message') withArguments: (requestDictionary at: 'args').
+	
+	"systemFacade := aTusLibrosSystemFacade.
+	
+	requestsQueue _ aRequestsQueue.
+	handlersQueue _ aHandlersQueue.
+	handlersSemaphore _ aHandlersSemaphore."
+	
+	! !
+
+!classDefinition: #TusLibrosServerRequestHandler category: #'TusLibros-Model' stamp: 'LNB 11/28/2021 18:47:54'!
+Object subclass: #TusLibrosServerRequestHandler
+	instanceVariableNames: 'systemFacade requestsQueue handlersQueue handlersSemaphore privateResponseQueue'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros-Model'!
+!TusLibrosServerRequestHandler methodsFor: 'initialization' stamp: 'LNB 11/28/2021 18:47:50' prior: 50989790!
+initializeWith: aTusLibrosSystemFacade listeningRequestsFrom: aRequestsQueue answeringWithQueueOn: aHandlersQueue withMutexSemaphore: aHandlersSemaphore
+	
+	systemFacade := aTusLibrosSystemFacade.
+	
+	requestsQueue _ aRequestsQueue.
+	handlersQueue _ aHandlersQueue.
+	handlersSemaphore _ aHandlersSemaphore.
+	
+	privateResponseQueue _ SharedQueue new.
+	
+	! !
+!TusLibrosServerRequestHandler methodsFor: 'enable services' stamp: 'LNB 11/28/2021 18:50:24' prior: 50990500!
+handleARequest
+
+	| requestDictionary response |
+	handlersSemaphore wait.
+	requestDictionary _ requestsQueue next.
+	handlersQueue nextPut: self privateResponsesQueue.
+	handlersSemaphore signal.
+	
+	response _ systemFacade perform: (requestDictionary at: 'message') withArguments: (requestDictionary at: 'args').
+	privateResponseQueue nextPut: response.
+	
+	"systemFacade := aTusLibrosSystemFacade.
+	
+	requestsQueue _ aRequestsQueue.
+	handlersQueue _ aHandlersQueue.
+	handlersSemaphore _ aHandlersSemaphore."
+	
+	! !
+
+TusLibrosSynchronousServerInterface allInstances do: [ :aServer | aServer destroy ].!
+
+TusLibrosSynchronousServerInterface allInstances.!
+
+TusLibrosSynchronousServerInterface allInstances do: [ :aServer | aServer destroy ].!
+
+Utilities garbageCollectAndReport.!
+
+TusLibrosSynchronousServerInterface allInstances.!
+
+TusLibrosSynchronousServerInterface allInstances do: [ :aServer | aServer destroy ].!
+
+TusLibrosSynchronousServerInterface allInstances.!
+
+TusLibrosSynchronousServerInterface allInstances.!
+
+TusLibrosSynchronousServerInterface allInstances do: [ :aServer | aServer destroy ].!
+
+Utilities garbageCollectAndReport.!
+
+TusLibrosSynchronousServerInterface allInstances.!
+
+asynchronousServer _ TusLibrosAsynchronousServer new.!
+
+TusLibrosClientMainWindow open.!
+
+asynchronousServer forkNewRequestHandler.!
+!TusLibrosServerRequestHandler methodsFor: 'enable services' stamp: 'LNB 11/28/2021 18:55:28' prior: 50990464!
+startHandlingRequests
+
+	[true] whileTrue: [
+		self handleARequest.
+		].! !
+
+asynchronousServer _ TusLibrosAsynchronousServer new.!
+
+TusLibrosClientMainWindow open.!
+
+asynchronousServer forkNewRequestHandler.!
+
+TusLibrosClientMainWindow open.!
+
+factory _ InterfaceTestObjectsFactory new.!
+
+server _ TusLibrosSynchronousServerInterface listeningOn: 8080 interactingWith: factory createSystemFacade.!
+
+TusLibrosSynchronousServerInterface allInstances.!
+
+Utilities garbageCollectAndReport.!
+
+TusLibrosSynchronousServerInterface allInstances.!
+
+TusLibrosClientMainWindow open.!
+
+----QUIT----(28 November 2021 19:12:51) CuisUniversity-4972.image priorSource: 20993841!
+
+----STARTUP---- (28 November 2021 19:14:37) as E:\Cursada Actual IS1\Ejercicios para entregar\20-TusLibros\Iteracion4\CuisUniversity-4972.image!
+
+
+asynchronousServer _ TusLibrosAsynchronousServer new.!
+
+TusLibrosSynchronousServerInterface allInstances!
+
+TusLibrosSynchronousServerInterface allInstances do: [ :aServer | aServer destroy ].!
+
+TusLibrosSynchronousServerInterface allInstances!
+
+TusLibrosAsynchronousServer allInstances do: [ :aServer | aServer destroy ].!
+!TusLibrosAsynchronousServer methodsFor: 'as yet unclassified' stamp: 'LNB 11/28/2021 19:18:10'!
+destroy
+	
+	queueingInterface destroy.! !
+!TusLibrosAsynchronousServer methodsFor: 'as yet unclassified' stamp: 'LNB 11/28/2021 19:18:33' prior: 50990627!
+destroy
+	
+	queueingInterface ifNotNil:[queueingInterface destroy].! !
+
+TusLibrosAsynchronousServer allInstances do: [ :aServer | aServer destroy ].!
+
+TusLibrosSynchronousServerInterface allInstances do: [ :aServer | aServer destroy ].!
+
+Utilities garbageCollectAndReport !
+
+TusLibrosAsynchronousServer allInstances !
+
+TusLibrosSynchronousServerInterface allInstances!
+
+TusLibrosClientMainWindow open.!
+
+Utilities garbageCollectAndReport !
+
+TusLibrosSynchronousServerInterface allInstances!
+
+TusLibrosAsynchronousServer allInstances!
+
+TusLibrosClientMainWindow open.!
+!TusLibrosClientInterface methodsFor: 'sending requests' stamp: 'LNB 11/28/2021 19:34:03' prior: 50983741!
+createCartRequestFor: aUsername with: aPassword
+
+	" un username no deberia tener espacios, todo: chequear que eso no suceda"
+	| fieldDict resp |
+	fieldDict _ Dictionary newFromPairs: { 'clientId'. aUsername. 'password'. aPassword }.
+	
+	resp _ WebClient htmlSubmit: (self url, '/createCart') fields: fieldDict method: 'POST'.
+	self halt
+	
+	resp isSuccess 
+        		ifTrue:[^(WebUtils jsonDecode: ((resp content) readStream)).] 
+        		ifFalse:[^self error: resp content].! !
+
+TusLibrosClientMainWindow open.!
+!TusLibrosClientInterface methodsFor: 'sending requests' stamp: 'LNB 11/28/2021 19:34:18' prior: 50990654!
+createCartRequestFor: aUsername with: aPassword
+
+	" un username no deberia tener espacios, todo: chequear que eso no suceda"
+	| fieldDict resp |
+	fieldDict _ Dictionary newFromPairs: { 'clientId'. aUsername. 'password'. aPassword }.
+	
+	resp _ WebClient htmlSubmit: (self url, '/createCart') fields: fieldDict method: 'POST'.
+	self halt.
+	
+	resp isSuccess 
+        		ifTrue:[^(WebUtils jsonDecode: ((resp content) readStream)).] 
+        		ifFalse:[^self error: resp content].! !
+
+----QUIT----(28 November 2021 19:36:35) CuisUniversity-4972.image priorSource: 21086652!
+
+----STARTUP---- (28 November 2021 19:36:55) as E:\Cursada Actual IS1\Ejercicios para entregar\20-TusLibros\Iteracion4\CuisUniversity-4972.image!
+
+
+UndefinedObject allInstances!
+
+factory _ InterfaceTestObjectsFactory new.!
+
+server _ TusLibrosSynchronousServerInterface listeningOn: 8080 interactingWith: factory createSystemFacade.!
+
+TusLibrosClientMainWindow open.!
+
+----QUIT----(28 November 2021 19:40:43) CuisUniversity-4972.image priorSource: 21089310!
+
+----STARTUP---- (28 November 2021 19:40:53) as E:\Cursada Actual IS1\Ejercicios para entregar\20-TusLibros\Iteracion4\CuisUniversity-4972.image!
+
+!TusLibrosClientInterface methodsFor: 'sending requests' stamp: 'LNB 11/28/2021 19:41:09' prior: 50990674!
+createCartRequestFor: aUsername with: aPassword
+
+	" un username no deberia tener espacios, todo: chequear que eso no suceda"
+	| fieldDict resp |
+	fieldDict _ Dictionary newFromPairs: { 'clientId'. aUsername. 'password'. aPassword }.
+	
+	resp _ WebClient htmlSubmit: (self url, '/createCart') fields: fieldDict method: 'POST'.
+	
+	resp isSuccess 
+        		ifTrue:[^(WebUtils jsonDecode: ((resp content) readStream)).] 
+        		ifFalse:[^self error: resp content].! !
+
+----QUIT----(28 November 2021 19:41:28) CuisUniversity-4972.image priorSource: 21089767!
+
+----STARTUP---- (28 November 2021 19:41:30) as E:\Cursada Actual IS1\Ejercicios para entregar\20-TusLibros\Iteracion4\CuisUniversity-4972.image!
+
+
+server _ TusLibrosSynchronousServerInterface listeningOn: 8080 interactingWith: factory createSystemFacade.!
+
+TusLibrosClientMainWindow open.!
+
+TusLibrosAsynchronousServer allInstances do: [ :aServer | aServer destroy ].!
+
+TusLibrosSynchronousServerInterface allInstances do: [ :aServer | aServer destroy ].!
+
+TusLibrosSynchronousServerInterface allInstances.!
+
+Utilities garbageCollectAndReport.!
+
+TusLibrosSynchronousServerInterface allInstances.!
+
+TusLibrosAsynchronousServer allInstances.!
+
+factory _ InterfaceTestObjectsFactory new.!
+
+server _ TusLibrosSynchronousServerInterface listeningOn: 8080 interactingWith: factory createSystemFacade.!
+
+TusLibrosClientMainWindow open.!
+
+----QUIT----(28 November 2021 19:51:13) CuisUniversity-4972.image priorSource: 21090578!
+
+----STARTUP---- (28 November 2021 19:51:19) as E:\Cursada Actual IS1\Ejercicios para entregar\20-TusLibros\Iteracion4\CuisUniversity-4972.image!
+
+
+server _ TusLibrosSynchronousServerInterface listeningOn: 8080 interactingWith: factory createSystemFacade.!
+
+factory _ InterfaceTestObjectsFactory new.!
+
+server _ TusLibrosSynchronousServerInterface listeningOn: 8080 interactingWith: factory createSystemFacade.!
+
+TusLibrosClientMainWindow open.!
+
+TusLibrosAsynchronousServer allInstances.!
+
+TusLibrosSynchronousServerInterface allInstances.!
+
+Utilities garbageCollectAndReport!
+
+TusLibrosSynchronousServerInterface allInstances.!
+
+TusLibrosSynchronousServerInterface allInstances do: [ :aServer | aServer destroy ].!
+
+Utilities garbageCollectAndReport.!
+
+TusLibrosSynchronousServerInterface allInstances.!
+
+asynchronousServer _ TusLibrosAsynchronousServer new.!
+
+TusLibrosClientMainWindow open.!
+
+asynchronousServer forkNewRequestHandler.!
+
+TusLibrosSynchronousServerInterface allInstances do: [ :aServer | aServer destroy ].!
+
+TusLibrosAsynchronousServer allInstances do: [ :aServer | aServer destroy ].!
+
+Utilities garbageCollectAndReport!
+
+TusLibrosAsynchronousServer allInstances.!
+
+TusLibrosSynchronousServerInterface allInstances.!
+
+----QUIT----(28 November 2021 19:55:46) CuisUniversity-4972.image priorSource: 21091499!
+
+----STARTUP---- (28 November 2021 19:55:48) as E:\Cursada Actual IS1\Ejercicios para entregar\20-TusLibros\Iteracion4\CuisUniversity-4972.image!
+
+
+asynchronousServer _ TusLibrosAsynchronousServer new.!
+
+asynchronousServer forkNewRequestHandler.!
+
+TusLibrosClientMainWindow open.!
+!TusLibrosServerQueueingInterface methodsFor: 'request handlers' stamp: 'LNB 11/28/2021 19:57:24'!
+createRequestDictionaryFor: aMessageSymbol andArgumentsIn: anArgArray
+
+	^ Dictionary 
+		newFromPairs: {
+			'message'. aMessageSymbol . 
+			'args'. anArgArray.
+			}! !
+!TusLibrosServerQueueingInterface methodsFor: 'as yet unclassified' stamp: 'LNB 11/28/2021 19:57:24' prior: 50990385!
+listCatalog: aRequest
+
+	| catalog catalogAsJson argArray requestDictionary messageSymbol |
+	"catalog _ requestsQueue listCatalog."
+	
+	messageSymbol _ #listCatalog.
+	argArray _ {}.
+	
+	requestDictionary _ 
+	self createRequestDictionaryFor: messageSymbol andArgumentsIn: argArray.
+			
+	catalog _ self requestToHandlers: requestDictionary.
+	
+	catalogAsJson _ WebUtils jsonEncode: catalog.
+	aRequest send200Response: catalogAsJson.! !
+!TusLibrosServerQueueingInterface methodsFor: 'as yet unclassified' stamp: 'LNB 11/28/2021 19:57:24' prior: 50990097!
+addToCart: aRequest
+
+	| bookISBN bookQuantity cartId argArray requestDictionary messageSymbol |
+	
+	cartId _ aRequest fields at: 'cartId'.
+	bookISBN _ aRequest fields at: 'bookISBN'.
+	bookQuantity _ aRequest fields at: 'bookQuantity'.
+	"queue add: bookQuantity asNumber of: bookISBN toCartIdentifiedAs: cartId asNumber."
+	
+	messageSymbol _ #add:of:toCartIdentifiedAs:.
+	argArray _ {bookQuantity asNumber . bookISBN . cartId asNumber}.
+	
+	requestDictionary _ 
+	self createRequestDictionaryFor: messageSymbol andArgumentsIn: argArray.
+			
+	self requestToHandlers: requestDictionary.
+	
+	aRequest send200Response: 'OK'.
+	! !
+!TusLibrosServerQueueingInterface methodsFor: 'as yet unclassified' stamp: 'LNB 11/28/2021 19:57:25' prior: 50990402!
+listPurchases: aRequest
+
+	| clientId password purchases purchasesAsJson argArray requestDictionary messageSymbol |
+	clientId _ aRequest fields at: 'clientId'.
+	password _ aRequest fields at: 'password'.
+	"purchases _ requestsQueue listPurchasesOf: clientId authenticatingWith: password."
+	
+	messageSymbol _ #listPurchasesOf:authenticatingWith:.
+	argArray _ 
+		{clientId . 
+		password }.
+	
+	requestDictionary _ 
+	self createRequestDictionaryFor: messageSymbol andArgumentsIn: argArray.
+			
+	purchases _ self requestToHandlers: requestDictionary.
+	
+	purchasesAsJson _ self serializePurchases: purchases.
+	aRequest send200Response: purchasesAsJson.! !
+!TusLibrosServerQueueingInterface methodsFor: 'as yet unclassified' stamp: 'LNB 11/28/2021 19:57:25' prior: 50990280!
+checkoutCart: aRequest
+
+	| cartId creditCardNumber monthExpiration yearExpiration creditCardOwner ticket ticketAsJson argArray requestDictionary messageSymbol |
+	cartId _ aRequest fields at: 'cartId'.
+	creditCardNumber _ aRequest fields at: 'ccn'.
+	monthExpiration _ aRequest fields at: 'ccme'.
+	yearExpiration _ aRequest fields at: 'ccye'.
+	creditCardOwner _ aRequest fields at: 'cco'.
+	
+	"ticket _ requestsQueue checkOutCartIdentifiedAs: cartId asNumber
+					    withCreditCardNumbered: creditCardNumber 
+					    ownedBy: creditCardOwner 
+					    expiringOn: (GregorianMonthOfYear 
+									yearNumber: yearExpiration asNumber 
+									monthNumber: monthExpiration asNumber)."
+		
+	messageSymbol _ #checkOutCartIdentifiedAs:withCreditCardNumbered:ownedBy:expiringOn: .
+	argArray _ 
+		{cartId asNumber . 
+		creditCardNumber . 
+		creditCardOwner . 
+		(GregorianMonthOfYear 
+			yearNumber: yearExpiration asNumber 
+			monthNumber: monthExpiration asNumber)}.
+	
+	requestDictionary _ 
+	self createRequestDictionaryFor: messageSymbol andArgumentsIn: argArray.
+			
+	ticket _ self requestToHandlers: requestDictionary.
+	
+	ticketAsJson _ self serializeTicket: ticket.
+	aRequest send200Response: ticketAsJson.! !
+!TusLibrosServerQueueingInterface methodsFor: 'as yet unclassified' stamp: 'LNB 11/28/2021 19:57:25' prior: 50990426!
+removeFromCart: aRequest
+
+	| bookISBN bookQuantity cartId argArray requestDictionary messageSymbol |
+	cartId _ aRequest fields at: 'cartId'.
+	bookISBN _ aRequest fields at: 'bookISBN'.
+	bookQuantity _ aRequest fields at: 'bookQuantity'.
+	"requestsQueue remove: bookQuantity asNumber of: bookISBN toCartIdentifiedAs: cartId asNumber."
+	
+	messageSymbol _ #remove:of:toCartIdentifiedAs: .
+	argArray _ {bookQuantity asNumber . bookISBN . cartId asNumber}.
+	
+	requestDictionary _ 
+	self createRequestDictionaryFor: messageSymbol andArgumentsIn: argArray.
+			
+	self requestToHandlers: requestDictionary.
+	
+	aRequest send200Response: 'OK'.
+
+	! !
+!TusLibrosServerQueueingInterface methodsFor: 'as yet unclassified' stamp: 'LNB 11/28/2021 19:57:25' prior: 50990322!
+createCart: aRequest
+
+	| cartId cartIdAsJson clientId password argArray requestDictionary messageSymbol |
+	clientId _ aRequest fields at: 'clientId'.
+	password _ aRequest fields at: 'password'.
+	"cartId _ requestsQueue createCartFor: clientId authenticatedWith: password."
+	
+	messageSymbol _ #createCartFor:authenticatedWith:.
+	argArray _ 
+		{clientId . 
+		password }.
+	
+	requestDictionary _ 
+	self createRequestDictionaryFor: messageSymbol andArgumentsIn: argArray.
+			
+	cartId _ self requestToHandlers: requestDictionary.
+	
+	cartIdAsJson _ WebUtils jsonEncode: (cartId asString).
+	aRequest send200Response: cartIdAsJson.! !
+!TusLibrosServerQueueingInterface methodsFor: 'as yet unclassified' stamp: 'LNB 11/28/2021 19:57:25' prior: 50990364!
+listCart: aRequest
+
+	| cartId cartContents contentsAsJson argArray requestDictionary messageSymbol |
+	cartId _ aRequest fields at: 'cartId'.
+	"cartContents _ requestsQueue listCartIdentifiedAs: cartId asNumber."
+	
+	messageSymbol _ #listCartIdentifiedAs: .
+	argArray _ {cartId asNumber}.
+	
+	requestDictionary _ 
+	self createRequestDictionaryFor: messageSymbol andArgumentsIn: argArray.
+			
+	cartContents _ self requestToHandlers: requestDictionary.
+	
+	contentsAsJson _ WebUtils jsonEncode: cartContents contents.
+	aRequest send200Response: contentsAsJson.! !
+
+!methodRemoval: TusLibrosServerQueueingInterface #createRequestDictionaryFor:andArgumentIn: stamp: 'LNB 11/28/2021 19:57:25'!
+createRequestDictionaryFor: aMessageSymbol andArgumentIn: anArgArray
+
+	^ Dictionary 
+		newFromPairs: {
+			'message'. aMessageSymbol . 
+			'args'. anArgArray.
+			}!
+!TusLibrosServerQueueingInterface methodsFor: 'initialization' stamp: 'LNB 11/28/2021 19:59:55' prior: 50989237!
+initializeWith: aPortNumber addingRequestsTo: aRequestsQueue gettingResponseQueuesFrom: aHandlerQueue withMutexSemaphore: waitForHandlerSemaphore
+	
+	requestsQueue := aRequestsQueue.
+	handlersQueue _ aHandlerQueue.
+	queuerSemaphore _ waitForHandlerSemaphore.
+	
+	port:= aPortNumber.
+	
+	webServer := WebServer new listenOn: self port.
+	
+	self addService: '/createCart' action: [ :request | [self createCart: request ] fork ].
+	self addService: '/listCatalog' action: [ :request | [self listCatalog: request ] fork ].
+	self addService: '/addToCart' action: [ :request | [self addToCart: request ] fork ].
+	self addService: '/removeFromCart' action: [ :request | [self removeFromCart: request ] fork ].
+	self addService: '/listCart' action: [ :request | [self listCart: request ] fork ].
+	self addService: '/checkoutCart' action: [ :request | [self checkoutCart: request ] fork ].
+	self addService: '/listPurchases' action: [ :request | [self listPurchases: request ] fork ].
+	! !
+
+asynchronousServer _ TusLibrosAsynchronousServer new.!
+
+asynchronousServer forkNewRequestHandler.!
+
+TusLibrosClientMainWindow open.!
+
+TusLibrosAsynchronousServer allInstances do: [ :aServer | aServer destroy ].!
+
+Utilities garbageCollectAndReport!
+
+TusLibrosAsynchronousServer allInstances.!
+
+asynchronousServer _ TusLibrosAsynchronousServer new.!
+
+asynchronousServer forkNewRequestHandler.!
+
+TusLibrosClientMainWindow open.!
+!TusLibrosServerRequestHandler methodsFor: 'enable services' stamp: 'LNB 11/28/2021 20:02:55' prior: 50990543!
+handleARequest
+
+	| requestDictionary response |
+	handlersSemaphore wait.
+	requestDictionary _ requestsQueue next.
+	handlersQueue nextPut: privateResponseQueue.
+	handlersSemaphore signal.
+	
+	response _ systemFacade perform: (requestDictionary at: 'message') withArguments: (requestDictionary at: 'args').
+	privateResponseQueue nextPut: response.
+	
+	"systemFacade := aTusLibrosSystemFacade.
+	
+	requestsQueue _ aRequestsQueue.
+	handlersQueue _ aHandlersQueue.
+	handlersSemaphore _ aHandlersSemaphore."
+	
+	! !
+
+TusLibrosAsynchronousServer allInstances do: [ :aServer | aServer destroy ].!
+
+Utilities garbageCollectAndReport!
+
+TusLibrosAsynchronousServer allInstances.!
+
+asynchronousServer _ TusLibrosAsynchronousServer new.!
+
+asynchronousServer forkNewRequestHandler.!
+
+TusLibrosClientMainWindow open.!
+
+self getFields !
+
+TusLibrosAsynchronousServer allInstances do: [ :aServer | aServer destroy ].!
+
+Utilities garbageCollectAndReport!
+
+TusLibrosAsynchronousServer allInstances.!
+!TusLibrosServerQueueingInterface methodsFor: 'initialization' stamp: 'LNB 11/28/2021 20:11:57' prior: 50991010!
+initializeWith: aPortNumber addingRequestsTo: aRequestsQueue gettingResponseQueuesFrom: aHandlerQueue withMutexSemaphore: waitForHandlerSemaphore
+	
+	requestsQueue := aRequestsQueue.
+	handlersQueue _ aHandlerQueue.
+	queuerSemaphore _ waitForHandlerSemaphore.
+	
+	port:= aPortNumber.
+	
+	webServer := WebServer new listenOn: self port.
+	
+	self addService: '/createCart' action: [ :request | [self createCart: request ] value ].
+	self addService: '/listCatalog' action: [ :request | [self listCatalog: request ] value ].
+	self addService: '/addToCart' action: [ :request | [self addToCart: request ] value ].
+	self addService: '/removeFromCart' action: [ :request | [self removeFromCart: request ] value ].
+	self addService: '/listCart' action: [ :request | [self listCart: request ] value ].
+	self addService: '/checkoutCart' action: [ :request | [self checkoutCart: request ] value ].
+	self addService: '/listPurchases' action: [ :request | [self listPurchases: request ] value ].
+	! !
+
+asynchronousServer _ TusLibrosAsynchronousServer new.!
+
+asynchronousServer forkNewRequestHandler.!
+
+TusLibrosClientMainWindow open.!
+
+TusLibrosAsynchronousServer allInstances do: [ :aServer | aServer destroy ].!
+
+Utilities garbageCollectAndReport!
+
+TusLibrosAsynchronousServer allInstances.!
+!TusLibrosServerRequestHandler methodsFor: 'enable services' stamp: 'LNB 11/28/2021 20:17:46' prior: 50991058!
+handleARequest
+
+	| requestDictionary response |
+	handlersSemaphore wait.
+	requestDictionary _ requestsQueue next.
+	handlersQueue nextPut: privateResponseQueue.
+	handlersSemaphore signal.
+	
+	[response _ systemFacade perform: (requestDictionary at: 'message') withArguments: (requestDictionary at: 'args').]
+		on: Error
+		do: [].
+	privateResponseQueue nextPut: response.
+	
+	"systemFacade := aTusLibrosSystemFacade.
+	
+	requestsQueue _ aRequestsQueue.
+	handlersQueue _ aHandlersQueue.
+	handlersSemaphore _ aHandlersSemaphore."
+	
+	! !
+!TusLibrosServerRequestHandler methodsFor: 'enable services' stamp: 'LNB 11/28/2021 20:18:45' prior: 50991137!
+handleARequest
+
+	| requestDictionary response |
+	handlersSemaphore wait.
+	requestDictionary _ requestsQueue next.
+	handlersQueue nextPut: privateResponseQueue.
+	handlersSemaphore signal.
+	
+	[response _ systemFacade perform: (requestDictionary at: 'message') withArguments: (requestDictionary at: 'args').]
+		on: Error
+		do: [:anError | privateResponseQueue nextPut: anError].
+	privateResponseQueue nextPut: response.
+	
+	"systemFacade := aTusLibrosSystemFacade.
+	
+	requestsQueue _ aRequestsQueue.
+	handlersQueue _ aHandlersQueue.
+	handlersSemaphore _ aHandlersSemaphore."
+	
+	! !
+!TusLibrosServerQueueingInterface methodsFor: 'initialization' stamp: 'LNB 11/28/2021 20:19:44' prior: 50991093!
+initializeWith: aPortNumber addingRequestsTo: aRequestsQueue gettingResponseQueuesFrom: aHandlerQueue withMutexSemaphore: waitForHandlerSemaphore
+	
+	requestsQueue := aRequestsQueue.
+	handlersQueue _ aHandlerQueue.
+	queuerSemaphore _ waitForHandlerSemaphore.
+	
+	port:= aPortNumber.
+	
+	webServer := WebServer new listenOn: self port.
+	
+	self addService: '/createCart' action: [ :request | self createCart: request ].
+	self addService: '/listCatalog' action: [ :request | self listCatalog: request ].
+	self addService: '/addToCart' action: [ :request | self addToCart: request ].
+	self addService: '/removeFromCart' action: [ :request | self removeFromCart: request ].
+	self addService: '/listCart' action: [ :request | self listCart: request ].
+	self addService: '/checkoutCart' action: [ :request | self checkoutCart: request ].
+	self addService: '/listPurchases' action: [ :request | self listPurchases: request ].
+	! !
+
+asynchronousServer _ TusLibrosAsynchronousServer new.!
+
+asynchronousServer forkNewRequestHandler.!
+
+TusLibrosClientMainWindow open.!
+!TusLibrosServerRequestHandler methodsFor: 'enable services' stamp: 'LNB 11/28/2021 20:24:09' prior: 50991158!
+handleARequest
+
+	| requestDictionary response |
+	handlersSemaphore wait.
+	requestDictionary _ requestsQueue next.
+	handlersQueue nextPut: privateResponseQueue.
+	handlersSemaphore signal.
+	
+	self halt.
+	
+	[response _ systemFacade perform: (requestDictionary at: 'message') withArguments: (requestDictionary at: 'args').]
+		on: Error
+		do: [:anError | privateResponseQueue nextPut: anError].
+	privateResponseQueue nextPut: response.
+	
+	"systemFacade := aTusLibrosSystemFacade.
+	
+	requestsQueue _ aRequestsQueue.
+	handlersQueue _ aHandlersQueue.
+	handlersSemaphore _ aHandlersSemaphore."
+	
+	! !
+
+TusLibrosAsynchronousServer allInstances do: [ :aServer | aServer destroy ].!
+
+Utilities garbageCollectAndReport!
+
+TusLibrosAsynchronousServer allInstances.!
+
+asynchronousServer _ TusLibrosAsynchronousServer new.!
+
+asynchronousServer forkNewRequestHandler.!
+
+TusLibrosClientMainWindow open.!
+
+TusLibrosAsynchronousServer allInstances do: [ :aServer | aServer destroy ].!
+
+Utilities garbageCollectAndReport!
+
+TusLibrosAsynchronousServer allInstances.!
+
+asynchronousServer _ TusLibrosAsynchronousServer new.!
+
+asynchronousServer forkNewRequestHandler.!
+
+TusLibrosClientMainWindow open.!
+
+TusLibrosClientMainWindow open!
+
+TusLibrosAsynchronousServer allInstances do: [ :aServer | aServer destroy ].!
+
+Utilities garbageCollectAndReport!
+
+TusLibrosAsynchronousServer allInstances.!
+
+[asynchronousServer _ TusLibrosAsynchronousServer new.] fork!
+
+asynchronousServer forkNewRequestHandler.!
+
+TusLibrosClientMainWindow open!
+
+TusLibrosAsynchronousServer allInstances do: [ :aServer | aServer destroy ].!
+
+Utilities garbageCollectAndReport!
+
+TusLibrosAsynchronousServer allInstances.!
+
+----QUIT----(28 November 2021 20:34:31) CuisUniversity-4972.image priorSource: 21092827!
+
+----STARTUP---- (28 November 2021 20:35:53) as E:\Cursada Actual IS1\Ejercicios para entregar\20-TusLibros\Iteracion4\CuisUniversity-4972.image!
+
+
+TusLibrosClientMainWindow open.!
+
+TusLibrosClientMainWindow open.!
+
+TusLibrosClientMainWindow open.!
+
+TusLibrosClientMainWindow open.!
+
+TusLibrosClientMainWindow open.!
+
+TusLibrosClientMainWindow open.!
+
+TusLibrosClientMainWindow open.!
+
+TusLibrosClientMainWindow open.!
+
+TusLibrosClientMainWindow open.!
+!TusLibrosClientInterface methodsFor: 'sending requests' stamp: 'LNB 11/28/2021 21:24:04' prior: 50987639!
+addToCartRequest: aCartId for: aBookISBN of: anAmount
+
+	| fieldDict resp |
+	fieldDict _ Dictionary newFromPairs: { 'cartId'. aCartId. 'bookISBN'. aBookISBN. 'bookQuantity'. anAmount }.
+	
+	resp _ WebClient htmlSubmit: (self url, '/addToCart') fields: fieldDict method: 'GET'.
+	
+	resp isSuccess 
+        		ifFalse:[^self error: resp content].! !
+
+TusLibrosClientMainWindow open.!
+
+TusLibrosClientMainWindow open.!
+
+TusLibrosClientMainWindow open.!
+
+TusLibrosClientMainWindow open.!
+!TusLibrosClientInterface methodsFor: 'sending requests' stamp: 'LNB 11/27/2021 17:48:13' prior: 50991290!
+addToCartRequest: aCartId for: aBookISBN of: anAmount
+
+	| fieldDict resp |
+	fieldDict _ Dictionary newFromPairs: { 'cartId'. aCartId. 'bookISBN'. aBookISBN. 'bookQuantity'. anAmount }.
+	
+	resp _ WebClient htmlSubmit: (self url, '/addToCart') fields: fieldDict method: 'POST'.
+	
+	resp isSuccess 
+        		ifFalse:[^self error: resp content].! !
+!TusLibrosClientInterface methodsFor: 'sending requests' stamp: 'LNB 11/27/2021 18:24:42' prior: 50987687!
+removeFromCartRequest: aCartId for: aBookISBN of: anAmount
+
+	| fieldDict resp |
+	fieldDict _ Dictionary newFromPairs: { 'cartId'. aCartId. 'bookISBN'. aBookISBN. 'bookQuantity'. anAmount }.
+	
+	resp _ WebClient htmlSubmit: (self url, '/removeFromCart') fields: fieldDict method: 'POST'.
+	
+	resp isSuccess 
+        		ifFalse:[^self error: resp content].! !
+
+TusLibrosClientMainWindow open.!
+
+TusLibrosClientMainWindow open.!
+!TusLibrosServerQueueingInterface methodsFor: 'initialization' stamp: 'LNB 11/28/2021 21:45:14' prior: 50991180!
+initializeWith: aPortNumber addingRequestsTo: aRequestsQueue gettingResponseQueuesFrom: aHandlerQueue withMutexSemaphore: waitForHandlerSemaphore
+	
+	requestsQueue := aRequestsQueue.
+	handlersQueue _ aHandlerQueue.
+	queuerSemaphore _ waitForHandlerSemaphore.
+	
+	port:= aPortNumber.
+	
+	webServer := WebServer new listenOn: self port.
+	
+	self addService: '/createCart' action: [ :request | [self createCart: request] fork ].
+	self addService: '/listCatalog' action: [ :request | [self listCatalog: request] fork ].
+	self addService: '/addToCart' action: [ :request | [self addToCart: request] fork ].
+	self addService: '/removeFromCart' action: [ :request | [self removeFromCart: request] fork ].
+	self addService: '/listCart' action: [ :request | [self listCart: request] fork ].
+	self addService: '/checkoutCart' action: [ :request | [self checkoutCart: request] fork ].
+	self addService: '/listPurchases' action: [ :request | [self listPurchases: request] fork ].
+	! !
+!TusLibrosServerRequestHandler methodsFor: 'enable services' stamp: 'LNB 11/28/2021 21:46:26' prior: 50991217!
+handleARequest
+
+	| requestDictionary response |
+	handlersSemaphore wait.
+	requestDictionary _ requestsQueue next.
+	handlersQueue nextPut: privateResponseQueue.
+	handlersSemaphore signal.
+	
+	[response _ systemFacade perform: (requestDictionary at: 'message') withArguments: (requestDictionary at: 'args').]
+		on: Error
+		do: [:anError | privateResponseQueue nextPut: anError].
+	privateResponseQueue nextPut: response.
+	
+	"systemFacade := aTusLibrosSystemFacade.
+	
+	requestsQueue _ aRequestsQueue.
+	handlersQueue _ aHandlersQueue.
+	handlersSemaphore _ aHandlersSemaphore."
+	
+	! !
+
+----SNAPSHOT----(28 November 2021 21:48:32) CuisUniversity-4972.image priorSource: 21107876!
+
+----QUIT----(28 November 2021 21:48:50) CuisUniversity-4972.image priorSource: 21111841!
